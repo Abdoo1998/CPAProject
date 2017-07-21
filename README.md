@@ -2,10 +2,10 @@
 
 ## Description
 
-Implementation of critical path analysis in Java
+WebApp using generic implementation of critical path analysis for optimal day planning. 
 
 ## Collaborators
-erikbabu
-gorosgobe
-g-ongetta
+erikbabu <br />
+gorosgobe <br />
+g-ongetta <br />
 namanwahi
