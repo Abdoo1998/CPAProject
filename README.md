@@ -2,7 +2,7 @@
 
 ## Description
 
-WebApp using generic implementation of critical path analysis for optimal day planning. 
+Java application using generic implementation of critical path analysis for optimal day planning. 
 
 ## Collaborators
 erikbabu <br />
