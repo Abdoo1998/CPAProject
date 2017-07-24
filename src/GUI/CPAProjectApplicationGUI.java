@@ -10,9 +10,14 @@ import java.util.Map;
  */
 public class CPAProjectApplicationGUI extends JFrame {
 
+    /* Name of the application, shown at the top of the frame */
     private static final String APPLICATION_NAME = "CPAProject";
+    /* Path to the application icon*/
     private static final String ICON_PATH = "GUI/images/mainIcon.png";
 
+    /**
+     * Initialises and shows the main application GUI JFrame
+     */
     public void createAndShowGUI() {
 
         setTitle(APPLICATION_NAME);
@@ -29,7 +34,14 @@ public class CPAProjectApplicationGUI extends JFrame {
         setVisible(true);
     }
 
-    private JMenu createMenu(String menuName, Map<Action, String> map) {
+    /**
+     * Creates a JMenu with the name given and the actions specified by the map given
+     *
+     * @param menuName the name of the menu
+     * @param map the mapping from actions to their names
+     * @return the JMenu specified by the names and the mapping from actions to their names
+     */
+    public JMenu createMenu(String menuName, Map<Action, String> map) {
 
         JMenu menu = new JMenu(menuName);
 

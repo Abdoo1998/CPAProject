@@ -11,17 +11,20 @@ import java.awt.event.KeyEvent;
  */
 public class CPANewTaskGUI extends JFrame {
 
+    /* Text fields used in the GUI */
     private CPATextField taskNameField;
     private CPATextField startingTimeField;
     private CPATextField durationField;
 
+    /* Strings used in the GUI*/
     private static final String TASK_STRING = "Task name";
     private static final String STARTING_TIME_STRING = "Start time";
     private static final String DURATION_STRING = "Duration";
     private static final String NEW_TASK_TITLE = "Create new task";
-
-    private static final int DEFAULT_COLUMNSIZE = 20;
     private static final String INITIAL_MESSAGE = "Input task name, start time and duration";
+
+    /*Default fields*/
+    private static final int DEFAULT_COLUMNSIZE = 20;
     private static final int DEFAULT_WIDTH = 400;
     private static final int DEFAULT_HEIGHT = 400;
     private static final Color DEFAULT_COLOR = new Color(20, 140, 5);
@@ -37,10 +40,22 @@ public class CPANewTaskGUI extends JFrame {
         required for layout purposes. Can be substituted with a private static final variable.
       */
 
+    /**
+     * Initialises the CPANewTaskGUI with DEFAULT_COLUMNSIZE for the CPATextField fields. See
+     * constructor with one argument for more details
+     */
     public CPANewTaskGUI() {
         this(DEFAULT_COLUMNSIZE);
     }
 
+    /**
+     * Initialises the CPATextFields with the given argument, blocks resizability, sets a preferred size
+     * given by defaults DEFAULT_WIDTH and DEFAULT_HEIGHT, sets the background color to the default color
+     * DEFAULT_COLOR, organises the layout of the GUI and adds the components to the content pane of the frame
+     * and finally adds copy, cut and paste functionality for the text fields
+     *
+     * @param textFieldColumnWidth column width of the text fields within the new task GUI
+     */
     public CPANewTaskGUI(int textFieldColumnWidth) {
 
         super();
@@ -58,6 +73,10 @@ public class CPANewTaskGUI extends JFrame {
         createActions();
     }
 
+    /**
+     * Creates a GridBag Layout and organises the different components of the new task GUI. This includes Labels,
+     * TextFields and Buttons.
+     */
     private void setCustomGridBagLayout() {
 
         getContentPane().setLayout(new GridBagLayout());
@@ -145,6 +164,10 @@ public class CPANewTaskGUI extends JFrame {
 
     }
 
+    /**
+     * Initialises the CPATextField objects of the new task GUI.
+     * @param textFieldColumnWidth column width of the text fields within the new task GUI
+     */
     private void setTextFields(int textFieldColumnWidth) {
 
         //creates and initialises task name text field
@@ -168,6 +191,9 @@ public class CPANewTaskGUI extends JFrame {
         status.setFont(FontCollection.DEFAULT_FONT_BOLD);
     }
 
+    /**
+     * Associates CTRL+C, CTRL+V, CTRL+X to copy, paste and cut functions for every text field
+     */
     private void createActions() {
 
       //copy operations
@@ -181,12 +207,21 @@ public class CPANewTaskGUI extends JFrame {
 
     }
 
+    /**
+     * Associates a key pressed given by its integer representation with the action given and adds it to
+     * every text field
+     * @param keyInt the integer representing the key pressed (i.e. KeyEvent.VK_C)
+     * @param action the action to associate (i.e. new DefaultEditorKit.PasteAction())
+     */
     private void createActionForTextFields(int keyInt, Action action) {
         taskNameField.supportControlAction(keyInt, action);
         startingTimeField.supportControlAction(keyInt, action);
         durationField.supportControlAction(keyInt, action);
     }
 
+    /**
+     * Sets the title and close operations of the GUI and shows it
+     */
     public void createAndShowNewTaskGUI() {
         //pre: Frame has been initialised before in the constructor
 
@@ -200,18 +235,34 @@ public class CPANewTaskGUI extends JFrame {
 
     }
 
+    /**
+     * Gets the taskName textField
+     * @return the CPATextField object representing the task name field
+     */
     public CPATextField getTaskNameField() {
         return taskNameField;
     }
 
+    /**
+     * Gets the startingTime textField
+     * @return the CPATextField object representing the starting time field
+     */
     public CPATextField getStartingTimeField() {
         return startingTimeField;
     }
 
+    /**
+     * Gets the duration textField
+     * @return the CPATextField object representing the duration field
+     */
     public CPATextField getDurationField() {
         return durationField;
     }
 
+    /**
+     * Gets the status label
+     * @return the JLabel object representing the status field
+     */
     public JLabel getStatus() {
         return status;
     }
