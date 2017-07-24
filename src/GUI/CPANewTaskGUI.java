@@ -19,7 +19,7 @@ public class CPANewTaskGUI extends JFrame {
     private static final String STARTING_TIME_STRING = "Start time";
     private static final String DURATION_STRING = "Duration";
     private static final String NEW_TASK_TITLE = "Create new task";
-    
+
     private static final int DEFAULT_COLUMNSIZE = 20;
     private static final String INITIAL_MESSAGE = "Input task name, start time and duration";
     private static final int DEFAULT_WIDTH = 400;
