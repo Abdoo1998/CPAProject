@@ -14,10 +14,12 @@ public class CPANewTaskGUI extends JFrame {
     private CPATextField taskNameField;
     private CPATextField startingTimeField;
     private CPATextField durationField;
+
     private static final String TASK_STRING = "Task name";
     private static final String STARTING_TIME_STRING = "Start time";
     private static final String DURATION_STRING = "Duration";
-
+    private static final String NEW_TASK_TITLE = "Create new task";
+    
     private static final int DEFAULT_COLUMNSIZE = 20;
     private static final String INITIAL_MESSAGE = "Input task name, start time and duration";
     private static final int DEFAULT_WIDTH = 400;
@@ -59,6 +61,8 @@ public class CPANewTaskGUI extends JFrame {
     private void setCustomGridBagLayout() {
 
         getContentPane().setLayout(new GridBagLayout());
+        //Create external margins (Insets objects)
+        Insets defaultInsets = new Insets(0, 10, 10, 10);
 
 
         // constraints for task name text field
@@ -66,6 +70,7 @@ public class CPANewTaskGUI extends JFrame {
         taskNameConstraints.fill = GridBagConstraints.HORIZONTAL;
         taskNameConstraints.gridx = 1;
         taskNameConstraints.gridy = 1;
+        taskNameConstraints.insets = defaultInsets;
         //adds task name text field
         getContentPane().add(getTaskNameField(), taskNameConstraints);
 
@@ -74,6 +79,7 @@ public class CPANewTaskGUI extends JFrame {
         taskLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
         taskLabelConstraints.gridx = 0;
         taskLabelConstraints.gridy = 1;
+        taskLabelConstraints.insets = defaultInsets;
         //sets label for task name field
         JLabel taskLabel = new JLabel(TASK_STRING + ":");
         taskLabel.setLabelFor(taskNameField);
@@ -87,6 +93,7 @@ public class CPANewTaskGUI extends JFrame {
         startingTimeConstraints.fill = GridBagConstraints.HORIZONTAL;
         startingTimeConstraints.gridx = 1;
         startingTimeConstraints.gridy = 2;
+        startingTimeConstraints.insets = defaultInsets;
         //adds starting time text field
         getContentPane().add(getStartingTimeField(), startingTimeConstraints);
 
@@ -95,6 +102,7 @@ public class CPANewTaskGUI extends JFrame {
         startingTimeLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
         startingTimeLabelConstraints.gridx = 0;
         startingTimeLabelConstraints.gridy = 2;
+        startingTimeLabelConstraints.insets = defaultInsets;
         //sets label for starting time field
         JLabel startingTimeLabel = new JLabel(STARTING_TIME_STRING + ":");
         startingTimeLabel.setLabelFor(startingTimeField);
@@ -108,6 +116,7 @@ public class CPANewTaskGUI extends JFrame {
         durationConstraints.fill = GridBagConstraints.HORIZONTAL;
         durationConstraints.gridx = 1;
         durationConstraints.gridy = 3;
+        durationConstraints.insets = defaultInsets;
         //adds duration time text field
         getContentPane().add(getDurationField(), durationConstraints);
 
@@ -116,6 +125,7 @@ public class CPANewTaskGUI extends JFrame {
         durationLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
         durationLabelConstraints.gridx = 0;
         durationLabelConstraints.gridy = 3;
+        durationLabelConstraints.insets = defaultInsets;
         //sets label for duration field
         JLabel durationLabel = new JLabel(DURATION_STRING + ":");
         durationLabel.setLabelFor(durationField);
@@ -141,15 +151,18 @@ public class CPANewTaskGUI extends JFrame {
         this.taskNameField = new CPATextField(textFieldColumnWidth);
         taskNameField.setPreferredSize(new Dimension(150, 20));
         taskNameField.setActionCommand(TASK_STRING);
+        taskNameField.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
         //creates and initialises starting time text field
         this.startingTimeField = new CPATextField(textFieldColumnWidth);
         startingTimeField.setActionCommand(STARTING_TIME_STRING);
         startingTimeField.setActionCommand(STARTING_TIME_STRING);
+        startingTimeField.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
         this.durationField = new CPATextField(textFieldColumnWidth);
         durationField.setActionCommand(DURATION_STRING);
         durationField.setActionCommand(DURATION_STRING);
+        durationField.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
         this.status = new JLabel(INITIAL_MESSAGE, SwingConstants.CENTER);
         status.setFont(FontCollection.DEFAULT_FONT_BOLD);
@@ -177,7 +190,7 @@ public class CPANewTaskGUI extends JFrame {
     public void createAndShowNewTaskGUI() {
         //pre: Frame has been initialised before in the constructor
 
-        setTitle("New Task");
+        setTitle(NEW_TASK_TITLE);
         //DISPOSE_ON_CLOSE so the whole application doesn't close
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
