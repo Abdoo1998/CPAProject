@@ -296,6 +296,10 @@ public class CPANewTaskGUI extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Overriden method for implementation of ActionListener interface.
+     * @param actionEvent the event
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
@@ -318,6 +322,14 @@ public class CPANewTaskGUI extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Generates a custom string for the error message shown to the user, of
+     * the form "Complete Task name, Start time and Duration fields." depending on the number of fields to complete.
+     * @param taskEmpty is the task name field empty
+     * @param startTimeEmpty is the starting time field empty
+     * @param durationEmpty is the duration field empty
+     * @return the string generated taking the arguments given into account
+     */
     public static String generateCompleteString(boolean taskEmpty, boolean startTimeEmpty, boolean durationEmpty) {
 
         int count = howManyTrue(taskEmpty, startTimeEmpty, durationEmpty);
@@ -349,9 +361,7 @@ public class CPANewTaskGUI extends JFrame implements ActionListener {
                 }
 
                 return "Complete " + addition1 + " and " + addition2 + " fields.";
-
             } else {
-
                 return "Complete " + STARTING_TIME_STRING + " and " + DURATION_STRING + " fields.";
             }
         }
@@ -363,6 +373,13 @@ public class CPANewTaskGUI extends JFrame implements ActionListener {
         return "";
     }
 
+    /**
+     * Returns the number of arguments that are true
+     * @param taskEmpty is the task name field empty
+     * @param startTimeEmpty is the starting time field empty
+     * @param durationEmpty is the duration field empty
+     * @return the number of arguments that are true
+     */
     private static int howManyTrue(boolean taskEmpty, boolean startTimeEmpty, boolean durationEmpty) {
 
         int count = 0;
@@ -418,6 +435,10 @@ public class CPANewTaskGUI extends JFrame implements ActionListener {
         return status;
     }
 
+    /**
+     * Gets the create button
+     * @return the JButton object representing the create button
+     */
     public JButton getCreateButton() {
         return createButton;
     }
