@@ -15,6 +15,13 @@ public class CPANewTaskGUI extends JFrame {
     private CPATextField taskNameField;
     private CPATextField startingTimeField;
     private CPATextField durationField;
+    /*
+    JLabel status provides a message for the user telling them to fill in the fields.
+    In case they don't fill in one of them, it reminds them that they must fill all the fields.
+    */
+    private JLabel status;
+    private JButton createButton;
+    
 
     /* Strings used in the GUI*/
     private static final String TASK_STRING = "Task name";
@@ -22,18 +29,15 @@ public class CPANewTaskGUI extends JFrame {
     private static final String DURATION_STRING = "Duration";
     private static final String NEW_TASK_TITLE = "Create new task";
     private static final String INITIAL_MESSAGE = "Input task name, start time and duration";
+    private static final String CREATE_BUTTON_MESSAGE = "Create";
 
     /*Default fields*/
     private static final int DEFAULT_COLUMNSIZE = 20;
     private static final int DEFAULT_WIDTH = 400;
-    private static final int DEFAULT_HEIGHT = 400;
+    private static final int DEFAULT_HEIGHT = 200;
     private static final Color DEFAULT_COLOR = new Color(20, 140, 5);
 
-    /*
-    JLabel status provides a message for the user telling them to fill in the fields.
-    In case they don't fill in one of them, it reminds them that they must fill all the fields.
-     */
-    private JLabel status;
+ 
 
       /*
         textFieldColumnWidth is an int representing the number of columns in the textfield,
@@ -61,6 +65,7 @@ public class CPANewTaskGUI extends JFrame {
         super();
         //initialises text fields and column width
         setTextFields(textFieldColumnWidth);
+        setButton();
         //set resizability
         setResizable(false);
 
@@ -71,6 +76,17 @@ public class CPANewTaskGUI extends JFrame {
         setCustomGridBagLayout();
         //adds copy, cut and paste functionality to text fields
         createActions();
+    }
+
+    /**
+     * Initialises and sets the buttons string, action command and font to defaults
+     */
+    private void setButton() {
+
+        createButton = new JButton(CREATE_BUTTON_MESSAGE);
+        createButton.setActionCommand(CREATE_BUTTON_MESSAGE);
+        createButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+
     }
 
     /**
@@ -85,20 +101,14 @@ public class CPANewTaskGUI extends JFrame {
 
 
         // constraints for task name text field
-        GridBagConstraints taskNameConstraints = new GridBagConstraints();
-        taskNameConstraints.fill = GridBagConstraints.HORIZONTAL;
-        taskNameConstraints.gridx = 1;
-        taskNameConstraints.gridy = 1;
-        taskNameConstraints.insets = defaultInsets;
+        GridBagConstraints taskNameConstraints =
+                createConstraints(GridBagConstraints.HORIZONTAL, 1, 1, defaultInsets);
         //adds task name text field
         getContentPane().add(getTaskNameField(), taskNameConstraints);
 
         //constraints for task label
-        GridBagConstraints taskLabelConstraints = new GridBagConstraints();
-        taskLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        taskLabelConstraints.gridx = 0;
-        taskLabelConstraints.gridy = 1;
-        taskLabelConstraints.insets = defaultInsets;
+        GridBagConstraints taskLabelConstraints =
+                createConstraints(GridBagConstraints.HORIZONTAL, 0, 1, defaultInsets);
         //sets label for task name field
         JLabel taskLabel = new JLabel(TASK_STRING + ":");
         taskLabel.setLabelFor(taskNameField);
@@ -108,20 +118,14 @@ public class CPANewTaskGUI extends JFrame {
 
 
         //constraints for starting time text field
-        GridBagConstraints startingTimeConstraints = new GridBagConstraints();
-        startingTimeConstraints.fill = GridBagConstraints.HORIZONTAL;
-        startingTimeConstraints.gridx = 1;
-        startingTimeConstraints.gridy = 2;
-        startingTimeConstraints.insets = defaultInsets;
+        GridBagConstraints startingTimeConstraints =
+                createConstraints(GridBagConstraints.HORIZONTAL, 1, 2, defaultInsets);
         //adds starting time text field
         getContentPane().add(getStartingTimeField(), startingTimeConstraints);
 
         //constraints for starting time label
-        GridBagConstraints startingTimeLabelConstraints = new GridBagConstraints();
-        startingTimeLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        startingTimeLabelConstraints.gridx = 0;
-        startingTimeLabelConstraints.gridy = 2;
-        startingTimeLabelConstraints.insets = defaultInsets;
+        GridBagConstraints startingTimeLabelConstraints =
+                createConstraints(GridBagConstraints.HORIZONTAL, 0, 2, defaultInsets);
         //sets label for starting time field
         JLabel startingTimeLabel = new JLabel(STARTING_TIME_STRING + ":");
         startingTimeLabel.setLabelFor(startingTimeField);
@@ -131,20 +135,14 @@ public class CPANewTaskGUI extends JFrame {
 
 
         //constraints for duration time text field
-        GridBagConstraints durationConstraints = new GridBagConstraints();
-        durationConstraints.fill = GridBagConstraints.HORIZONTAL;
-        durationConstraints.gridx = 1;
-        durationConstraints.gridy = 3;
-        durationConstraints.insets = defaultInsets;
+        GridBagConstraints durationConstraints =
+                createConstraints(GridBagConstraints.HORIZONTAL, 1, 3, defaultInsets);
         //adds duration time text field
         getContentPane().add(getDurationField(), durationConstraints);
 
         //constrains for duration time label
-        GridBagConstraints durationLabelConstraints = new GridBagConstraints();
-        durationLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        durationLabelConstraints.gridx = 0;
-        durationLabelConstraints.gridy = 3;
-        durationLabelConstraints.insets = defaultInsets;
+        GridBagConstraints durationLabelConstraints =
+                createConstraints(GridBagConstraints.HORIZONTAL, 0, 3, defaultInsets);
         //sets label for duration field
         JLabel durationLabel = new JLabel(DURATION_STRING + ":");
         durationLabel.setLabelFor(durationField);
@@ -154,14 +152,72 @@ public class CPANewTaskGUI extends JFrame {
 
 
         //constraints for status
-        GridBagConstraints statusConstraints = new GridBagConstraints();
-        statusConstraints.fill = GridBagConstraints.NONE;
-        statusConstraints.gridx = 0;
-        statusConstraints.gridy = 4;
-        statusConstraints.gridwidth = 2;
+        GridBagConstraints statusConstraints =
+                createConstraints(GridBagConstraints.NONE, 0, 4, 2, defaultInsets);
         //adds status label
         getContentPane().add(getStatus(), statusConstraints);
 
+        //constraints for create button
+        GridBagConstraints createButtonConstraints =
+                createConstraints(GridBagConstraints.NONE, 1, 5, defaultInsets);
+        //adds button
+        getContentPane().add(getCreateButton(), createButtonConstraints);
+
+    }
+
+    /**
+     * Creates GridBagConstraints for the given arguments
+     *
+     * @param constraintFill type of fill for the contraints
+     * @param gridx column of the component
+     * @param gridy row of the component
+     * @param insets margins for the component
+     * @return the GridBagConstraints object for the specified arguments
+     */
+    private GridBagConstraints createConstraints(int constraintFill, int gridx,
+                                                 int gridy, Insets insets) {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = constraintFill;
+        constraints.gridx = gridx;
+        constraints.gridy = gridy;
+
+        //only add margins if not null, else keep to default
+        if (insets != null) {
+            constraints.insets = insets;
+        }
+
+        return constraints;
+    }
+
+
+    /**
+     * Creates GridBagConstraints for the given arguments
+     *
+     * @param constraintFill type of fill for the contraints
+     * @param gridx column of the component
+     * @param gridy row of the component
+     * @param gridwidth width of the component (number of columns spanned)
+     * @param insets margins for the component
+     * @return the GridBagConstraints object for the specified arguments
+     */
+    private GridBagConstraints createConstraints(int constraintFill, int gridx,
+                                                 int gridy, int gridwidth, Insets insets) {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = constraintFill;
+        constraints.gridx = gridx;
+        constraints.gridy = gridy;
+
+        //only add gridwidth if non negative, else keep to default
+        if (gridwidth >= 0) {
+            constraints.gridwidth = gridwidth;
+        }
+
+        //only add margins if not null, else keep to default
+        if (insets != null) {
+            constraints.insets = insets;
+        }
+
+        return constraints;
     }
 
     /**
@@ -267,4 +323,7 @@ public class CPANewTaskGUI extends JFrame {
         return status;
     }
 
+    public JButton getCreateButton() {
+        return createButton;
+    }
 }
