@@ -36,7 +36,7 @@ public class CPANewTaskGUI extends JFrame implements ActionListener {
 
     /*Default fields*/
     private static final int DEFAULT_COLUMNSIZE = 20;
-    private static final int DEFAULT_WIDTH = 500;
+    private static final int DEFAULT_WIDTH = 450;
     private static final int DEFAULT_HEIGHT = 200;
     private static final Color DEFAULT_COLOR = new Color(20, 140, 5);
 
