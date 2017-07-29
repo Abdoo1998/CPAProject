@@ -31,7 +31,7 @@ public class Task {
     dependencies.add(newDep);
   }
 
-  public TaskGraph generateMap() {
+  public TaskGraph generateGraph() {
     // generates a 'tree/map' type structure as
     return null;
   }
