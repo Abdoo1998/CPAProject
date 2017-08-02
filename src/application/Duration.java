@@ -1,3 +1,5 @@
+package application;
+
 public final class Duration {
 
   private static final int MINUTES_IN_HOUR = 60;

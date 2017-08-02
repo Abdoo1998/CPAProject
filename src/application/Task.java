@@ -1,3 +1,5 @@
+package application;
+
 public abstract class Task {
 
   private final String name;
