@@ -4,6 +4,7 @@ import java.util.Set;
 public class TaskGraphNode {
 
   private Time earliestCompletionTime;
+  private Time latestCompletionTime;
   private Set<TaskGraphArc> incoming;
   private Set<TaskGraphArc> outgoing;
 
@@ -14,6 +15,14 @@ public class TaskGraphNode {
 
   public Time getEarliestCompletionTime() {
     return earliestCompletionTime;
+  }
+
+  public Time getLatestCompletionTime() {
+    return latestCompletionTime;
+  }
+
+  public Duration getFloat() {
+    return earliestCompletionTime.getTimeDifference(latestCompletionTime);
   }
 
   public Set<TaskGraphArc> getIncomingArcs() {

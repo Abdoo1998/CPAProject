@@ -17,4 +17,17 @@ public class Time {
   public int getMinutes() {
     return minutes;
   }
+
+  //pre: otherTime is later than current time
+  public Duration getTimeDifference(Time otherTime) {
+    int minuteDifference = Math.abs((otherTime.getMinutes() - minutes) % 60);
+    int hourDifference = Math.abs((otherTime.getHours() - hours) % 23);
+
+    if (minuteDifference < 0) {
+      hourDifference--;
+      minuteDifference += 60;
+    }
+
+    return new Duration(hourDifference, minuteDifference);
+  }
 }

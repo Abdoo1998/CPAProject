@@ -17,4 +17,8 @@ public class SubTask extends Task {
   public void addDependency(SubTask dep) {
     dependencies.add(dep);
   }
+
+  public void removeDependancy(SubTask dep) {
+    dependencies.remove(dep);
+  }
 }

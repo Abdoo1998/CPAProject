@@ -4,7 +4,7 @@ public class TaskGraph {
   private TaskGraphNode end;
 
   public TaskGraph() {
-    this.start = new TaskGraphNode(null);
-    this.end   = new TaskGraphNode(null);
+    this.start = new TaskGraphNode();
+    this.end   = new TaskGraphNode();
   }
 }
