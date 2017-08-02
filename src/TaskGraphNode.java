@@ -21,6 +21,14 @@ public class TaskGraphNode {
     return latestCompletionTime;
   }
 
+  public void setEarliestCompletionTime(Time earliestCompletionTime) {
+    this.earliestCompletionTime = earliestCompletionTime;
+  }
+
+  public void setLatestCompletionTime(Time latestCompletionTime) {
+    this.latestCompletionTime = latestCompletionTime;
+  }
+
   public Duration getFloat() {
     return earliestCompletionTime.getTimeDifference(latestCompletionTime);
   }
@@ -31,5 +39,9 @@ public class TaskGraphNode {
 
   public Set<TaskGraphArc> getOutgoingArcs() {
     return outgoing;
+  }
+
+  public void addOutgoingArc(Task task) {
+    outgoing.add(new TaskGraphArc(task, this, new TaskGraphNode()));
   }
 }

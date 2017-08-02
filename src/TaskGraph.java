@@ -7,4 +7,12 @@ public class TaskGraph {
     this.start = new TaskGraphNode();
     this.end   = new TaskGraphNode();
   }
+
+  public TaskGraphNode getStartNode() {
+    return start;
+  }
+
+  public TaskGraphNode getEndNode() {
+    return end;
+  }
 }

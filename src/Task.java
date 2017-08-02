@@ -15,9 +15,4 @@ public abstract class Task {
   public Duration getDuration() {
     return duration;
   }
-
-  public TaskGraph generateGraph() {
-    // generates a 'tree/map' type structure as
-    return null;
-  }
 }

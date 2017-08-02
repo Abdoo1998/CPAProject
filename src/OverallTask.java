@@ -23,4 +23,24 @@ public class OverallTask extends Task {
   public void removeSubTask(SubTask task) {
     subTasks.remove(task);
   }
+
+  public TaskGraph generateGraph() {
+    TaskGraph graph = new TaskGraph();
+
+    TaskGraphNode startNode = graph.getStartNode();
+
+    startNode.setEarliestCompletionTime(new Time(0,0));
+    startNode.setLatestCompletionTime((new Time(0,0)));
+
+    subTasks.stream()
+            .filter(i -> i.getDependencies().isEmpty())
+            .forEach(startNode::addOutgoingArc);
+
+
+    // TODO:          ///////////////////
+    // TODO:          /// FINISH THIS ///
+    // TODO:          ///////////////////
+
+    return graph;
+  }
 }
