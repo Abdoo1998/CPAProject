@@ -1,23 +1,20 @@
 import java.util.HashSet;
 import java.util.Set;
-import java.time.Duration;
 
-public class Task {
+public abstract class Task {
 
   private final String name;
-  private final Time startTime;
   private final Duration duration;
   private final Set<Task> dependencies;
 
-  public Task(String name, Time startTime, Duration duration) {
+  public Task(String name, Duration duration) {
     this.name = name;
-    this.startTime = startTime;
     this.duration = duration;
     this.dependencies = new HashSet<>();
   }
 
-  public Time getStartTime() {
-    return startTime;
+  public String getTaskName() {
+    return name;
   }
 
   public Duration getDuration() {
