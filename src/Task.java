@@ -1,14 +1,15 @@
 import java.util.HashSet;
 import java.util.Set;
+import java.time.Duration;
 
 public class Task {
 
   private final String name;
   private final Time startTime;
-  private final int duration;
+  private final Duration duration;
   private final Set<Task> dependencies;
 
-  public Task(String name, Time startTime, int duration) {
+  public Task(String name, Time startTime, Duration duration) {
     this.name = name;
     this.startTime = startTime;
     this.duration = duration;
@@ -19,7 +20,7 @@ public class Task {
     return startTime;
   }
 
-  public int getDuration() {
+  public Duration getDuration() {
     return duration;
   }
 

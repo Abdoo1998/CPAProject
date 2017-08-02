@@ -11,5 +11,5 @@ public class TaskGraphNode {
     this.outgoing = null;
   }
 
-  // general graph structure
+
 }
