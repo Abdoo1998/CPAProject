@@ -13,10 +13,25 @@ import java.util.List;
  */
 public class CPAProjectApplicationGUI extends JFrame {
 
+    private JMenuBar menuBar;
+    private JTabbedPane tabbedPane;
+    private JPanel taskView;
+    private JPanel optimalPlanView;
+
     /* Name of the application, shown at the top of the frame */
     private static final String APPLICATION_NAME = "CPAProject";
     /* Path to the application icon*/
     private static final String ICON_PATH = "GUI/images/mainIcon.png";
+    /*Titles for tabs*/
+    private static final String TASK_VIEW_TAB_STRING = "Task View";
+    private static final String OPTIMAL_VIEW_TAB_STRING = "Optimal Plan View";
+    /*Sizes for components*/
+    private static final int APPLICATION_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
+    private static final int APPLICATION_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height - 100;
+    private static final int MENU_WIDTH = APPLICATION_WIDTH;
+    private static final int MENU_HEIGHT = 25;
+
+
     /*Holds all Overall Tasks to render*/
     private List<Task> tasks;
 
@@ -43,13 +58,51 @@ public class CPAProjectApplicationGUI extends JFrame {
         setIconImage(new ImageIcon(ClassLoader.getSystemResource(ICON_PATH)).getImage());
 
         //sets size of frame and color
-        setPreferredSize(new Dimension(800, 800));
+        setPreferredSize(new Dimension(APPLICATION_WIDTH, APPLICATION_WIDTH));
         setBackground(new Color(255, 255, 255));
+
+        //sets menu bar
+        initialiseAndSetJMenuBar();
+
+        //sets double tabbed pane with Task View and Optimal Plan View
+        initialiseAndSetTabbedPane();
 
         //shows the frame
         pack();
+        setLocationRelativeTo(null); //centers frame
         setVisible(true);
     }
+
+    private void initialiseAndSetTabbedPane() {
+        this.tabbedPane = new JTabbedPane();
+        setTaskView();
+        setOptimalPlanView();
+        tabbedPane.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        tabbedPane.addTab(TASK_VIEW_TAB_STRING, taskView);
+        tabbedPane.addTab(OPTIMAL_VIEW_TAB_STRING, optimalPlanView);
+        add(tabbedPane);
+    }
+
+    private void initialiseAndSetJMenuBar() {
+        this.menuBar = new JMenuBar();
+        menuBar.setPreferredSize(new Dimension(MENU_WIDTH, MENU_HEIGHT));
+        menuBar.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        setJMenuBar(menuBar);
+    }
+
+
+    private void setTaskView() {
+        this.taskView = new JPanel();
+        taskView.setPreferredSize(new Dimension(APPLICATION_WIDTH, APPLICATION_HEIGHT - MENU_HEIGHT));
+        taskView.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+    }
+
+    private void setOptimalPlanView() {
+        this.optimalPlanView = new JPanel();
+        optimalPlanView.setPreferredSize(new Dimension(APPLICATION_WIDTH, APPLICATION_HEIGHT - MENU_HEIGHT));
+        optimalPlanView.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+    }
+
 
     /**
      * Creates a JMenu with the name given and the actions specified by the map given

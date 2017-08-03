@@ -70,6 +70,7 @@ public abstract class TaskGUI extends JFrame {
 
     public void showGUI() {
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
