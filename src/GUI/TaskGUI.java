@@ -30,15 +30,15 @@ public abstract class TaskGUI extends JFrame {
     protected static final int DEFAULT_WIDTH = 650;
     protected static final int DEFAULT_HEIGHT = 400;
     protected static final Color DEFAULT_COLOR = new Color(20, 140, 5);
-    protected static final Insets DEFAULT_INSETS = new Insets(0, 20, 20, 20);
-    protected static final Insets TOP_DEFAULT_INSETS = new Insets(20, 20, 20, 20);
+    protected static final Insets DEFAULT_INSETS = new Insets(0, 10, 20, 10);
+    protected static final Insets TOP_DEFAULT_INSETS = new Insets(20, 10, 20, 10);
 
 
     public TaskGUI() {
         super();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTextField(DEFAULT_COLUMNSIZE);
-        setDurationSpinner();
+        setDurationTimeTextField();
         setLabels();
         setCustomLayout();
         setResizable(false);
@@ -86,7 +86,7 @@ public abstract class TaskGUI extends JFrame {
 
     }
 
-    private void setDurationSpinner() {
+    private void setDurationTimeTextField() {
         this.durationField = new TimeTextField("h", "m");
 
     }

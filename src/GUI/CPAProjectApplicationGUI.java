@@ -1,8 +1,11 @@
 package GUI;
 
+import application.Task;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 /**
  * Represents the general CPA Project application and provides methods to show it
@@ -14,6 +17,20 @@ public class CPAProjectApplicationGUI extends JFrame {
     private static final String APPLICATION_NAME = "CPAProject";
     /* Path to the application icon*/
     private static final String ICON_PATH = "GUI/images/mainIcon.png";
+    /*Holds all Overall Tasks to render*/
+    private List<Task> tasks;
+
+    public CPAProjectApplicationGUI() {
+        this.tasks = new LinkedList<>();
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
 
     /**
      * Initialises and shows the main application GUI JFrame

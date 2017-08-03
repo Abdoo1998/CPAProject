@@ -38,7 +38,6 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         return startTimeField.getTime();
     }
 
-
     private void setStartTimeField() {
         this.startTimeField = new TimeTextField("h", "m");
     }
@@ -48,7 +47,6 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         startTimeLabel.setLabelFor(startTimeField);
         startTimeLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
     }
-
 
     private void setButton() {
 
