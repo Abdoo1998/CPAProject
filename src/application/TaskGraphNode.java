@@ -9,10 +9,26 @@ public class TaskGraphNode {
   private Time latestCompletionTime;
   private Set<TaskGraphArc> incoming;
   private Set<TaskGraphArc> outgoing;
+  private int nodeID;
+  private static int count = 0;
+  private int degree;
 
   public TaskGraphNode() {
+    nodeID = count++;
     this.incoming = new HashSet<>();
     this.outgoing = new HashSet<>();
+  }
+
+  public int getNodeID() {
+    return nodeID;
+  }
+
+  public int getDegree() {
+    return degree;
+  }
+
+  public void setDegree(int degree) {
+    this.degree = degree;
   }
 
   public Time getEarliestCompletionTime() {
