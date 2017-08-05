@@ -62,4 +62,12 @@ public class TaskGraphNode {
   public void addOutgoingArc(Task task) {
     outgoing.add(new TaskGraphArc(task, this, new TaskGraphNode()));
   }
+
+  public void setIncoming(Set<TaskGraphArc> incoming) {
+    this.incoming = incoming;
+  }
+
+  public void setOutgoing(Set<TaskGraphArc> outgoing) {
+    this.outgoing = outgoing;
+  }
 }

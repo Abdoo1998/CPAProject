@@ -1,6 +1,8 @@
 package application;
 
-import java.util.Queue;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TaskGraph {
 
@@ -19,9 +21,13 @@ public class TaskGraph {
    * @param node initially should be the TaskGraph's start node
    */
   private void setIncomingDegree(TaskGraphNode node) {
-    //TODO Erik:
     //post: It sets the degree of each node to be equal to the number of
     // incoming edges of that node.
+
+    //set current node degree to number of incoming arcs
+    node.setDegree(node.getIncomingArcs().size());
+    //recursively set the degree going forward
+    node.getOutgoingArcs().forEach(i -> setIncomingDegree(i.getChild()));
   }
 
   /**
@@ -62,5 +68,120 @@ public class TaskGraph {
 
   public TaskGraphNode getEndNode() {
     return end;
+  }
+
+  public static void main(String[] args) {
+    //graph for test
+    TaskGraph graph = new TaskGraph();
+
+    //nodes for test
+    TaskGraphNode e1 = new TaskGraphNode();
+    TaskGraphNode e2 = new TaskGraphNode();
+    TaskGraphNode e3 = new TaskGraphNode();
+    TaskGraphNode e4 = new TaskGraphNode();
+    TaskGraphNode e5 = new TaskGraphNode();
+    TaskGraphNode e6 = new TaskGraphNode();
+    TaskGraphNode e7 = new TaskGraphNode();
+    TaskGraphNode e8 = new TaskGraphNode();
+    TaskGraphNode e9 = new TaskGraphNode();
+    TaskGraphNode e10 = new TaskGraphNode();
+    TaskGraphNode e6d = new TaskGraphNode();
+    TaskGraphNode e7d = new TaskGraphNode();
+    TaskGraphNode e8d = new TaskGraphNode();
+    TaskGraphNode e10d = new TaskGraphNode();
+
+    //arcs for test
+    TaskGraphArc a = new TaskGraphArc(new SubTask("A", new Duration(3, 0)),
+        e1, e2);
+    TaskGraphArc b = new TaskGraphArc(new SubTask("B", new Duration(2, 0)),
+        e1, e3);
+    TaskGraphArc c = new TaskGraphArc(new SubTask("C", new Duration(3, 0)),
+        e2, e4);
+    TaskGraphArc d = new TaskGraphArc(new SubTask("D", new Duration(2, 0)),
+        e6d, e6);
+    TaskGraphArc e = new TaskGraphArc(new SubTask("E", new Duration(1, 0)),
+        e3, e5);
+    TaskGraphArc f = new TaskGraphArc(new SubTask("F", new Duration(3, 0)),
+        e7d, e7);
+    TaskGraphArc g = new TaskGraphArc(new SubTask("G", new Duration(2, 0)),
+        e8d, e8);
+    TaskGraphArc h = new TaskGraphArc(new SubTask("H", new Duration(1, 0)),
+        e10d, e10);
+    TaskGraphArc k = new TaskGraphArc(new SubTask("K", new Duration(4, 0)),
+        e5, e9);
+    TaskGraphArc e2e6dDummy = new TaskGraphArc(new SubTask("e2e6dDummy", new
+        Duration(0, 0)), e2, e6d);
+    TaskGraphArc e3e6dDummy = new TaskGraphArc(new SubTask("e3e6dDummy", new
+        Duration(0, 0)), e3, e6d);
+    TaskGraphArc e4e7dDummy = new TaskGraphArc(new SubTask("e4e7dDummy", new
+        Duration(0, 0)), e4, e7d);
+    TaskGraphArc e6e7dDummy = new TaskGraphArc(new SubTask("e6e7dDummy", new
+        Duration(0, 0)), e6, e7d);
+    TaskGraphArc e6e8dDummy = new TaskGraphArc(new SubTask("e6e8dDummy", new
+        Duration(0, 0)), e6, e8d);
+    TaskGraphArc e5e8dDummy = new TaskGraphArc(new SubTask("e5e8dDummy", new
+        Duration(0, 0)), e5, e8d);
+    TaskGraphArc e7e10dDummy = new TaskGraphArc(new SubTask("e7e10dDummy", new
+        Duration(0, 0)), e7, e10d);
+    TaskGraphArc e8e10dDummy = new TaskGraphArc(new SubTask("e8e10dDummy", new
+        Duration(0, 0)), e8, e10d);
+    TaskGraphArc e9e10dDummy = new TaskGraphArc(new SubTask("e9e10dDummy", new
+        Duration(0, 0)), e9, e10d);
+
+    //set incoming for each node
+    e2.setIncoming(Stream.of(a).collect(Collectors.toCollection(HashSet::new)));
+    e3.setIncoming(Stream.of(b).collect(Collectors.toCollection(HashSet::new)));
+    e6d.setIncoming(Stream.of(e2e6dDummy, e3e6dDummy).collect(Collectors.toCollection
+        (HashSet::new)));
+    e4.setIncoming(Stream.of(c).collect(Collectors.toCollection(HashSet::new)));
+    e6.setIncoming(Stream.of(d).collect(Collectors.toCollection(HashSet::new)));
+    e5.setIncoming(Stream.of(e).collect(Collectors.toCollection(HashSet::new)));
+    e7d.setIncoming(Stream.of(e4e7dDummy, e6e7dDummy).collect(Collectors.toCollection
+        (HashSet::new)));
+    e8d.setIncoming(Stream.of(e6e8dDummy, e5e8dDummy).collect(Collectors.toCollection
+        (HashSet::new)));
+    e7.setIncoming(Stream.of(f).collect(Collectors.toCollection
+        (HashSet::new)));
+    e8.setIncoming(Stream.of(g).collect(Collectors.toCollection(HashSet::new)));
+    e9.setIncoming(Stream.of(k).collect(Collectors.toCollection(HashSet::new)));
+    e10d.setIncoming(Stream.of(e7e10dDummy, e8e10dDummy, e9e10dDummy).collect(Collectors
+        .toCollection
+        (HashSet::new)));
+    e10.setIncoming(Stream.of(h).collect(Collectors.toCollection
+        (HashSet::new)));
+
+    //set outgoing for each node
+    e1.setOutgoing(Stream.of(a, b).collect(Collectors.toCollection
+        (HashSet::new)));
+    e2.setOutgoing(Stream.of(c, e2e6dDummy).collect(Collectors.toCollection
+        (HashSet::new)));
+    e3.setOutgoing(Stream.of(e3e6dDummy, e).collect(Collectors.toCollection
+        (HashSet::new)));
+    e6d.setOutgoing(Stream.of(d).collect(Collectors.toCollection
+        (HashSet::new)));
+    e4.setOutgoing(Stream.of(e4e7dDummy).collect(Collectors.toCollection
+        (HashSet::new)));
+    e6.setOutgoing(Stream.of(e6e7dDummy, e6e8dDummy).collect(Collectors.toCollection
+        (HashSet::new)));
+    e5.setOutgoing(Stream.of(e5e8dDummy, k).collect(Collectors.toCollection
+        (HashSet::new)));
+    e7d.setOutgoing(Stream.of(f).collect(Collectors.toCollection
+        (HashSet::new)));
+    e8d.setOutgoing(Stream.of(g).collect(Collectors.toCollection
+        (HashSet::new)));
+    e7.setOutgoing(Stream.of(e7e10dDummy).collect(Collectors.toCollection
+        (HashSet::new)));
+    e8.setOutgoing(Stream.of(e8e10dDummy).collect(Collectors.toCollection
+        (HashSet::new)));
+    e9.setOutgoing(Stream.of(e9e10dDummy).collect(Collectors.toCollection
+        (HashSet::new)));
+    e10d.setOutgoing(Stream.of(h).collect(Collectors.toCollection
+        (HashSet::new)));
+
+
+    graph.start = e1;
+    graph.end = e10;
+
+    graph.setIncomingDegree(graph.start);
   }
 }
