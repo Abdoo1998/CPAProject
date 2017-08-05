@@ -52,6 +52,20 @@ public class TaskGraph {
     //      earliest completion time for each node, different from the start node, to be the
     //      maximum of the sum of the earliest completion time for its precedent node and the
     //      duration of the connecting edge, over all its precedent nodes.
+    Queue<TaskGraphNode> sortedNodes = topologicalSort();
+    TaskGraphNode start = sortedNodes.poll();
+    start.setEarliestCompletionTime(new Time(0,0));
+
+    while (!sortedNodes.isEmpty())  {
+      TaskGraphNode node = sortedNodes.poll();
+      List<Time> times = node.getIncomingArcs().stream()
+              .map(i -> i.getTask().getDuration().getEndTime(i.getParent().getEarliestCompletionTime()))
+              .collect(Collectors.toList());
+
+      Time maxTime = Collections.max(times);
+
+      node.setEarliestCompletionTime(maxTime);
+    }
   }
 
   /**
