@@ -48,13 +48,16 @@ public class TaskGraph {
     //Queue to store all nodes with no incoming edge (zero degree)
     Queue<TaskGraphNode> temp = new ArrayDeque<>();
     //Empty Queue storing sorted elements
-    Queue<TaskGraphNode> result = new ArrayDeque<>();
+    Queue<TaskGraphNode> resultQueue = new ArrayDeque<>();
+    //Empty Stack storing sorted elements in transpose order
+    Stack<TaskGraphNode> resultStack = new Stack<>();
 
     //all nodes with zero degree placed in temp (only start node initially)
     temp.add(start);
     while (!temp.isEmpty()) {
       TaskGraphNode dequeued = temp.remove();
-      result.add(dequeued);
+      resultQueue.add(dequeued);
+      resultStack.push(dequeued);
       dequeued.getOutgoingArcs().forEach(i -> {
         //decrement degree of each child by 1
         TaskGraphNode childNode = i.getChild();
@@ -64,7 +67,7 @@ public class TaskGraph {
       });
     }
 
-    return null;
+    return new TopologicalSorts(resultQueue, resultStack);
   }
 
   /**
