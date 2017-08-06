@@ -37,7 +37,7 @@ public class TaskGraph {
    * computed.
    */
   //PRE: Graph is acyclic
-  private Queue<TaskGraphNode> topologicalSort() {
+  private TopologicalSorts topologicalSort() {
     //post: It returns a queue of TaskGraphNode objects such that a node
     // added in the queue before another node indicates that there is a path
     // from the former node to the latter node in the task graph.
@@ -64,7 +64,7 @@ public class TaskGraph {
       });
     }
 
-    return result;
+    return null;
   }
 
   /**
@@ -78,6 +78,8 @@ public class TaskGraph {
     //      earliest completion time for each node, different from the start node, to be the
     //      maximum of the sum of the earliest completion time for its precedent node and the
     //      duration of the connecting edge, over all its precedent nodes.
+
+    /*
     Queue<TaskGraphNode> sortedNodes = topologicalSort();
     TaskGraphNode start = sortedNodes.poll();
     start.setEarliestCompletionTime(new Time(0,0));
@@ -92,6 +94,7 @@ public class TaskGraph {
 
       node.setEarliestCompletionTime(maxTime);
     }
+    */
   }
 
   /**
@@ -111,9 +114,14 @@ public class TaskGraph {
     return end;
   }
 
-  private class Topological {
+  private class TopologicalSorts {
     private Queue<TaskGraphNode> graphTopologicalOrder;
     private Stack<TaskGraphNode> transposeGraphTopologicalOrder;
+
+    public TopologicalSorts(Queue<TaskGraphNode> graphTopologicalOrder, Stack<TaskGraphNode> transposeGraphTopologicalOrder) {
+      this.graphTopologicalOrder = graphTopologicalOrder;
+      this.transposeGraphTopologicalOrder = transposeGraphTopologicalOrder;
+    }
 
     public Queue<TaskGraphNode> getGraphTopologicalOrder() {
       return graphTopologicalOrder;
@@ -121,14 +129,6 @@ public class TaskGraph {
 
     public Stack<TaskGraphNode> getTransposeGraphTopologicalOrder() {
       return transposeGraphTopologicalOrder;
-    }
-
-    public void setGraphTopologicalOrder(Queue<TaskGraphNode> graphTopologicalOrder) {
-      this.graphTopologicalOrder = graphTopologicalOrder;
-    }
-
-    public void setTransposeGraphTopologicalOrder(Stack<TaskGraphNode> transposeGraphTopologicalOrder) {
-      this.transposeGraphTopologicalOrder = transposeGraphTopologicalOrder;
     }
   }
 
