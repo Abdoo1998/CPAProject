@@ -38,6 +38,7 @@ public class CPAProjectApplicationGUI extends JFrame {
     private static final int MAX_TASK_VIEW_NUM_WIDTH = 4;
     private static final int OVERALL_TASK_VIEW_COMPONENT_WIDTH = 250;
     private static final int OVERALL_TASK_VIEW_COMPONENT_HEIGHT = OVERALL_TASK_VIEW_COMPONENT_WIDTH;
+    private static final int SCROLL_BAR_SPEED = 18;
 
 
     public CPAProjectApplicationGUI() {
@@ -134,6 +135,8 @@ public class CPAProjectApplicationGUI extends JFrame {
         taskView.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         taskView.setPreferredSize(new Dimension(APPLICATION_WIDTH, APPLICATION_HEIGHT - MENU_HEIGHT));
         taskView.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        //makes scrolling down and up the task view faster
+        taskView.getVerticalScrollBar().setUnitIncrement(SCROLL_BAR_SPEED);
 
     }
 

@@ -27,41 +27,54 @@ public class Main {
         //SubTaskGUI subTaskGUI = new SubTaskGUI(tasks);
         //javax.swing.SwingUtilities.invokeLater(subTaskGUI::showGUI);
 
-        application.addOverallTask((OverallTask) t2);
-        application.addOverallTask((OverallTask) t3);
-        application.addOverallTask((OverallTask) t1);
-        application.addOverallTask((OverallTask) t2);
-        application.addOverallTask((OverallTask) t3);
-        application.addOverallTask((OverallTask) t1);
-        application.addOverallTask((OverallTask) t2);
-        application.addOverallTask((OverallTask) t3);
-        application.addOverallTask((OverallTask) t1);
-        application.addOverallTask((OverallTask) t2);
-        application.addOverallTask((OverallTask) t3);
-        Thread.sleep(1000);
+
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
         application.revalidate();
-        Thread.sleep(1000);
+        Thread.sleep(500);
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
         application.revalidate();
-        Thread.sleep(1000);
+        Thread.sleep(500);
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
         application.revalidate();
-        Thread.sleep(1000);
+        Thread.sleep(500);
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
         application.revalidate();
-        Thread.sleep(1000);
+        Thread.sleep(500);
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
         application.revalidate();
-        Thread.sleep(1000);
+        Thread.sleep(500);
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
         application.revalidate();
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+        Thread.sleep(500);
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+        Thread.sleep(500);
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+        Thread.sleep(500);
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+        Thread.sleep(500);
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+        Thread.sleep(500);
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+
 
 
     }
