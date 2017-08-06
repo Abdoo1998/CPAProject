@@ -31,15 +31,40 @@ public class TaskGraph {
   }
 
   /**
-   * It returns a queue of TaskGraphNodes whose FIFO ordering reflects the
-     order in which the earliest completion time for the nodes has to be computed.
+   * This topologicalSort is an implementation of Kahn's Algorithm. It returns
+   * a queue of TaskGraphNodes whose FIFO ordering reflects the
+   * order in which the earliest completion time for the nodes has to be
+   * computed.
    */
+  //PRE: Graph is acyclic
   private Queue<TaskGraphNode> topologicalSort() {
-    //TODO Erik:
     //post: It returns a queue of TaskGraphNode objects such that a node
     // added in the queue before another node indicates that there is a path
     // from the former node to the latter node in the task graph.
-    return null;
+
+    //initialise degree of each TaskGraphNode
+    setIncomingDegree(start);
+
+    //Queue to store all nodes with no incoming edge (zero degree)
+    Queue<TaskGraphNode> temp = new ArrayDeque<>();
+    //Empty Queue storing sorted elements
+    Queue<TaskGraphNode> result = new ArrayDeque<>();
+
+    //all nodes with zero degree placed in temp (only start node initially)
+    temp.add(start);
+    while (!temp.isEmpty()) {
+      TaskGraphNode dequeued = temp.remove();
+      result.add(dequeued);
+      dequeued.getOutgoingArcs().forEach(i -> {
+        //decrement degree of each child by 1
+        TaskGraphNode childNode = i.getChild();
+        childNode.setDegree(childNode.getDegree() - 1);
+        //if updated degree reaches zero, place in temp
+        if (childNode.getDegree() == 0) {temp.add(childNode);}
+      });
+    }
+
+    return result;
   }
 
   /**
