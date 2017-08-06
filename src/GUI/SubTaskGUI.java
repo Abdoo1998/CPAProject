@@ -28,7 +28,6 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
     private static final String FRAME_TITLE = "Create New Subtask";
     private static final String BUTTON_STRING = "Create";
     private static final String LABEL_MESSAGE = "Select main task";
-    private static final String TASK_DROPDOWN_STRING = "Task dropdown";
 
 
     //List given must be of ALL tasks, including overall tasks and Subtasks

@@ -38,6 +38,7 @@ public class CPAProjectApplicationGUI extends JFrame {
     private static final int MAX_TASK_VIEW_NUM_WIDTH = 4;
     private static final int OVERALL_TASK_VIEW_COMPONENT_WIDTH = 250;
     private static final int OVERALL_TASK_VIEW_COMPONENT_HEIGHT = OVERALL_TASK_VIEW_COMPONENT_WIDTH;
+    private static final int BOUNDARY_SCROLLABLE_ROWS = 4;
     private static final int SCROLL_BAR_SPEED = 18;
 
 
@@ -74,7 +75,7 @@ public class CPAProjectApplicationGUI extends JFrame {
         constraints.anchor = GridBagConstraints.BASELINE;
         taskPanel.add(overallTaskViewComponent, constraints);
 
-        if (tasks.size() % MAX_TASK_VIEW_NUM_WIDTH == 0 && tasks.size() > 5 * MAX_TASK_VIEW_NUM_WIDTH) {
+        if (tasks.size() % MAX_TASK_VIEW_NUM_WIDTH == 0 && tasks.size() > BOUNDARY_SCROLLABLE_ROWS * MAX_TASK_VIEW_NUM_WIDTH) {
             taskPanel.setSize(new Dimension((int) taskPanel.getPreferredSize().getWidth(),
                     (int) taskPanel.getPreferredSize().getHeight() + OVERALL_TASK_VIEW_COMPONENT_HEIGHT));
             taskPanel.revalidate();
