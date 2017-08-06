@@ -1,11 +1,12 @@
 package GUI;
 
-import application.Task;
+import application.OverallTask;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents the general CPA Project application and provides methods to show it
@@ -15,8 +16,12 @@ public class CPAProjectApplicationGUI extends JFrame {
 
     private JMenuBar menuBar;
     private JTabbedPane tabbedPane;
-    private JPanel taskView;
+    private JScrollPane taskView;
+    private JPanel taskPanel;
     private JPanel optimalPlanView;
+    /*Holds all Overall Tasks to render*/
+    private List<OverallTask> tasks;
+    //private List<OverallTaskViewComponent> overallTaskViewComponentList;
 
     /* Name of the application, shown at the top of the frame */
     private static final String APPLICATION_NAME = "CPAProject";
@@ -30,32 +35,13 @@ public class CPAProjectApplicationGUI extends JFrame {
     private static final int APPLICATION_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height - 100;
     private static final int MENU_WIDTH = APPLICATION_WIDTH;
     private static final int MENU_HEIGHT = 25;
+    private static final int MAX_TASK_VIEW_NUM_WIDTH = 4;
+    private static final int OVERALL_TASK_VIEW_COMPONENT_WIDTH = 250;
+    private static final int OVERALL_TASK_VIEW_COMPONENT_HEIGHT = OVERALL_TASK_VIEW_COMPONENT_WIDTH;
 
-
-    /*Holds all Overall Tasks to render*/
-    private List<Task> tasks;
 
     public CPAProjectApplicationGUI() {
         this.tasks = new LinkedList<>();
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void addTask(Task task) {
-        tasks.add(task);
-    }
-
-    /**
-     * Initialises and shows the main application GUI JFrame
-     */
-    public void createAndShowGUI() {
-
-        setTitle(APPLICATION_NAME);
-        // Sets what to do when frame closes
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIconImage(new ImageIcon(ClassLoader.getSystemResource(ICON_PATH)).getImage());
 
         //sets size of frame and color
         setPreferredSize(new Dimension(APPLICATION_WIDTH, APPLICATION_WIDTH));
@@ -66,6 +52,51 @@ public class CPAProjectApplicationGUI extends JFrame {
 
         //sets double tabbed pane with Task View and Optimal Plan View
         initialiseAndSetTabbedPane();
+    }
+
+    public List<OverallTask> getTasks() {
+        return tasks;
+    }
+
+    public void addOverallTask(OverallTask task) {
+        tasks.add(task);
+        Dimension componentDimension = new Dimension(OVERALL_TASK_VIEW_COMPONENT_WIDTH, OVERALL_TASK_VIEW_COMPONENT_HEIGHT);
+        OverallTaskViewComponent overallTaskViewComponent = new OverallTaskViewComponent(task, componentDimension);
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = (tasks.size() - 1) % MAX_TASK_VIEW_NUM_WIDTH;
+        constraints.gridy = (tasks.size() - 1) / MAX_TASK_VIEW_NUM_WIDTH;
+        constraints.insets = new Insets(10,10,10,10);
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 1.0;
+        constraints.weighty = 0.5;
+        constraints.anchor = GridBagConstraints.BASELINE;
+        taskPanel.add(overallTaskViewComponent, constraints);
+
+        if (tasks.size() % MAX_TASK_VIEW_NUM_WIDTH == 0 && tasks.size() > 5 * MAX_TASK_VIEW_NUM_WIDTH) {
+            taskPanel.setSize(new Dimension((int) taskPanel.getPreferredSize().getWidth(),
+                    (int) taskPanel.getPreferredSize().getHeight() + OVERALL_TASK_VIEW_COMPONENT_HEIGHT));
+            taskPanel.revalidate();
+        }
+
+
+    }
+
+    public void removeOverallTask(OverallTask task) {
+        //TODO: PABLO
+        tasks.remove(task);
+    }
+
+
+    /**
+     * Initialises and shows the main application GUI JFrame
+     */
+    public void createAndShowGUI() {
+
+        setTitle(APPLICATION_NAME);
+        // Sets what to do when frame closes
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setIconImage(new ImageIcon(ClassLoader.getSystemResource(ICON_PATH)).getImage());
 
         //shows the frame
         pack();
@@ -92,9 +123,18 @@ public class CPAProjectApplicationGUI extends JFrame {
 
 
     private void setTaskView() {
-        this.taskView = new JPanel();
+        //initially no tasks are provided to task panel, so layout calculations will be made in addTask
+        this.taskPanel = new JPanel();
+        //sets layout to gridbag layout
+        taskPanel.setLayout(new GridBagLayout());
+
+        this.taskView = new JScrollPane(taskPanel);
+        taskView.createVerticalScrollBar();
+        taskView.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        taskView.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         taskView.setPreferredSize(new Dimension(APPLICATION_WIDTH, APPLICATION_HEIGHT - MENU_HEIGHT));
         taskView.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+
     }
 
     private void setOptimalPlanView() {

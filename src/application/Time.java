@@ -20,6 +20,11 @@ public class Time {
     return minutes;
   }
 
+  @Override
+  public String toString() {
+    return hours + ":" + minutes;
+  }
+
   //pre: otherTime is later than current time
   public Duration getTimeDifference(Time otherTime) {
     int minuteDifference = Math.abs((otherTime.getMinutes() - minutes) % 60);

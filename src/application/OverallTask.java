@@ -23,7 +23,11 @@ public class OverallTask extends Task {
   }
 
   public void removeSubTask(SubTask task) {
-    subTasks.remove(task);
+      subTasks.remove(task);
+    }
+
+  public Time getStartTime() {
+    return startTime;
   }
 
   public TaskGraph generateGraph() {
