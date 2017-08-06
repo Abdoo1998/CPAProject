@@ -1,6 +1,6 @@
 package application;
 
-public class Time {
+public class Time implements Comparable<Time> {
 
   private int hours;
   private int minutes;
@@ -67,5 +67,22 @@ public class Time {
 
   private void subHours(int hoursToSub) {
     hours = (hours - hoursToSub) % 23;
+    
+  @Override
+  public int compareTo(Time that) {
+    final int MINUTES_IN_HOUR = 60;
+
+    return (this.hours * MINUTES_IN_HOUR + this.minutes) -
+            (that.hours * MINUTES_IN_HOUR + that.minutes);
+  }
+
+  //compareTo tests
+  public static void main(String[] args) {
+    Time t = new Time(3, 2);
+    System.out.println(t.compareTo(new Time(1, 3)));
+    System.out.println(t.compareTo(new Time(3, 1)));
+    System.out.println(t.compareTo(new Time(3, 2)));
+    System.out.println(t.compareTo(new Time(3, 40)));
+    System.out.println(t.compareTo(new Time(4, 0)));;
   }
 }

@@ -16,4 +16,12 @@ public class TaskGraphArc {
   public Task getTask() {
     return task;
   }
+
+  public TaskGraphNode getParent() {
+    return parent;
+  }
+
+  public TaskGraphNode getChild() {
+    return child;
+  }
 }
