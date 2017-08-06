@@ -9,6 +9,10 @@ import java.awt.*;
  */
 public class CPATextField extends JTextField {
 
+    /**
+     * Creates a new CPATextfield object
+     * @param i the column width as specified by the JTextfield constructor
+     */
     public CPATextField(int i) {
         super(i);
     }
