@@ -14,30 +14,44 @@ import java.util.Map;
  */
 public class CPAProjectApplicationGUI extends JFrame {
 
+    /** Field representing the menu bar*/
     private JMenuBar menuBar;
+    /** Field representing the tabbed pane*/
     private JTabbedPane tabbedPane;
+    /** Field representing the scrollable pane under the Task View tab*/
     private JScrollPane taskView;
+    /** Field representing the task panel to be located in the scrollable pane*/
     private JPanel taskPanel;
+    /** Field representing the panel under the Optimal Plan View tab*/
     private JPanel optimalPlanView;
-    /*Holds all Overall Tasks to render*/
+    /** List holding all Overall Tasks to render(ed)*/
     private List<OverallTask> tasks;
 
-    /* Name of the application, shown at the top of the frame */
+    /** Name of the application, shown at the top of the frame */
     private static final String APPLICATION_NAME = "CPAProject";
-    /* Path to the application icon*/
+    /** Path to the application icon*/
     private static final String ICON_PATH = "GUI/images/mainIcon.png";
-    /*Titles for tabs*/
+    /** Title for Task View tab*/
     private static final String TASK_VIEW_TAB_STRING = "Task View";
+    /** Title for the Optimal View tab*/
     private static final String OPTIMAL_VIEW_TAB_STRING = "Optimal Plan View";
-    /*Sizes for components*/
+    /** Application width*/
     private static final int APPLICATION_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
+    /** Application height*/
     private static final int APPLICATION_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height - 100;
+    /** Menu width*/
     private static final int MENU_WIDTH = APPLICATION_WIDTH;
+    /** Menu height*/
     private static final int MENU_HEIGHT = 25;
+    /** Maximum number of tasks allowed per row*/
     private static final int MAX_TASK_VIEW_NUM_WIDTH = 4;
+    /** Preferred width for overall task view components*/
     private static final int OVERALL_TASK_VIEW_COMPONENT_WIDTH = 250;
+    /** Preferred height for overall task view components*/
     private static final int OVERALL_TASK_VIEW_COMPONENT_HEIGHT = OVERALL_TASK_VIEW_COMPONENT_WIDTH;
+    /** Maximum number of rows of overall task view components to appear without scrolling*/
     private static final int BOUNDARY_SCROLLABLE_ROWS = 4;
+    /** Speed of the scroll bar*/
     private static final int SCROLL_BAR_SPEED = 18;
 
 
