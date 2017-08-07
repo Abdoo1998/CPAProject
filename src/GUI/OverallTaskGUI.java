@@ -17,6 +17,8 @@ import java.awt.event.WindowEvent;
  */
 public class OverallTaskGUI extends TaskGUI implements ActionListener {
 
+    /** A reference to the application GUI*/
+    private CPAProjectApplicationGUI applicationReference;
     /** Label representing the starting time of the OverallTask*/
     private JLabel startTimeLabel;
     /** Custom text field for time representing the to-be-inputted starting time*/
@@ -37,8 +39,9 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
      * Initialises the starting time field, label and the create button, and lays out these
      * components in the GUI.
      */
-    public OverallTaskGUI() {
+    public OverallTaskGUI(CPAProjectApplicationGUI applicationReference) {
         super();
+        this.applicationReference = applicationReference;
         setTitle(FRAME_TITLE);
         setStartTimeField();
         setStartTimeLabel();
@@ -136,7 +139,7 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
             //dont do anything
             return;
         }
-        setTask(new OverallTask(taskName, duration, startingTime));
+        applicationReference.addOverallTask(new OverallTask(taskName, duration, startingTime));
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 }

@@ -36,7 +36,7 @@ public class OverallTaskViewComponent extends JPanel {
         this.startTime = new JLabel("Starts at: " + task.getStartTime().toString());
         startTime.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
-        setBackground(new Color(150, 120, 23));
+        setBackground(new Color(100, 120, 23));
         setTaskViewComponentLayout();
         setPreferredSize(dimension);
     }

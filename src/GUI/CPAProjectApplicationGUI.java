@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents the general CPA Project application and provides methods to show it
@@ -167,10 +166,16 @@ public class CPAProjectApplicationGUI extends JFrame {
      * Initialises and sets the menu bar.
      */
     private void initialiseAndSetJMenuBar() {
+        //sets up menu bar
         this.menuBar = new JMenuBar();
         menuBar.setPreferredSize(new Dimension(MENU_WIDTH, MENU_HEIGHT));
         menuBar.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         setJMenuBar(menuBar);
+
+        //initialise and add menuBar menus
+        FileMenu fileMenu = new FileMenu("File", menuBar, this);
+        menuBar.add(fileMenu);
+
     }
 
     /**
@@ -204,26 +209,5 @@ public class CPAProjectApplicationGUI extends JFrame {
         optimalPlanView.setPreferredSize(new Dimension(APPLICATION_WIDTH, APPLICATION_HEIGHT - MENU_HEIGHT));
         optimalPlanView.setFont(FontCollection.DEFAULT_FONT_PLAIN);
     }
-
-
-    /**
-     * Creates a JMenu with the name given and the actions specified by the map given
-     *
-     * @param menuName the name of the menu
-     * @param map the mapping from actions to their names
-     * @return the JMenu specified by the names and the mapping from actions to their names
-     */
-    public JMenu createMenu(String menuName, Map<Action, String> map) {
-
-        JMenu menu = new JMenu(menuName);
-
-        for (Action act : map.keySet()) {
-            act.putValue(Action.NAME, map.get(act));
-            menu.add(act);
-        }
-
-        return menu;
-    }
-
 
 }
