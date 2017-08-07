@@ -7,6 +7,7 @@ import application.Task;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +34,7 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
     private static final String FRAME_TITLE = "Create New Subtask";
     private static final String BUTTON_STRING = "Create";
     private static final String LABEL_MESSAGE = "Select main task";
+    private static final String TASK_DROPDOWN_STRING = "Task dropdown";
 
 
     //List given must be of ALL tasks, including overall tasks and Subtasks
@@ -43,7 +45,9 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         setStringTaskMap(tasksToShow);
         setDropdownLabel();
         setJComboBox(tasksToShow);
-        setTreeView();
+        OverallTask overallTask = stringTaskMap.get(taskDropdown.getSelectedItem());
+        setTreeView(overallTask);
+        setScrollPane();
         setButton();
         setSubTaskLayout();
     }
@@ -65,20 +69,27 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         this.taskDropdown = new JComboBox<>(stringTaskMap.keySet().toArray());
         taskDropdown.setSelectedIndex(0);
         taskDropdown.setEditable(true);
-        //taskDropdown.addActionListener(this);
-        //taskDropdown.setActionCommand(TASK_DROPDOWN_STRING);
+        taskDropdown.addActionListener(this);
+        taskDropdown.setActionCommand(TASK_DROPDOWN_STRING);
         taskDropdown.setFont(FontCollection.DEFAULT_FONT_PLAIN);
     }
 
-    private void setTreeView() {
+    private void setTreeView(OverallTask overallTask) {
         //sets root with selected item
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(taskDropdown.getSelectedItem());
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(overallTask.getTaskName());
 
-        for (SubTask task : stringTaskMap.get(taskDropdown.getSelectedItem()).getAllSubTasks()) {
+        for (SubTask task : overallTask.getAllSubTasks()) {
             root.add(setTreeRecursivelyFrom(task));
         }
 
-        this.tree = new JTree(root);
+        DefaultTreeModel treeModel = new DefaultTreeModel(root);
+        this.tree = new JTree(treeModel);
+
+    }
+
+    private void setScrollPane() {
+        //this is done outside of setTreeView because otherwise upon selection of Tasks on the
+        //task dropdown JComboBox, the treePanel wouldn't update
         this.treePanel = new JScrollPane(tree);
         add(treePanel);
     }
@@ -155,6 +166,16 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+
+        switch (actionEvent.getActionCommand()) {
+            case TASK_DROPDOWN_STRING:
+                System.out.println(taskDropdown.getSelectedItem());
+               // treePanel.remove(tree);
+                setTreeView(stringTaskMap.get(taskDropdown.getSelectedItem()));
+                treePanel.setViewportView(tree);
+                treePanel.revalidate();
+                return;
+        }
         //only action is from the button
         String taskName = getTaskNameText();
         Duration duration = getDuration();
@@ -170,6 +191,5 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         //TODO: -----------------------------------------------------------
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
-
 
 }
