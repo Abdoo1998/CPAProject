@@ -23,22 +23,38 @@ import java.util.Map;
  */
 public class SubTaskGUI extends TaskGUI implements ActionListener {
 
+    /** A reference to the application*/
     private CPAProjectApplicationGUI applicationReference;
+    /** A reference to the dropdown label*/
     private JLabel dropdownLabel;
+    /** A reference to the main task dropdown*/
     private JComboBox taskDropdown;
+    /** A reference to the scroll pane with the tree view*/
     private JScrollPane treePanel;
+    /** A reference to the tree view*/
     private JTree tree;
+    /** A reference to the create button*/
     private JButton button;
+    /** A reference to a mapping from Strings to all OverallTasks*/
     private Map<String, OverallTask> stringTaskMap;
 
+    /** String representing the frame title*/
     private static final String FRAME_TITLE = "Create New Subtask";
+    /** String representing the string on the button*/
     private static final String BUTTON_STRING = "Create";
+    /** String representing the string on the label*/
     private static final String LABEL_MESSAGE = "Select main task";
+    /** String representing the task dropdown message*/
     private static final String TASK_DROPDOWN_STRING = "Task dropdown";
 
 
-    //List given must be of ALL tasks, including overall tasks and Subtasks
+    /**
+     * Constructs a subTaskGUI.
+     * @param tasksToShow the list of all OverallTasks held in the GUI
+     * @param applicationReference the reference to the application running
+     */
     public SubTaskGUI(List<OverallTask> tasksToShow, CPAProjectApplicationGUI applicationReference) {
+        //List given must be of ALL Overall tasks
         super();
         this.applicationReference = applicationReference;
         setTitle(FRAME_TITLE);
@@ -52,6 +68,10 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         setSubTaskLayout();
     }
 
+    /**
+     * Initialises the string to overall task map used by the JComboBox
+     * @param tasksToShow the list of OverallTasks
+     */
     public void setStringTaskMap(List<OverallTask> tasksToShow) {
         this.stringTaskMap = new HashMap<>();
         for (OverallTask t : tasksToShow) {
@@ -59,12 +79,19 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         }
     }
 
+    /**
+     * Initialises and sets the dropdown label
+     */
     private void setDropdownLabel() {
         this.dropdownLabel = new JLabel(LABEL_MESSAGE + ":");
         dropdownLabel.setLabelFor(taskDropdown);
         dropdownLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
     }
 
+    /**
+     * Initialises and sets the task dropdown JComboBox
+     * @param tasksToShow the list of overall tasks to show in the dropdown
+     */
     private void setJComboBox(List<OverallTask> tasksToShow) {
         this.taskDropdown = new JComboBox<>(stringTaskMap.keySet().toArray());
         taskDropdown.setSelectedIndex(0);
@@ -74,6 +101,10 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         taskDropdown.setFont(FontCollection.DEFAULT_FONT_PLAIN);
     }
 
+    /**
+     * Sets the JTree to be a representation of all dependencies of the given OverallTasks.
+     * @param overallTask the task to represent in a tree view (root task)
+     */
     private void setTreeView(OverallTask overallTask) {
         //sets root with selected item
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(overallTask.getTaskName());
@@ -87,13 +118,12 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
 
     }
 
-    private void setScrollPane() {
-        //this is done outside of setTreeView because otherwise upon selection of Tasks on the
-        //task dropdown JComboBox, the treePanel wouldn't update
-        this.treePanel = new JScrollPane(tree);
-        add(treePanel);
-    }
-
+    /**
+     * Recursive helper for setTreeView. Sets the tree view (DefaultMutableTreeNode) for the given subtask
+     * and its dependencies.
+     * @param task the subtask to construct a node from
+     * @return the constructed tree node from the task given
+     */
     private DefaultMutableTreeNode setTreeRecursivelyFrom(SubTask task) {
 
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(task.getTaskName());
@@ -112,6 +142,19 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
 
     }
 
+    /**
+     * Sets the JScrollPane that contains the tree view.
+     */
+    private void setScrollPane() {
+        //this is done outside of setTreeView because otherwise upon selection of Tasks on the
+        //task dropdown JComboBox, the treePanel wouldn't update
+        this.treePanel = new JScrollPane(tree);
+        add(treePanel);
+    }
+
+    /**
+     * Sets the create button.
+     */
     private void setButton() {
 
         this.button = new JButton(BUTTON_STRING);
@@ -124,6 +167,10 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
 
     }
 
+    /**
+     * Sets the GridBagConstraints for the specific components of the SubTask GUI. For more information on
+     * GridBagLayout and GridBagConstraint see the Java tutorials.
+     */
     private void setSubTaskLayout() {
 
         //dropdown label constraints
@@ -164,24 +211,31 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
 
     }
 
+    /**
+     * Overriden method that responds to events such as the change of selection in the main task dropdown,
+     * the selection of a subtask in the tree view or the pressing of the create button.
+     * @param actionEvent the event generated
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
         switch (actionEvent.getActionCommand()) {
             case TASK_DROPDOWN_STRING:
-                System.out.println(taskDropdown.getSelectedItem());
-               // treePanel.remove(tree);
+                //creates new dropdown task's tree
                 setTreeView(stringTaskMap.get(taskDropdown.getSelectedItem()));
+                //sets the scroll panel's viewport to be the tree
                 treePanel.setViewportView(tree);
                 treePanel.revalidate();
                 return;
         }
-        //only action is from the button
+        //TODO: Support selection of subtask in tree view
+
+        //action from the button
         String taskName = getTaskNameText();
         Duration duration = getDuration();
         String associatedTaskString = (String) taskDropdown.getSelectedItem();
         if (taskName.equals("") || duration == null) {
-            //dont do anything
+            //don't do anything
             return;
         }
         setTask(new SubTask(taskName, duration));
