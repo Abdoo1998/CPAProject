@@ -25,7 +25,7 @@ public class ExitAction extends AbstractAction {
 
     /**
      * Overriden actionPerformed method, saves the data and closes the application
-     * @param actionEvent
+     * @param actionEvent the action event generated
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {

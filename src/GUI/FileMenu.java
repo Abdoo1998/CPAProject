@@ -10,22 +10,39 @@ import java.awt.event.KeyEvent;
  */
 public class FileMenu extends JMenu {
 
+    /** Reference to the application's menuBar*/
     private JMenuBar menuBar;
+    /** Reference to the application*/
     private CPAProjectApplicationGUI applicationReference;
 
+    /** NEW menu in File menu*/
     private JMenu newMenu;
+    /** New task creation menu under NEW menu*/
     private JMenuItem newOverallTaskItem;
+    /** New subTask creation menu under NEW menu*/
     private JMenuItem newSubTaskItem;
+    /** Exit menu under NEW menu*/
     private JMenuItem exitItem;
 
+    /** String for NEW menu*/
     private static String MENU_STRING_NEW = "New";
+    /** String for creation of OverallTask menu*/
     private static String MENU_STRING_TASK = "Task";
+    /** String for creation of SubTask menu*/
     private static String MENU_STRING_SUBTASK = "Subtask";
+    /** String for creation of exit menu*/
     private static String MENU_STRING_EXIT = "Exit";
 
+    /**
+     * Creates a file menu.
+     * @param s the string representing the name of the menu
+     * @param menuBar the menuBar the menu is associated to
+     * @param applicationReference the application the menu is associated to
+     */
     public FileMenu(String s, JMenuBar menuBar, CPAProjectApplicationGUI applicationReference) {
         //initialises components
         super(s);
+
         this.menuBar = menuBar;
         this.applicationReference = applicationReference;
 
@@ -63,6 +80,9 @@ public class FileMenu extends JMenu {
         //TODO: PABLO, SET PREFERRED SIZE OF EACH MENU CONTAINED IN FILE MENU
     }
 
+    /**
+     * Adds and sets up the actions for the NEW menu and the menus under it
+     */
     private void setActionsNewMenu() {
         //adds newMenu to file menu
         add(newMenu);
@@ -72,12 +92,15 @@ public class FileMenu extends JMenu {
         newMenu.add(newSubTaskItem);
 
         newOverallTaskItem.setAction(new NewOverallTaskAction(applicationReference));
-        newOverallTaskItem.setText("Task");
+        newOverallTaskItem.setText(MENU_STRING_TASK);
 
         //TODO: ADD NewSubTaskAction to newSubTaskItem
 
     }
 
+    /**
+     * Sets up the exit menu and its action
+     */
     private void setActionExitItem() {
         add(exitItem);
         exitItem.setAction(new ExitAction(applicationReference));
