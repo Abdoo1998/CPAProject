@@ -1,10 +1,12 @@
 package GUI;
 
 import application.Duration;
+import application.OverallTask;
 import application.SubTask;
 import application.Task;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,10 +22,13 @@ import java.util.Map;
  */
 public class SubTaskGUI extends TaskGUI implements ActionListener {
 
+    private CPAProjectApplicationGUI applicationReference;
     private JLabel dropdownLabel;
-    private JComboBox<Object> taskDropdown;
+    private JComboBox taskDropdown;
+    private JScrollPane treePanel;
+    private JTree tree;
     private JButton button;
-    private Map<String, Task> stringTaskMap;
+    private Map<String, OverallTask> stringTaskMap;
 
     private static final String FRAME_TITLE = "Create New Subtask";
     private static final String BUTTON_STRING = "Create";
@@ -31,19 +36,21 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
 
 
     //List given must be of ALL tasks, including overall tasks and Subtasks
-    public SubTaskGUI(List<Task> tasksToShow) {
+    public SubTaskGUI(List<OverallTask> tasksToShow, CPAProjectApplicationGUI applicationReference) {
         super();
+        this.applicationReference = applicationReference;
         setTitle(FRAME_TITLE);
         setStringTaskMap(tasksToShow);
         setDropdownLabel();
         setJComboBox(tasksToShow);
+        setTreeView();
         setButton();
         setSubTaskLayout();
     }
 
-    public void setStringTaskMap(List<Task> tasksToShow) {
+    public void setStringTaskMap(List<OverallTask> tasksToShow) {
         this.stringTaskMap = new HashMap<>();
-        for (Task t : tasksToShow) {
+        for (OverallTask t : tasksToShow) {
             stringTaskMap.put(t.getTaskName(), t);
         }
     }
@@ -54,13 +61,44 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         dropdownLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
     }
 
-    private void setJComboBox(List<Task> tasksToShow) {
+    private void setJComboBox(List<OverallTask> tasksToShow) {
         this.taskDropdown = new JComboBox<>(stringTaskMap.keySet().toArray());
         taskDropdown.setSelectedIndex(0);
         taskDropdown.setEditable(true);
         //taskDropdown.addActionListener(this);
         //taskDropdown.setActionCommand(TASK_DROPDOWN_STRING);
         taskDropdown.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+    }
+
+    private void setTreeView() {
+        //sets root with selected item
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(taskDropdown.getSelectedItem());
+
+        for (SubTask task : stringTaskMap.get(taskDropdown.getSelectedItem()).getAllSubTasks()) {
+            root.add(setTreeRecursivelyFrom(task));
+        }
+
+        this.tree = new JTree(root);
+        this.treePanel = new JScrollPane(tree);
+        add(treePanel);
+    }
+
+    private DefaultMutableTreeNode setTreeRecursivelyFrom(SubTask task) {
+
+        DefaultMutableTreeNode node = new DefaultMutableTreeNode(task.getTaskName());
+
+        //base case
+        if (task.getDependencies() == null) {
+            return new DefaultMutableTreeNode(task.getTaskName());
+        }
+
+        //set the tree recursively for each subtask
+        for (SubTask t : task.getDependencies()) {
+            node.add(setTreeRecursivelyFrom(t));
+        }
+
+        return node;
+
     }
 
     private void setButton() {
@@ -94,10 +132,21 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         taskDropdownConstraints.gridwidth = 2;
         add(taskDropdown, taskDropdownConstraints);
 
+        //scroll pane constraints
+        GridBagConstraints scrollPaneConstraints = new GridBagConstraints();
+        scrollPaneConstraints.gridx = 0;
+        scrollPaneConstraints.gridy = 3;
+        scrollPaneConstraints.gridwidth = 2;
+        scrollPaneConstraints.gridheight = 2;
+        scrollPaneConstraints.fill = GridBagConstraints.HORIZONTAL;
+        scrollPaneConstraints.insets = DEFAULT_INSETS;
+        scrollPaneConstraints.gridwidth = 2;
+        add(treePanel, scrollPaneConstraints);
+
         //button constraints
         GridBagConstraints buttonConstraints = new GridBagConstraints();
         buttonConstraints.gridx = 1;
-        buttonConstraints.gridy = 3;
+        buttonConstraints.gridy = 5;
         buttonConstraints.fill = GridBagConstraints.NONE;
         buttonConstraints.insets = DEFAULT_INSETS;
         add(button, buttonConstraints);
