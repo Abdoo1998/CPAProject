@@ -6,8 +6,11 @@ import application.SubTask;
 import application.Task;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +24,7 @@ import java.util.Map;
  *
  * @author gorosgobe
  */
-public class SubTaskGUI extends TaskGUI implements ActionListener {
+public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelectionListener {
 
     /** A reference to the application*/
     private CPAProjectApplicationGUI applicationReference;
@@ -137,7 +140,8 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
 
         DefaultTreeModel treeModel = new DefaultTreeModel(root);
         this.tree = new JTree(treeModel);
-
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree.addTreeSelectionListener(this);
     }
 
     /**
@@ -284,4 +288,19 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
+    /**
+     * Overriden method that responds to events such as selection in the JTree shown in the scroll pane.
+     * @param treeSelectionEvent the event generated.
+     */
+    @Override
+    public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+
+        if (node == null) {
+            //Nothing is selected.
+            return;
+        }
+
+        selectedNode.setText((String) node.getUserObject());
+    }
 }
