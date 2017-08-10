@@ -306,6 +306,14 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
+    /**
+     * Returns the subTask with equal task name as the taskToBeAdded parameter. The method searches for the SubTask in
+     * the dependencies of the parent task. A precondition is that the subTask is present in the dependencies of the parent
+     * task given.
+     * @param parent the task that contains the SubTask
+     * @param taskToBeAdded the string representing the task name of the subTask to return
+     * @return the subTask associated to the taskToBeAdded parameter under parent.
+     */
     private SubTask findSubTaskInDependencies(OverallTask parent, String taskToBeAdded) {
         //subtask is in dependencies as it has been selected in the tree view
 
@@ -319,6 +327,13 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         return null;
     }
 
+    /**
+     * Recursive helper for findSubTaskInDependencies, returns the SubTask searched in the parent parameter that matches
+     * the taaskToBeAdded string (with its task name field equal to it).
+     * @param parent the task that contains the subtask
+     * @param taskToBeAdded the string representing the task name of the subTask to return
+     * @return the subTask associated to the taskToBeAdded parameter under parent.
+     */
     private SubTask findRecursivelySubTask(SubTask parent, String taskToBeAdded) {
 
         if (parent.getTaskName().equals(taskToBeAdded)) {
@@ -326,9 +341,6 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         }
 
         for (SubTask t : parent.getDependencies()) {
-            if (taskToBeAdded.equals(t.getTaskName())) {
-                return t;
-            }
             SubTask subTask = findRecursivelySubTask(t, taskToBeAdded);
             if (subTask != null) {
                 return subTask;
