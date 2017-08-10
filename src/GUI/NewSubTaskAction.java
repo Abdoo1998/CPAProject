@@ -28,6 +28,7 @@ public class NewSubTaskAction extends AbstractAction {
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        //TODO: Add sub task to Overall task or Subtask
+        SubTaskGUI subTaskGUI = new SubTaskGUI(applicationReference.getTasks(), applicationReference);
+        SwingUtilities.invokeLater(subTaskGUI::showGUI);
     }
 }

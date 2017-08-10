@@ -94,7 +94,8 @@ public class FileMenu extends JMenu {
         newOverallTaskItem.setAction(new NewOverallTaskAction(applicationReference));
         newOverallTaskItem.setText(MENU_STRING_TASK);
 
-        //TODO: ADD NewSubTaskAction to newSubTaskItem
+        newSubTaskItem.setAction(new NewSubTaskAction(applicationReference));
+        newSubTaskItem.setText(MENU_STRING_SUBTASK);
 
     }
 

@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         CPAProjectApplicationGUI application = new CPAProjectApplicationGUI();
-        //javax.swing.SwingUtilities.invokeLater(application::createAndShowGUI);
+        javax.swing.SwingUtilities.invokeLater(application::createAndShowGUI);
 
         //OverallTaskGUI overallTask = new OverallTaskGUI();
         //javax.swing.SwingUtilities.invokeLater(overallTask::showGUI);
@@ -61,6 +61,7 @@ public class Main {
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
         application.revalidate();
+        application.addOverallTask((OverallTask) t1);
 
 
 
