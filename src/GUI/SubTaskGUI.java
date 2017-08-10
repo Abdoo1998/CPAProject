@@ -3,13 +3,13 @@ package GUI;
 import application.Duration;
 import application.OverallTask;
 import application.SubTask;
-import application.Task;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -140,8 +140,13 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
 
         DefaultTreeModel treeModel = new DefaultTreeModel(root);
         this.tree = new JTree(treeModel);
+        //allows for single selection
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        //adds frame as listener
         tree.addTreeSelectionListener(this);
+        //selects first node (OverallTask) by default
+        DefaultMutableTreeNode overallNode = (DefaultMutableTreeNode) treeModel.getRoot();
+        tree.setSelectionPath(new TreePath(overallNode.getPath()));
     }
 
     /**
@@ -275,17 +280,62 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         //action from the button
         String taskName = getTaskNameText();
         Duration duration = getDuration();
-        String associatedTaskString = (String) taskDropdown.getSelectedItem();
         if (taskName.equals("") || duration == null) {
             //don't do anything
             return;
         }
-        setTask(new SubTask(taskName, duration));
-        //TODO: Set Main task of the Subtask, whether this associated Task is an Overall Task or a SubTask
-        //TODO: -----------------------------------------------------------
-        Task associatedTask = stringTaskMap.get(associatedTaskString);
-        //TODO: -----------------------------------------------------------
+
+        //task is valid
+        String associatedOverallTaskString = (String) taskDropdown.getSelectedItem();
+        String addToDependencyTask = selectedNode.getText();
+
+        if (associatedOverallTaskString.equals(addToDependencyTask)) {
+            // selected item in task dropdown (OverallTask) is equal to the only
+            //OverallTask in the tree, therefore we want to add it to an OverallTask
+
+            //get task to add to, in this case overallTask
+            OverallTask overallTask = stringTaskMap.get(addToDependencyTask);
+            overallTask.addSubTask(new SubTask(taskName, duration));
+        } else {
+            //task is not same as the one in the dropdown, therefore we want to add it to a SubTask
+            OverallTask overallTask = stringTaskMap.get(taskDropdown.getSelectedItem());
+            SubTask subTask = findSubTaskInDependencies(overallTask, addToDependencyTask);
+            subTask.addDependency(new SubTask(taskName, duration));
+        }
+
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }
+
+    private SubTask findSubTaskInDependencies(OverallTask parent, String taskToBeAdded) {
+        //subtask is in dependencies as it has been selected in the tree view
+
+        for (SubTask t : parent.getAllSubTasks()) {
+            SubTask subTask = findRecursivelySubTask(t, taskToBeAdded);
+            if (subTask != null) {
+                return subTask;
+            }
+        }
+        //will not get here because of precondition
+        return null;
+    }
+
+    private SubTask findRecursivelySubTask(SubTask parent, String taskToBeAdded) {
+
+        if (parent.getTaskName().equals(taskToBeAdded)) {
+            return parent;
+        }
+
+        for (SubTask t : parent.getDependencies()) {
+            if (taskToBeAdded.equals(t.getTaskName())) {
+                return t;
+            }
+            SubTask subTask = findRecursivelySubTask(t, taskToBeAdded);
+            if (subTask != null) {
+                return subTask;
+            }
+        }
+
+        return null;
     }
 
     /**
