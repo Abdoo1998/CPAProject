@@ -53,15 +53,41 @@ public class Main {
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
         application.revalidate();
-        Thread.sleep(500);
+        Thread.sleep(1500);
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
         application.revalidate();
-        Thread.sleep(500);
+        Thread.sleep(1500);
         application.addOverallTask((OverallTask) t2);
         application.addOverallTask((OverallTask) t3);
-        application.revalidate();
         application.addOverallTask((OverallTask) t1);
+        application.revalidate();
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+        Thread.sleep(500);
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+        Thread.sleep(500);
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.addOverallTask((OverallTask) t1);
+        application.revalidate();
+
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+        Thread.sleep(500);
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.revalidate();
+        Thread.sleep(500);
+        application.addOverallTask((OverallTask) t2);
+        application.addOverallTask((OverallTask) t3);
+        application.addOverallTask((OverallTask) t1);
+        application.revalidate();
+
 
 
 
