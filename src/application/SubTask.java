@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SubTask extends Task {
 
-  private final List<Task> dependencies;
+  private final List<SubTask> dependencies;
   private final List<Task> dependsOnMe;
 
   public SubTask(String name, Duration duration) {
@@ -14,7 +14,7 @@ public class SubTask extends Task {
     this.dependsOnMe = new ArrayList<>();
   }
 
-  public List<Task> getDependencies() {
+  public List<SubTask> getDependencies() {
     return dependencies;
   }
 
@@ -26,7 +26,7 @@ public class SubTask extends Task {
     dependencies.add(dep);
   }
 
-  public void removeDependancy(SubTask dep) {
+  public void removeDependency(SubTask dep) {
     dependencies.remove(dep);
   }
 
