@@ -29,6 +29,10 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
     private JLabel dropdownLabel;
     /** A reference to the main task dropdown*/
     private JComboBox taskDropdown;
+    /** A reference to a Label with a string indicating which node was selected*/
+    private JLabel selectedLabel;
+    /** A reference to the selected node in the tree, representing a subtask to add a dependency to*/
+    private JLabel selectedNode;
     /** A reference to the scroll pane with the tree view*/
     private JScrollPane treePanel;
     /** A reference to the tree view*/
@@ -46,6 +50,8 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
     private static final String LABEL_MESSAGE = "Select main task";
     /** String representing the task dropdown message*/
     private static final String TASK_DROPDOWN_STRING = "Task dropdown";
+    /** String representing the selected node in the tree view (subTask)*/
+    private static final String SELECTED_NODE_STRING = "Add as dependency to";
 
 
     /**
@@ -61,6 +67,7 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         setStringTaskMap(tasksToShow);
         setDropdownLabel();
         setJComboBox(tasksToShow);
+        setSelectedLabelAndSelectedNode();
         OverallTask overallTask = stringTaskMap.get(taskDropdown.getSelectedItem());
         setTreeView(overallTask);
         setScrollPane();
@@ -99,6 +106,21 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         taskDropdown.addActionListener(this);
         taskDropdown.setActionCommand(TASK_DROPDOWN_STRING);
         taskDropdown.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+    }
+
+    /**
+     * Sets the labels representing the text informing the user about selection of a node and the text representation of
+     * the node selected.
+     */
+    private void setSelectedLabelAndSelectedNode() {
+
+        this.selectedLabel = new JLabel(SELECTED_NODE_STRING + ":");
+        selectedLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        //the selectedNode text will be determined by the selection of a particular node in the tree view
+        //initial is default by task dropdown
+        this.selectedNode = new JLabel((String) taskDropdown.getSelectedItem());
+        selectedNode.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+
     }
 
     /**
@@ -190,10 +212,26 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         taskDropdownConstraints.gridwidth = 2;
         add(taskDropdown, taskDropdownConstraints);
 
+        //select label constraints
+        GridBagConstraints selectLabelConstraints = new GridBagConstraints();
+        selectLabelConstraints.gridx = 0;
+        selectLabelConstraints.gridy = 3;
+        selectLabelConstraints.fill = GridBagConstraints.NONE;
+        selectLabelConstraints.insets = DEFAULT_INSETS;
+        add(selectedLabel, selectLabelConstraints);
+
+        //selectedNode label constraints
+        GridBagConstraints selectedNodeConstraints = new GridBagConstraints();
+        selectedNodeConstraints.gridx = 1;
+        selectedNodeConstraints.gridy = 3;
+        selectedNodeConstraints.fill = GridBagConstraints.NONE;
+        selectedNodeConstraints.insets = DEFAULT_INSETS;
+        add(selectedNode, selectedNodeConstraints);
+
         //scroll pane constraints
         GridBagConstraints scrollPaneConstraints = new GridBagConstraints();
         scrollPaneConstraints.gridx = 0;
-        scrollPaneConstraints.gridy = 3;
+        scrollPaneConstraints.gridy = 4;
         scrollPaneConstraints.gridwidth = 2;
         scrollPaneConstraints.gridheight = 2;
         scrollPaneConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -204,7 +242,7 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
         //button constraints
         GridBagConstraints buttonConstraints = new GridBagConstraints();
         buttonConstraints.gridx = 1;
-        buttonConstraints.gridy = 5;
+        buttonConstraints.gridy = 6;
         buttonConstraints.fill = GridBagConstraints.NONE;
         buttonConstraints.insets = DEFAULT_INSETS;
         add(button, buttonConstraints);
