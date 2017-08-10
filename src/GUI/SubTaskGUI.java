@@ -271,7 +271,6 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
                 treePanel.revalidate();
                 return;
         }
-        //TODO: Support selection of subtask in tree view
 
         //action from the button
         String taskName = getTaskNameText();

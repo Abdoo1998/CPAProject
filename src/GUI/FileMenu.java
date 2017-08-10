@@ -25,13 +25,13 @@ public class FileMenu extends JMenu {
     private JMenuItem exitItem;
 
     /** String for NEW menu*/
-    private static String MENU_STRING_NEW = "New";
+    private static final String MENU_STRING_NEW = "New";
     /** String for creation of OverallTask menu*/
-    private static String MENU_STRING_TASK = "Task";
+    private static final String MENU_STRING_TASK = "Task";
     /** String for creation of SubTask menu*/
-    private static String MENU_STRING_SUBTASK = "Subtask";
+    private static final String MENU_STRING_SUBTASK = "Subtask";
     /** String for creation of exit menu*/
-    private static String MENU_STRING_EXIT = "Exit";
+    private static final String MENU_STRING_EXIT = "Exit";
 
     /**
      * Creates a file menu.
