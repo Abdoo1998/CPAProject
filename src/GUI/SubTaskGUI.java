@@ -26,8 +26,6 @@ import java.util.Map;
  */
 public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelectionListener {
 
-    /** A reference to the application*/
-    private CPAProjectApplicationGUI applicationReference;
     /** A reference to the dropdown label*/
     private JLabel dropdownLabel;
     /** A reference to the main task dropdown*/
@@ -60,12 +58,10 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
     /**
      * Constructs a subTaskGUI.
      * @param tasksToShow the list of all OverallTasks held in the GUI
-     * @param applicationReference the reference to the application running
      */
-    public SubTaskGUI(List<OverallTask> tasksToShow, CPAProjectApplicationGUI applicationReference) {
+    public SubTaskGUI(List<OverallTask> tasksToShow) {
         //List given must be of ALL Overall tasks
         super();
-        this.applicationReference = applicationReference;
         setTitle(FRAME_TITLE);
         setStringTaskMap(tasksToShow);
         setDropdownLabel();

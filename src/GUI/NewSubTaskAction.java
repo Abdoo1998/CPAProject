@@ -28,7 +28,7 @@ public class NewSubTaskAction extends AbstractAction {
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        SubTaskGUI subTaskGUI = new SubTaskGUI(applicationReference.getTasks(), applicationReference);
+        SubTaskGUI subTaskGUI = new SubTaskGUI(applicationReference.getTasks());
         SwingUtilities.invokeLater(subTaskGUI::showGUI);
     }
 }
