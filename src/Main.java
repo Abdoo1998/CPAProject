@@ -46,7 +46,7 @@ public class Main {
         s2.addDependency(s21);
         s2.addDependency(s22);
 
-        SubTaskGUI subTaskGUI = new SubTaskGUI(tasks, application);
+        SubTaskGUI subTaskGUI = new SubTaskGUI(tasks);
         javax.swing.SwingUtilities.invokeLater(subTaskGUI::showGUI);
 
 
