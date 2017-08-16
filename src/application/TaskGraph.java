@@ -14,6 +14,23 @@ public class TaskGraph {
     this.end   = new TaskGraphNode();
   }
 
+  public TaskGraphArc findArc(Task task) {
+    return recursiveFind(task, start);
+  }
+
+  private TaskGraphArc recursiveFind(Task task, TaskGraphNode currentNode) {
+    for (TaskGraphArc i : currentNode.getOutgoingArcs()) {
+      if (i.getTask().equals(task)) {
+        return i;
+      }
+      TaskGraphArc thisPath = recursiveFind(task, i.getChild());
+      if (thisPath != null) {
+        return thisPath;
+      }
+    }
+    return null;
+  }
+
   /**
    * It proceeds forward and recursively sets the degree of each
    * node to be the number of its incoming edges.

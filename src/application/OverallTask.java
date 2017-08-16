@@ -31,59 +31,122 @@ public class OverallTask extends Task {
     return startTime;
   }
 
+//  public TaskGraph generateGraph() {
+//    TaskGraph graph = new TaskGraph();
+//
+//    TaskGraphNode startNode = graph.getStartNode();
+//    TaskGraphNode endNode   = graph.getEndNode();
+//
+//    startNode.setEarliestCompletionTime(new Time(0,0));
+//    startNode.setLatestCompletionTime(new Time(0,0));
+//
+//    subTasks.stream()
+//            .filter(i -> i.getDependsOnMe().isEmpty())
+//            .forEach(j -> endNode.addIncomingArc(j, new TaskGraphNode()));
+//
+//    endNode.getIncomingArcs().forEach(i -> recurseBackwards(graph, i.getParent()));
+//
+//    return graph;
+//  }
+//
+//  private void recurseBackwards(TaskGraph graph, TaskGraphNode currentNode) {
+//    Set<TaskGraphArc> outgoingArcs = currentNode.getOutgoingArcs();
+//
+//    Set<Task> outgoingTasks = outgoingArcs.stream()
+//        .map(TaskGraphArc::getTask).collect(Collectors.toSet());
+//
+//    subTasks.stream()
+//            .filter(i -> anyOutgoingTaskDependsOnThis(i, outgoingTasks))
+//            .forEach(j -> {
+//              subTasks.remove(j);
+//              TaskGraphNode newParent;
+//
+//              newParent = subTasks.isEmpty() ? graph.getStartNode() : new
+//                  TaskGraphNode();
+//
+//              currentNode.addIncomingArc(j, newParent);
+//              subTasks.remove(j);
+//
+//              if (newParent != graph.getStartNode()) {
+//                recurseBackwards(graph, newParent);
+//              }
+//            });
+//
+//    ////////////////////////////////////////////////////////
+//    //////////////// STILL WORKING ON IT!!! ////////////////
+//    ////////////////////////////////////////////////////////
+//  }
+//
+//
+//  private boolean thisTaskDependsOnThat(Task thisTask, Task thatTask) {
+//    if (!(thisTask instanceof SubTask && thatTask instanceof SubTask)) {
+//      return false;
+//    }
+//
+//    return ((SubTask) thisTask).getDependencies().contains(thatTask);
+//  }
+//
+//  private boolean anyOutgoingTaskDependsOnThis(Task thisTask, Set<Task>
+//      outgoingTasks) {
+//
+//    for (Task t : outgoingTasks) {
+//      if (thisTaskDependsOnThat(t, thisTask)) {
+//        return true;
+//      }
+//    }
+//
+//    return false;
+//  }
+
   public TaskGraph generateGraph() {
     TaskGraph graph = new TaskGraph();
 
     TaskGraphNode startNode = graph.getStartNode();
-    TaskGraphNode endNode   = graph.getEndNode();
-
-    startNode.setEarliestCompletionTime(new Time(0,0));
-    startNode.setLatestCompletionTime((new Time(0,0)));
 
     subTasks.stream()
-            .filter(i -> i.getDependsOnMe().isEmpty())
-            .forEach(j -> {
-              endNode.addIncomingArc(j, new TaskGraphNode());
+        .filter(i -> i.getDependencies().isEmpty())
+        .forEach(startNode::addOutgoingArc);
 
-              // Not sure whether to remove from the set yet.
-              // subTasks.remove(j);
-            });
-
-    endNode.getIncomingArcs().forEach(i ->
-      {
-        TaskGraphNode currentNode = i.getParent();
-
-        subTasks.stream()
-            .filter(j -> j.getDependsOnMe().contains(i.getTask()))
-            .forEach(k -> currentNode.addIncomingArc(k, new TaskGraphNode()));
-      });
+    startNode.getOutgoingArcs().forEach(i -> recurseForward(graph, i));
 
     return graph;
   }
 
-  private void recurseBackwards(TaskGraph graph, TaskGraphNode currentNode) {
-//    SubTask outgoingTask = (SubTask) currentNode.getOutgoingArcs().getTask();
+  private void recurseForward(TaskGraph graph, TaskGraphArc currentArc) {
+    Set<SubTask> nextTasks = subTasks.stream()
+        .filter(i -> i.getDependencies().contains((SubTask) currentArc.getTask
+            ()))
+        .collect(Collectors.toSet());
 
-//    Set dependencies = subTasks.stream()
-//        .filter(i -> outgoingTask.getDependsOnMe().contains(i))
-//        .collect(Collectors.toSet());
+    if (nextTasks.isEmpty()) {
+      currentArc.setChild(graph.getEndNode());
+      return;
+    }
 
-//    if (dependencies.isEmpty()) {
-//      TaskGraphArc startingArc = currentNode.getOutgoingArc();
-//      startingArc.setParent(graph.getStartNode());
-////      graph.getStartNode().addOutgoingArc();
-//      currentNode.getOutgoingArc().setParent(graph.getStartNode());
-//    }
+    TaskGraphNode newNode = new TaskGraphNode();
+    currentArc.setChild(newNode);
 
-//    .forEach(j -> {
-//          TaskGraphNode newNode = new TaskGraphNode();
-//          currentNode.addIncomingArc(j, newNode);
-//          recurseBackwards(graph, newNode);
-//        });
+    nextTasks.forEach(i -> {
+      TaskGraphArc existingArc = graph.findArc(i);
+      if (existingArc != null) {
+        if (existingArc.getParent().getOutgoingArcs().size() > 1) {
+          TaskGraphNode intermediateNode = new TaskGraphNode();
+          intermediateNode.addOutgoingArc(existingArc.getTask());
+          existingArc.getParent().getOutgoingArcs().remove(existingArc);
+          TaskGraphArc.newDummy(existingArc.getParent(), intermediateNode);
+          TaskGraphArc.newDummy(newNode, intermediateNode);
+          existingArc.setParent(intermediateNode);
+
+        }
 
 
-    ////////////////////////////////////////////////////////
-    //////////////// STILL WORKING ON IT!!! ////////////////
-    ////////////////////////////////////////////////////////
+        TaskGraphArc.newDummy(newNode, existingArc.getParent());
+      } else {
+        newNode.addOutgoingArc(i);
+        recurseForward(graph, new TaskGraphArc(i, newNode, null));
+      }
+    });
   }
+
+
 }
