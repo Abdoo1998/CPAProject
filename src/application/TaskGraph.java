@@ -256,4 +256,43 @@ public class TaskGraph {
     graph.start = e1;
     graph.end = e10;
   }
+
+  //Test Cases for computing earliest and latest times
+  private void completionTimeTests() {
+    TaskGraphNode start = new TaskGraphNode();
+    TaskGraphNode A  = new TaskGraphNode();
+    TaskGraphNode B  = new TaskGraphNode();
+    TaskGraphNode C  = new TaskGraphNode();
+    TaskGraphNode D  = new TaskGraphNode();
+    TaskGraphNode E  = new TaskGraphNode();
+    TaskGraphNode F  = new TaskGraphNode();
+    TaskGraphNode G  = new TaskGraphNode();
+    TaskGraphNode H  = new TaskGraphNode();
+    TaskGraphNode I  = new TaskGraphNode();
+    TaskGraphNode J  = new TaskGraphNode();
+    TaskGraphNode end  = new TaskGraphNode();
+
+    TaskGraphArc arc1 = new TaskGraphArc(new SubTask(null, new Duration(0, 0)), start, A);
+    TaskGraphArc arc2 = new TaskGraphArc(new SubTask(null, new Duration(0, 0)), start, B);
+    TaskGraphArc arc3 = new TaskGraphArc(new SubTask(null, new Duration(0, 0)), start, C);
+
+    TaskGraphArc arc4 = new TaskGraphArc(new SubTask(null, new Duration(0, 7)), A, E);
+    TaskGraphArc arc5 = new TaskGraphArc(new SubTask(null, new Duration(0, 2)), B, E);
+
+    TaskGraphArc arc6 = new TaskGraphArc(new SubTask(null, new Duration(0, 10)), E, D);
+    TaskGraphArc arc7 = new TaskGraphArc(new SubTask(null, new Duration(0, 10)), E, G);
+
+    TaskGraphArc arc8 = new TaskGraphArc(new SubTask(null, new Duration(0, 8)), D, F);
+    TaskGraphArc arc9 = new TaskGraphArc(new SubTask(null, new Duration(0, 5)), G, F);
+
+    TaskGraphArc arc10 = new TaskGraphArc(new SubTask(null, new Duration(0, 5)), G, H);
+
+    TaskGraphArc arc11 = new TaskGraphArc(new SubTask(null, new Duration(0, 2)), F, I);
+    TaskGraphArc arc12 = new TaskGraphArc(new SubTask(null, new Duration(0, 15)), C, I);
+
+    TaskGraphArc arc13 = new TaskGraphArc(new SubTask(null, new Duration(0, 2)), I, J);
+
+    TaskGraphArc arc14 = new TaskGraphArc(new SubTask(null, new Duration(0, 3)), J, end);
+    TaskGraphArc arc15 = new TaskGraphArc(new SubTask(null, new Duration(0, 8)), H, end);
+  }
 }
