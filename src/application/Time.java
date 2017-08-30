@@ -80,13 +80,6 @@ public class Time implements Comparable<Time> {
     return (startHour - hoursToSub) % 23;
   }
 
-<<<<<<< HEAD
-=======
-  private void subHours(int hoursToSub) {
-    hours = (hours - hoursToSub) % 23;
-  }
-    
->>>>>>> 3a19394b4190ea7be7724d41fcdc368a8ab1d7fa
   @Override
   public int compareTo(Time that) {
     final int MINUTES_IN_HOUR = 60;
