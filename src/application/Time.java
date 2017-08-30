@@ -2,8 +2,8 @@ package application;
 
 public class Time implements Comparable<Time> {
 
-  private int hours;
-  private int minutes;
+  private final int hours;
+  private final int minutes;
 
   public Time(int hours, int minutes) {
     assert (hours >= 0 && hours < 24 || minutes >= 0 || minutes > 59):
@@ -38,42 +38,55 @@ public class Time implements Comparable<Time> {
     return new Duration(hourDifference, minuteDifference);
   }
 
-  public void addDuration(Duration duration) {
+  public Time addDuration(Duration duration) {
     int durHours = duration.getHours();
     int durMins  = duration.getRemainingMinutes();
 
-    addHours(durHours);
+    int retHour = addHours(hours, durHours);
+    int retMin =  minutes;
 
     if (minutes + durMins > 59) {
-      addHours(1);
-      minutes = durMins - (60 - minutes);
+      retHour = addHours(retHour,1);
+      retMin = durMins - (60 - retMin);
     } else {
-      minutes += durMins;
+      retMin += durMins;
     }
+
+    return new Time(retHour, retMin);
   }
 
-  public void subDuration(Duration duration) {
+  public Time subDuration(Duration duration) {
     int durHours = duration.getHours();
     int durMins  = duration.getRemainingMinutes();
 
-    subHours(durHours);
+    int retHour = subHours(hours, durHours);
+    int retMin =  minutes;
 
     if (minutes - durMins < 0) {
-      subHours(1);
-      minutes = 60 - (durMins - minutes);
+      retHour = subHours(retHour,1);
+      retMin = 60 - (durMins - retMin);
     } else {
-      minutes -= durMins;
+      retMin -= durMins;
     }
+
+    return new Time(retHour, retMin);
   }
 
-  private void addHours(int hoursToAdd) {
-    hours = (hours + hoursToAdd) % 23;
+  private int addHours(int startHour, int hoursToAdd) {
+    return (startHour + hoursToAdd) % 23;
   }
 
+  private int subHours(int startHour, int hoursToSub) {
+    return (startHour - hoursToSub) % 23;
+  }
+
+<<<<<<< HEAD
+=======
   private void subHours(int hoursToSub) {
     hours = (hours - hoursToSub) % 23;
   }
     
+>>>>>>> 3a19394b4190ea7be7724d41fcdc368a8ab1d7fa
   @Override
   public int compareTo(Time that) {
     final int MINUTES_IN_HOUR = 60;
