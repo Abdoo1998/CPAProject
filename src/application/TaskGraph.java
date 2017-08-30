@@ -14,6 +14,23 @@ public class TaskGraph {
     this.end   = new TaskGraphNode();
   }
 
+  public TaskGraphArc findArc(Task task) {
+    return recursiveFind(task, start);
+  }
+
+  private TaskGraphArc recursiveFind(Task task, TaskGraphNode currentNode) {
+    for (TaskGraphArc i : currentNode.getOutgoingArcs()) {
+      if (i.getTask().equals(task)) {
+        return i;
+      }
+      TaskGraphArc thisPath = recursiveFind(task, i.getChild());
+      if (thisPath != null) {
+        return thisPath;
+      }
+    }
+    return null;
+  }
+
   /**
    * It proceeds forward and recursively sets the degree of each
    * node to be the number of its incoming edges.
@@ -272,27 +289,66 @@ public class TaskGraph {
     TaskGraphNode J  = new TaskGraphNode();
     TaskGraphNode end  = new TaskGraphNode();
 
-    TaskGraphArc arc1 = new TaskGraphArc(new SubTask(null, new Duration(0, 0)), start, A);
-    TaskGraphArc arc2 = new TaskGraphArc(new SubTask(null, new Duration(0, 0)), start, B);
-    TaskGraphArc arc3 = new TaskGraphArc(new SubTask(null, new Duration(0, 0)), start, C);
+    TaskGraphArc StartToA = new TaskGraphArc(new SubTask(null, new Duration(0, 0)), start, A);
+    TaskGraphArc StartToB = new TaskGraphArc(new SubTask(null, new Duration(0, 0)), start, B);
+    TaskGraphArc StartToC = new TaskGraphArc(new SubTask(null, new Duration(0, 0)), start, C);
 
-    TaskGraphArc arc4 = new TaskGraphArc(new SubTask(null, new Duration(0, 7)), A, E);
-    TaskGraphArc arc5 = new TaskGraphArc(new SubTask(null, new Duration(0, 2)), B, E);
+    TaskGraphArc AToE = new TaskGraphArc(new SubTask(null, new Duration(0, 7)), A, E);
+    TaskGraphArc BToE = new TaskGraphArc(new SubTask(null, new Duration(0, 2)), B, E);
 
-    TaskGraphArc arc6 = new TaskGraphArc(new SubTask(null, new Duration(0, 10)), E, D);
-    TaskGraphArc arc7 = new TaskGraphArc(new SubTask(null, new Duration(0, 10)), E, G);
+    TaskGraphArc EToD = new TaskGraphArc(new SubTask(null, new Duration(0, 10)), E, D);
+    TaskGraphArc EToG = new TaskGraphArc(new SubTask(null, new Duration(0, 10)), E, G);
 
-    TaskGraphArc arc8 = new TaskGraphArc(new SubTask(null, new Duration(0, 8)), D, F);
-    TaskGraphArc arc9 = new TaskGraphArc(new SubTask(null, new Duration(0, 5)), G, F);
+    TaskGraphArc DToF = new TaskGraphArc(new SubTask(null, new Duration(0, 8)), D, F);
+    TaskGraphArc GToF = new TaskGraphArc(new SubTask(null, new Duration(0, 5)), G, F);
 
-    TaskGraphArc arc10 = new TaskGraphArc(new SubTask(null, new Duration(0, 5)), G, H);
+    TaskGraphArc GToH = new TaskGraphArc(new SubTask(null, new Duration(0, 5)), G, H);
 
-    TaskGraphArc arc11 = new TaskGraphArc(new SubTask(null, new Duration(0, 2)), F, I);
-    TaskGraphArc arc12 = new TaskGraphArc(new SubTask(null, new Duration(0, 15)), C, I);
+    TaskGraphArc FToI = new TaskGraphArc(new SubTask(null, new Duration(0, 2)), F, I);
+    TaskGraphArc CToI = new TaskGraphArc(new SubTask(null, new Duration(0, 15)), C, I);
 
-    TaskGraphArc arc13 = new TaskGraphArc(new SubTask(null, new Duration(0, 2)), I, J);
+    TaskGraphArc IToJ = new TaskGraphArc(new SubTask(null, new Duration(0, 2)), I, J);
 
-    TaskGraphArc arc14 = new TaskGraphArc(new SubTask(null, new Duration(0, 3)), J, end);
-    TaskGraphArc arc15 = new TaskGraphArc(new SubTask(null, new Duration(0, 8)), H, end);
+    TaskGraphArc JToEnd = new TaskGraphArc(new SubTask(null, new Duration(0, 3)), J, end);
+    TaskGraphArc HToEnd = new TaskGraphArc(new SubTask(null, new Duration(0, 8)), H, end);
+
+    start.setIncoming(makeTaskArcSet());
+    start.setOutgoing(makeTaskArcSet(StartToA, StartToB, StartToC));
+
+    A.setIncoming(makeTaskArcSet(AToE));
+    A.setOutgoing(makeTaskArcSet(AToE));
+
+    B.setIncoming(makeTaskArcSet(StartToB));
+    B.setOutgoing(makeTaskArcSet(BToE));
+
+    C.setIncoming(makeTaskArcSet(StartToC));
+    C.setOutgoing(makeTaskArcSet(CToI));
+
+    D.setIncoming(makeTaskArcSet(EToD));
+    D.setOutgoing(makeTaskArcSet(DToF));
+
+    E.setIncoming(makeTaskArcSet(AToE, BToE));
+    E.setOutgoing(makeTaskArcSet(EToD, EToG));
+
+    F.setIncoming(makeTaskArcSet(DToF, GToF));
+    F.setOutgoing(makeTaskArcSet(FToI));
+
+    G.setIncoming(makeTaskArcSet(EToG));
+    G.setOutgoing(makeTaskArcSet(GToF, GToH));
+
+    H.setIncoming(makeTaskArcSet(GToH));
+    H.setOutgoing(makeTaskArcSet(HToEnd));
+
+    I.setIncoming(makeTaskArcSet(FToI, CToI));
+    I.setOutgoing(makeTaskArcSet(IToJ));
+
+    J.setIncoming(makeTaskArcSet(IToJ));
+    J.setOutgoing(makeTaskArcSet(JToEnd));
+
+  }
+
+  //creates a set given the arcs in the argument
+  private Set<TaskGraphArc> makeTaskArcSet(TaskGraphArc... arcs) {
+    return Arrays.stream(arcs).collect(Collectors.toSet());
   }
 }

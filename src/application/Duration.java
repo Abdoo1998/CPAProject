@@ -28,6 +28,11 @@ public final class Duration {
     return (hours * MINUTES_IN_HOUR) + (SECONDS_IN_MIN * minutes);
   }
 
+  @Override
+  public String toString() {
+    return hours + ":" + minutes;
+  }
+
   public Time getEndTime(Time startTime) {
     int endHour = startTime.getHours()    + hours;
     int endMin  = startTime.getMinutes()  + minutes;

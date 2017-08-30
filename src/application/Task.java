@@ -17,4 +17,27 @@ public abstract class Task {
   public Duration getDuration() {
     return duration;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    Task task = (Task) o;
+
+    if (name != null ? !name.equals(task.name) : task.name != null)
+      return false;
+    return duration != null ? duration.equals(task.duration) : task.duration == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = name != null ? name.hashCode() : 0;
+    result = 31 * result + (duration != null ? duration.hashCode() : 0);
+    return result;
+  }
 }

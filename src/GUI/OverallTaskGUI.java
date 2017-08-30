@@ -17,16 +17,31 @@ import java.awt.event.WindowEvent;
  */
 public class OverallTaskGUI extends TaskGUI implements ActionListener {
 
+    /** A reference to the application GUI*/
+    private CPAProjectApplicationGUI applicationReference;
+    /** Label representing the starting time of the OverallTask*/
     private JLabel startTimeLabel;
+    /** Custom text field for time representing the to-be-inputted starting time*/
     private TimeTextField startTimeField;
+    /** Button representing the create button that will generate the OverallTask*/
     private JButton button;
 
+    //String constants
+    /** Starting time string*/
     private static final String START_TIME = "Start time";
+    /** Button string*/
     private static final String BUTTON_STRING = "Create";
+    /** Title of the OverallTaskGUI frame*/
     private static final String FRAME_TITLE = "Create New Task";
 
-    public OverallTaskGUI() {
+    /**
+     * OverallTaskGUI constructor. Sets the title to the FRAME_TITLE static constant.
+     * Initialises the starting time field, label and the create button, and lays out these
+     * components in the GUI.
+     */
+    public OverallTaskGUI(CPAProjectApplicationGUI applicationReference) {
         super();
+        this.applicationReference = applicationReference;
         setTitle(FRAME_TITLE);
         setStartTimeField();
         setStartTimeLabel();
@@ -34,20 +49,36 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         setOverallTaskLayout();
     }
 
+    /**
+     * Gets the starting Time in the start time field (custom time field).
+     * @return the starting time (Time object)
+     */
     public Time getStartTime() {
         return startTimeField.getTime();
     }
 
+    /**
+     * Initialises the start time field with the corresponding labels.
+     */
     private void setStartTimeField() {
+        //Constructor takes the text for the labels in between the number fields
         this.startTimeField = new TimeTextField("h", "m");
     }
 
+    /**
+     * Initialises the startint time label
+     */
     private void setStartTimeLabel() {
         this.startTimeLabel = new JLabel(START_TIME + ":");
+        //for accessibility reasons
         startTimeLabel.setLabelFor(startTimeField);
         startTimeLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
     }
 
+    /**
+     * Initialises the create button, adds the frame as its action listener
+     * and sets it as the default button
+     */
     private void setButton() {
 
         this.button = new JButton(BUTTON_STRING);
@@ -60,6 +91,10 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
 
     }
 
+    /**
+     * Lays out every component in the OverallTaskGUI. GridBagLayout is used, see Java tutorials
+     * for extra documentation on GridBagConstraints.
+     */
     private void setOverallTaskLayout() {
 
         //constraints for start time label
@@ -88,6 +123,11 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
 
     }
 
+    /**
+     * Called by the library itself when button is pressed, does nothing if all fields
+     * haven't been completed, else creates a new OverallTask
+     * @param actionEvent the event generated
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         //only action performed is the pressing of the button
@@ -99,7 +139,7 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
             //dont do anything
             return;
         }
-        setTask(new OverallTask(taskName, duration, startingTime));
+        applicationReference.addOverallTask(new OverallTask(taskName, duration, startingTime));
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 }

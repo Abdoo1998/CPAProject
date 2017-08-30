@@ -11,14 +11,22 @@ import java.text.ParseException;
  */
 public class TimeNumberFormatter extends NumberFormatter {
 
-    public TimeNumberFormatter() {
-        super();
-    }
-
+    /**
+     * Constructor for TimeNumberFormatter, simply calls super() with the format required
+     * @param numberFormat the number format that NumberFormatter will accept
+     */
     public TimeNumberFormatter(NumberFormat numberFormat) {
         super(numberFormat);
     }
 
+    /**
+     * Overrides the stringToValue method in NumberFormatter to return null when the supplied string to the
+     * formatter is empty. This allows the user to delete numbers in the number fields used in the TimeTextField
+     * component.
+     * @param s string to parse
+     * @return the value given by the string parameter
+     * @throws ParseException
+     */
     @Override
     public Object stringToValue(String s) throws ParseException {
         if (s.equals("")) {
