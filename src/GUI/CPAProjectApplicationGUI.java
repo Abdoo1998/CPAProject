@@ -87,7 +87,7 @@ public class CPAProjectApplicationGUI extends JFrame {
     public void addOverallTask(OverallTask task) {
         tasks.add(task);
         Dimension componentDimension = new Dimension(OVERALL_TASK_VIEW_COMPONENT_WIDTH, OVERALL_TASK_VIEW_COMPONENT_HEIGHT);
-        OverallTaskViewComponent overallTaskViewComponent = new OverallTaskViewComponent(task, componentDimension);
+        OverallTaskViewComponent overallTaskViewComponent = new OverallTaskViewComponent(this, task, componentDimension);
 
         //constraints for the nth component, with row and column limits specified by constants
         GridBagConstraints constraints = new GridBagConstraints();
@@ -210,4 +210,11 @@ public class CPAProjectApplicationGUI extends JFrame {
         optimalPlanView.setFont(FontCollection.DEFAULT_FONT_PLAIN);
     }
 
+    /**
+     * Gets the tabbed pane of the application.
+     * @return the JTabbedPane representing the tabbed pane of the application.
+     */
+    public JTabbedPane getTabbedPane() {
+        return tabbedPane;
+    }
 }

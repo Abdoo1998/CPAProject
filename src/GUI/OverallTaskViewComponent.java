@@ -15,6 +15,10 @@ import java.awt.event.MouseListener;
  */
 public class OverallTaskViewComponent extends JPanel implements MouseListener {
 
+    /** Reference to the application*/
+    private CPAProjectApplicationGUI applicationReference;
+    /** The task to represent*/
+    private OverallTask task;
     /** Label representing the name of the OverallTask*/
     private final JLabel name;
     /** Label representing the duration of the OverallTask*/
@@ -34,7 +38,9 @@ public class OverallTaskViewComponent extends JPanel implements MouseListener {
      * @param task the overall task to represent with the component
      * @param dimension the dimension of the component
      */
-    public OverallTaskViewComponent(OverallTask task, Dimension dimension) {
+    public OverallTaskViewComponent(CPAProjectApplicationGUI applicationReference, OverallTask task, Dimension dimension) {
+        this.applicationReference = applicationReference;
+        this.task = task;
         this.name = new JLabel(task.getTaskName());
         name.setFont(FontCollection.BIG_BOLD_FONT);
         this.duration = new JLabel("Duration: " + task.getDuration().toString());
@@ -78,7 +84,12 @@ public class OverallTaskViewComponent extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-
+        OverallTaskViewComponent overallTaskViewComponent = (OverallTaskViewComponent) mouseEvent.getSource();
+        applicationReference.getTabbedPane()
+                .addTab(overallTaskViewComponent.name.getText(),
+                        new TaskDataPanel(applicationReference, task));
+        //TODO: HANDLE WHEN TOO MANY TABS ARE ADDED
+        //TODO: ADD REMOVE BUTTON FOR TAB
     }
 
     @Override

@@ -204,6 +204,7 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         GridBagConstraints dropdownLabelConstraints = new GridBagConstraints();
         dropdownLabelConstraints.gridx = 0;
         dropdownLabelConstraints.gridy = 2;
+        dropdownLabelConstraints.weightx = 0.5;
         dropdownLabelConstraints.fill = GridBagConstraints.NONE;
         dropdownLabelConstraints.insets = DEFAULT_INSETS;
         add(dropdownLabel, dropdownLabelConstraints);
