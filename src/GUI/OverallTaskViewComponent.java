@@ -85,10 +85,12 @@ public class OverallTaskViewComponent extends JPanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         OverallTaskViewComponent overallTaskViewComponent = (OverallTaskViewComponent) mouseEvent.getSource();
-        applicationReference.getTabbedPane()
-                .addTab(overallTaskViewComponent.name.getText(),
-                        new TaskDataPanel(applicationReference, task));
-        //TODO: HANDLE WHEN TOO MANY TABS ARE ADDED
+        JTabbedPane pane = applicationReference.getTabbedPane();
+        TaskDataPanel taskDataPanel = new TaskDataPanel(applicationReference, task);
+        pane.addTab(task.getTaskName(), taskDataPanel);
+
+        pane.setTabComponentAt(pane.indexOfComponent(taskDataPanel),
+                new RemovableTabComponent(task.getTaskName(), pane, taskDataPanel));
         //TODO: ADD REMOVE BUTTON FOR TAB
     }
 
@@ -109,4 +111,8 @@ public class OverallTaskViewComponent extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent mouseEvent) {
         setBackground(initialColor);
     }
+
+
+
+
 }
