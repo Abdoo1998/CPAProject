@@ -91,7 +91,6 @@ public class OverallTaskViewComponent extends JPanel implements MouseListener {
 
         pane.setTabComponentAt(pane.indexOfComponent(taskDataPanel),
                 new RemovableTabComponent(task.getTaskName(), pane, taskDataPanel));
-        //TODO: ADD REMOVE BUTTON FOR TAB
     }
 
     @Override

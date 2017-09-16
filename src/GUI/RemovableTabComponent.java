@@ -9,6 +9,8 @@ public class RemovableTabComponent extends JPanel {
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel label = new JLabel(taskName);
         label.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        //sets it to be transparent
+        setOpaque(false);
         add(label);
         //adds space between label and button
         JButton removeButton = new RemoveButton(pane, this);

@@ -23,7 +23,7 @@ public class RemoveButton extends JButton implements ActionListener, MouseListen
         setUI(new BasicButtonUI());
         setSize(new Dimension(5, 5));
         //add invisible borders top and left
-        setBorder(BorderFactory.createEmptyBorder(2, 10, 0, 0));
+        setBorder(BorderFactory.createEmptyBorder(2, 15, 0, 0));
         //make button transparent
         setContentAreaFilled(false);
         setFocusable(false);
