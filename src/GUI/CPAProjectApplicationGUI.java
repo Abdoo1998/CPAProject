@@ -158,6 +158,8 @@ public class CPAProjectApplicationGUI extends JFrame {
         //add tabs
         tabbedPane.addTab(TASK_VIEW_TAB_STRING, taskView);
         tabbedPane.addTab(OPTIMAL_VIEW_TAB_STRING, optimalPlanView);
+        //sets policy for when there are too many tabs in the pane
+        tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         //add tabbed pane itself to main frame
         add(tabbedPane);
     }
