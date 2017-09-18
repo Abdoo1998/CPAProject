@@ -1,4 +1,9 @@
-package GUI;
+package GUI.menus;
+
+import GUI.*;
+import GUI.menus.actions.ExitAction;
+import GUI.menus.actions.NewOverallTaskAction;
+import GUI.menus.actions.NewSubTaskAction;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

@@ -1,4 +1,6 @@
-package GUI;
+package GUI.menus.actions;
+
+import GUI.CPAProjectApplicationGUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,14 +1,17 @@
-package GUI;
+package GUI.menus.actions;
+
+import GUI.CPAProjectApplicationGUI;
+import GUI.OverallTaskGUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Class representing the intention of the user of creating a new SubTask
+ * Action representing the intention of the user of creating a new Overall Task
  *
  * @author gorosgobe
  */
-public class NewSubTaskAction extends AbstractAction {
+public class NewOverallTaskAction extends AbstractAction {
 
     /** A reference to the application GUI*/
     private CPAProjectApplicationGUI applicationReference;
@@ -17,7 +20,7 @@ public class NewSubTaskAction extends AbstractAction {
      * Constructor for the action. Calls super and initialises the application GUI field
      * @param applicationReference a reference to the CPAProjectApplicationGUI
      */
-    public NewSubTaskAction(CPAProjectApplicationGUI applicationReference) {
+    public NewOverallTaskAction(CPAProjectApplicationGUI applicationReference) {
         super();
         this.applicationReference = applicationReference;
     }
@@ -28,7 +31,7 @@ public class NewSubTaskAction extends AbstractAction {
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        SubTaskGUI subTaskGUI = new SubTaskGUI(applicationReference.getTasks());
-        SwingUtilities.invokeLater(subTaskGUI::showGUI);
+        OverallTaskGUI overallTask = new OverallTaskGUI(applicationReference);
+        javax.swing.SwingUtilities.invokeLater(overallTask::showGUI);
     }
 }
