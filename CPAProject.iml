@@ -41,20 +41,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/jcommon-1.0.23/jcommon-1.0.23.jar!/" />
+          <root url="file://$MODULE_DIR$/src/jfreechart-1.0.19" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/src/jfreechart-1.0.19/lib" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/src/jfreechart-1.0.19/lib" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/src/jfreechart-1.0.19" recursive="false" />
       </library>
     </orderEntry>
   </component>
