@@ -1,5 +1,4 @@
 import GUI.CPAProjectApplicationGUI;
-import GUI.SubTaskGUI;
 import application.Duration;
 import application.OverallTask;
 import application.SubTask;
@@ -46,8 +45,8 @@ public class Main {
         s2.addDependency(s21);
         s2.addDependency(s22);
 
-        SubTaskGUI subTaskGUI = new SubTaskGUI(tasks);
-        javax.swing.SwingUtilities.invokeLater(subTaskGUI::showGUI);
+//        SubTaskGUI subTaskGUI = new SubTaskGUI(tasks);
+//        javax.swing.SwingUtilities.invokeLater(subTaskGUI::showGUI);
 
 
         application.addOverallTask((OverallTask) t2);

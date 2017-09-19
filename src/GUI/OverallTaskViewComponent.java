@@ -87,10 +87,15 @@ public class OverallTaskViewComponent extends JPanel implements MouseListener {
         OverallTaskViewComponent overallTaskViewComponent = (OverallTaskViewComponent) mouseEvent.getSource();
         JTabbedPane pane = applicationReference.getTabbedPane();
         TaskDataPanel taskDataPanel = new TaskDataPanel(applicationReference, task);
+        //adds tab to tabbed pane
         pane.addTab(task.getTaskName(), taskDataPanel);
-
-        pane.setTabComponentAt(pane.indexOfComponent(taskDataPanel),
+        int index = pane.indexOfComponent(taskDataPanel);
+        //sets the top component of the tab, where the title is located, adding the remove icon
+        pane.setTabComponentAt(index,
                 new RemovableTabComponent(task.getTaskName(), pane, taskDataPanel));
+        //sets current view to be newly added tab
+        pane.setSelectedIndex(index);
+
     }
 
     @Override
