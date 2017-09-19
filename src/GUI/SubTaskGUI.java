@@ -205,7 +205,8 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         dropdownLabelConstraints.gridx = 0;
         dropdownLabelConstraints.gridy = 2;
         dropdownLabelConstraints.weightx = 0.5;
-        dropdownLabelConstraints.fill = GridBagConstraints.NONE;
+        dropdownLabelConstraints.weighty = 0.5;
+        dropdownLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
         dropdownLabelConstraints.insets = DEFAULT_INSETS;
         add(dropdownLabel, dropdownLabelConstraints);
 
@@ -213,7 +214,9 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         GridBagConstraints taskDropdownConstraints = new GridBagConstraints();
         taskDropdownConstraints.gridx = 1;
         taskDropdownConstraints.gridy = 2;
-        taskDropdownConstraints.fill = GridBagConstraints.NONE;
+        taskDropdownConstraints.weightx = 0.5;
+        taskDropdownConstraints.weighty = 0.5;
+        taskDropdownConstraints.fill = GridBagConstraints.HORIZONTAL;
         taskDropdownConstraints.insets = DEFAULT_INSETS;
         taskDropdownConstraints.gridwidth = 2;
         add(taskDropdown, taskDropdownConstraints);
@@ -222,7 +225,9 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         GridBagConstraints selectLabelConstraints = new GridBagConstraints();
         selectLabelConstraints.gridx = 0;
         selectLabelConstraints.gridy = 3;
-        selectLabelConstraints.fill = GridBagConstraints.NONE;
+        selectLabelConstraints.weightx = 0.5;
+        selectLabelConstraints.weighty = 0.5;
+        selectLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
         selectLabelConstraints.insets = DEFAULT_INSETS;
         add(selectedLabel, selectLabelConstraints);
 
@@ -230,7 +235,9 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         GridBagConstraints selectedNodeConstraints = new GridBagConstraints();
         selectedNodeConstraints.gridx = 1;
         selectedNodeConstraints.gridy = 3;
-        selectedNodeConstraints.fill = GridBagConstraints.NONE;
+        selectedNodeConstraints.weightx = 0.5;
+        selectedNodeConstraints.weighty = 0.5;
+        selectedNodeConstraints.fill = GridBagConstraints.HORIZONTAL;
         selectedNodeConstraints.insets = DEFAULT_INSETS;
         add(selectedNode, selectedNodeConstraints);
 
@@ -240,6 +247,7 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         scrollPaneConstraints.gridy = 4;
         scrollPaneConstraints.gridwidth = 2;
         scrollPaneConstraints.gridheight = 2;
+        //no weightx and weight y as we want it in the middle
         scrollPaneConstraints.fill = GridBagConstraints.HORIZONTAL;
         scrollPaneConstraints.insets = DEFAULT_INSETS;
         scrollPaneConstraints.gridwidth = 2;
@@ -249,7 +257,10 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         GridBagConstraints buttonConstraints = new GridBagConstraints();
         buttonConstraints.gridx = 1;
         buttonConstraints.gridy = 6;
+        buttonConstraints.weightx = 0.5;
+        buttonConstraints.weighty = 0.5;
         buttonConstraints.fill = GridBagConstraints.NONE;
+        buttonConstraints.anchor = GridBagConstraints.LAST_LINE_END;
         buttonConstraints.insets = DEFAULT_INSETS;
         add(button, buttonConstraints);
 
