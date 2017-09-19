@@ -127,15 +127,18 @@ public class TimeTextField extends JPanel {
         GridBagConstraints hourConstraints = new GridBagConstraints();
         hourConstraints.gridx = 0;
         hourConstraints.gridy = 0;
-        hourConstraints.fill = GridBagConstraints.NONE;
-        hourConstraints.insets = new Insets(0, 5, 0, 0);
+        hourConstraints.weightx = 0.5;
+        hourConstraints.weighty = 0.5;
+        hourConstraints.fill = GridBagConstraints.HORIZONTAL;
         add(hours, hourConstraints);
 
         //constraints for hour label
         GridBagConstraints hourSymbolConstraints = new GridBagConstraints();
         hourSymbolConstraints.gridx = 1;
         hourSymbolConstraints.gridy = 0;
-        hourSymbolConstraints.fill = GridBagConstraints.NONE;
+        hourSymbolConstraints.weightx = 0.5;
+        hourSymbolConstraints.weighty= 0.5;
+        hourSymbolConstraints.fill = GridBagConstraints.HORIZONTAL;
         hourSymbolConstraints.insets = new Insets(0, 5, 0, 5);
         add(hourSymbol, hourSymbolConstraints);
 
@@ -143,7 +146,9 @@ public class TimeTextField extends JPanel {
         GridBagConstraints minuteConstraints = new GridBagConstraints();
         minuteConstraints.gridx = 2;
         minuteConstraints.gridy = 0;
-        minuteConstraints.fill = GridBagConstraints.NONE;
+        minuteConstraints.weightx = 0.5;
+        minuteConstraints.weighty = 0.5;
+        minuteConstraints.fill = GridBagConstraints.HORIZONTAL;
         minuteConstraints.insets = new Insets(0, 5, 0, 5);
         add(minutes, minuteConstraints);
 
@@ -151,7 +156,9 @@ public class TimeTextField extends JPanel {
         GridBagConstraints minuteSymbolConstraints = new GridBagConstraints();
         minuteSymbolConstraints.gridx = 3;
         minuteSymbolConstraints.gridy = 0;
-        minuteSymbolConstraints.fill = GridBagConstraints.NONE;
+        minuteSymbolConstraints.weightx = 0.5;
+        minuteSymbolConstraints.weighty = 0.5;
+        minuteSymbolConstraints.fill = GridBagConstraints.HORIZONTAL;
         minuteSymbolConstraints.insets = new Insets(0, 0, 0, 5);
         add(minuteSymbol, minuteSymbolConstraints);
     }

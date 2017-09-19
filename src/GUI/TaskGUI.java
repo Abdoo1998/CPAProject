@@ -171,7 +171,9 @@ public abstract class TaskGUI extends JFrame {
         GridBagConstraints taskNameLabelConstraints = new GridBagConstraints();
         taskNameLabelConstraints.gridx = 0;
         taskNameLabelConstraints.gridy = 0;
-        taskNameLabelConstraints.fill = GridBagConstraints.NONE;
+        taskNameLabelConstraints.weightx = 0.5;
+        taskNameLabelConstraints.weighty = 0.5;
+        taskNameLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
         taskNameLabelConstraints.insets = TOP_DEFAULT_INSETS;
         getContentPane().add(taskNameLabel, taskNameLabelConstraints);
 
@@ -179,7 +181,9 @@ public abstract class TaskGUI extends JFrame {
         GridBagConstraints taskNameFieldConstraints = new GridBagConstraints();
         taskNameFieldConstraints.gridx = 1;
         taskNameFieldConstraints.gridy = 0;
-        taskNameFieldConstraints.fill = GridBagConstraints.NONE;
+        taskNameFieldConstraints.weightx = 0.5;
+        taskNameFieldConstraints.weighty = 0.5;
+        taskNameFieldConstraints.fill = GridBagConstraints.HORIZONTAL;
         taskNameFieldConstraints.insets = TOP_DEFAULT_INSETS;
         getContentPane().add(taskNameField, taskNameFieldConstraints);
 
@@ -188,7 +192,9 @@ public abstract class TaskGUI extends JFrame {
         GridBagConstraints durationLabelConstraints = new GridBagConstraints();
         durationLabelConstraints.gridx = 0;
         durationLabelConstraints.gridy = 1;
-        durationLabelConstraints.fill = GridBagConstraints.NONE;
+        durationLabelConstraints.weightx = 0.5;
+        durationLabelConstraints.weighty = 0.5;
+        durationLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
         durationLabelConstraints.insets = DEFAULT_INSETS;
         getContentPane().add(durationLabel, durationLabelConstraints);
 
@@ -197,7 +203,9 @@ public abstract class TaskGUI extends JFrame {
         GridBagConstraints durationFieldConstraints = new GridBagConstraints();
         durationFieldConstraints.gridx = 1;
         durationFieldConstraints.gridy = 1;
-        durationFieldConstraints.fill = GridBagConstraints.NONE;
+        durationFieldConstraints.weightx = 0.5;
+        durationFieldConstraints.weighty = 0.5;
+        durationFieldConstraints.fill = GridBagConstraints.HORIZONTAL;
         durationFieldConstraints.insets = DEFAULT_INSETS;
         getContentPane().add(durationField, durationFieldConstraints);
 
