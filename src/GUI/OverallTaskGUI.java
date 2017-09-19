@@ -64,6 +64,10 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         return startTimeField.getTime();
     }
 
+    public String getDescription() {
+        return description.getText();
+    }
+
     /**
      * Initialises the start time field with the corresponding labels.
      */
@@ -188,12 +192,13 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         String taskName = getTaskNameText();
         Duration duration = getDuration();
         Time startingTime = getStartTime();
+        String descriptionString = getDescription();
         //error checking
         if (taskName.equals("") || duration == null || startingTime == null) {
-            //dont do anything
+            //dont do anything, description is optional
             return;
         }
-        applicationReference.addOverallTask(new OverallTask(taskName, duration, startingTime));
+        applicationReference.addOverallTask(new OverallTask(taskName, duration, startingTime, descriptionString));
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 }
