@@ -12,6 +12,7 @@ import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -27,33 +28,63 @@ public class TaskDataPanel extends JPanel {
     private CPAProjectApplicationGUI applicationReference;
     /** The task to be a data panel of*/
     private OverallTask task;
+    /** The scroll pane holding the gantt chart*/
+    private JScrollPane ganttScrollPane;
     /** The Gantt Chart to represent the dependencies of the OverallTask*/
-    private JFreeChart ganttChart;
+    private ChartPanel ganttChartPanel;
+
+    //Default constants
+    /** String used when no description was provided by the user*/
+    private static final String DEFAULT_NO_DESCRIPTION = "No description was provided by the user";
+    private static final int VERTICAL_SCROLL_BAR_SPEED = 18;
+
+
 
 
     public TaskDataPanel(CPAProjectApplicationGUI applicationReference, OverallTask task) {
         this.applicationReference = applicationReference;
         this.task = task;
+        //sets the gridbag layout
+        this.setLayout(new GridBagLayout());
 
         IntervalCategoryDataset dataset = createDataset();
 
-        this.ganttChart = ChartFactory.createGanttChart(
-                task.getTaskName(),
-                "Subtasks",
-                "Date",
+        JFreeChart ganttChart = ChartFactory.createGanttChart(
+                "",
+                "",
+                "",
                 dataset,
                 true,
-                false,
+                true,
                 false
         );
 
-        final ChartPanel chartPanel = new ChartPanel(ganttChart);
-        //disables the free chart menu
-        chartPanel.setPopupMenu(null);
-        add(chartPanel);
+
+        this.ganttChartPanel = new ChartPanel(ganttChart);
+        ganttChartPanel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        //disables the menu
+        ganttChartPanel.setPopupMenu(null);
+
+        //sets the scroll pane
+        setScrollPane();
+
+        //sets preferred size for chart panel and scroll pane
+        ganttChartPanel.setPreferredSize(new Dimension(CPAProjectApplicationGUI.APPLICATION_WIDTH - 500,
+                (int) ((CPAProjectApplicationGUI.APPLICATION_HEIGHT - 100) / 1.5)));
+
+        ganttScrollPane.setPreferredSize(new Dimension(CPAProjectApplicationGUI.APPLICATION_WIDTH - 300,
+                (CPAProjectApplicationGUI.APPLICATION_HEIGHT - 100) / 2));
+        //sets vertical speed of scroll
+        ganttScrollPane.getVerticalScrollBar().setUnitIncrement(VERTICAL_SCROLL_BAR_SPEED);
+        //sets layout
+        setCustomLayout();
     }
 
-    private IntervalCategoryDataset createDataset() {
+    public JFreeChart getGanttChart() {
+        return ganttChartPanel.getChart();
+    }
+
+    private TaskSeriesCollection createDataset() {
         TaskSeries dependencies = new TaskSeries("Dependencies of " + task.getTaskName() + " task");
 
         if (task.getAllSubTasks().isEmpty()) {
@@ -95,5 +126,26 @@ public class TaskDataPanel extends JPanel {
 
     private void optimise() {
         //TODO: COMPLETE, THIS METHOD IS CALLED WHEN CPA IS EVALUATED ON THE GANTT CHART
+    }
+
+    private void setScrollPane() {
+      this.ganttScrollPane = new JScrollPane(ganttChartPanel);
+      ganttScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+      ganttScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    }
+
+    private void setCustomLayout() {
+
+        //constraints for scrollpane with gantt chart
+        GridBagConstraints scrollPaneGanttConstraints = new GridBagConstraints();
+        scrollPaneGanttConstraints.gridx = 0;
+        scrollPaneGanttConstraints.gridy = 3;
+        scrollPaneGanttConstraints.weightx = 0.5;
+        scrollPaneGanttConstraints.weighty = 1;
+        scrollPaneGanttConstraints.gridheight = 10;
+        scrollPaneGanttConstraints.insets = new Insets(0, 30, 20, 30);
+        scrollPaneGanttConstraints.anchor = GridBagConstraints.PAGE_END;
+        scrollPaneGanttConstraints.fill = GridBagConstraints.NONE;
+        add(ganttScrollPane, scrollPaneGanttConstraints);
     }
 }

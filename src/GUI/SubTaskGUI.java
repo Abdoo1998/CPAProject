@@ -176,7 +176,6 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         //this is done outside of setTreeView because otherwise upon selection of Tasks on the
         //task dropdown JComboBox, the treePanel wouldn't update
         this.treePanel = new JScrollPane(tree);
-        add(treePanel);
     }
 
     /**
