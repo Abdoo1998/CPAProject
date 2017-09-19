@@ -101,7 +101,9 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         GridBagConstraints startTimeLabelConstraints = new GridBagConstraints();
         startTimeLabelConstraints.gridx = 0;
         startTimeLabelConstraints.gridy = 2;
-        startTimeLabelConstraints.fill = GridBagConstraints.NONE;
+        startTimeLabelConstraints.weightx = 0.5;
+        startTimeLabelConstraints.weighty = 0.5;
+        startTimeLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
         startTimeLabelConstraints.insets = DEFAULT_INSETS;
         getContentPane().add(startTimeLabel, startTimeLabelConstraints);
 
@@ -109,7 +111,9 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         GridBagConstraints startTimeFieldConstraints = new GridBagConstraints();
         startTimeFieldConstraints.gridx = 1;
         startTimeFieldConstraints.gridy = 2;
-        startTimeFieldConstraints.fill = GridBagConstraints.NONE;
+        startTimeFieldConstraints.weightx = 0.5;
+        startTimeFieldConstraints.weighty = 0.5;
+        startTimeFieldConstraints.fill = GridBagConstraints.HORIZONTAL;
         startTimeFieldConstraints.insets = DEFAULT_INSETS;
         getContentPane().add(startTimeField, startTimeFieldConstraints);
 
@@ -117,7 +121,10 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         GridBagConstraints buttonConstraints = new GridBagConstraints();
         buttonConstraints.gridx = 1;
         buttonConstraints.gridy = 3;
+        buttonConstraints.weightx = 0.5;
+        buttonConstraints.weighty = 0.5;
         buttonConstraints.fill = GridBagConstraints.NONE;
+        buttonConstraints.anchor = GridBagConstraints.LAST_LINE_END;
         buttonConstraints.insets = DEFAULT_INSETS;
         getContentPane().add(button, buttonConstraints);
 
