@@ -23,6 +23,10 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
     private JLabel startTimeLabel;
     /** Custom text field for time representing the to-be-inputted starting time*/
     private TimeTextField startTimeField;
+    /** Label representing the description label*/
+    private JLabel descriptionLabel;
+    /** Text area representing the description of the OverallTask*/
+    private JTextArea description;
     /** Button representing the create button that will generate the OverallTask*/
     private JButton button;
 
@@ -33,6 +37,8 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
     private static final String BUTTON_STRING = "Create";
     /** Title of the OverallTaskGUI frame*/
     private static final String FRAME_TITLE = "Create New Task";
+    /** Description string*/
+    private static final String DESCRIPTION_LABEL = "Description: ";
 
     /**
      * OverallTaskGUI constructor. Sets the title to the FRAME_TITLE static constant.
@@ -45,6 +51,7 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         setTitle(FRAME_TITLE);
         setStartTimeField();
         setStartTimeLabel();
+        setDescription();
         setButton();
         setOverallTaskLayout();
     }
@@ -66,13 +73,31 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
     }
 
     /**
-     * Initialises the startint time label
+     * Initialises the starting time label
      */
     private void setStartTimeLabel() {
         this.startTimeLabel = new JLabel(START_TIME + ":");
         //for accessibility reasons
         startTimeLabel.setLabelFor(startTimeField);
         startTimeLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+    }
+
+    /**
+     * Initialises the description label and the description text area.
+     */
+    private void setDescription() {
+        this.descriptionLabel = new JLabel(DESCRIPTION_LABEL);
+        descriptionLabel.setLabelFor(description);
+        descriptionLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+
+        //creates JTextArea with expected width 10 and height 20, just used so it is displayed properly (ignore numbers)
+        this.description = new JTextArea(10, 20);
+        description.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        //disables one single line text area
+        description.setLineWrap(true);
+        //sets the area to wrap around words and not characters
+        description.setWrapStyleWord(true);
+        description.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
     }
 
     /**
@@ -117,10 +142,32 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         startTimeFieldConstraints.insets = DEFAULT_INSETS;
         getContentPane().add(startTimeField, startTimeFieldConstraints);
 
+        //constraints for description label
+        GridBagConstraints descriptionLabelConstraints = new GridBagConstraints();
+        descriptionLabelConstraints.gridx = 0;
+        descriptionLabelConstraints.gridy = 3;
+        descriptionLabelConstraints.weightx = 0.5;
+        descriptionLabelConstraints.weighty = 0.5;
+        descriptionLabelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        descriptionLabelConstraints.insets = DEFAULT_INSETS;
+        getContentPane().add(descriptionLabel, descriptionLabelConstraints);
+
+        //constraints for description
+        GridBagConstraints descriptionConstraints = new GridBagConstraints();
+        descriptionConstraints.gridx = 0;
+        descriptionConstraints.gridy = 4;
+        descriptionConstraints.gridwidth = 2;
+        descriptionConstraints.gridheight = 2;
+        descriptionConstraints.weightx = 0.5;
+        descriptionConstraints.weighty = 0.5;
+        descriptionConstraints.fill = GridBagConstraints.HORIZONTAL;
+        descriptionConstraints.insets = DEFAULT_INSETS;
+        getContentPane().add(description, descriptionConstraints);
+
         //constraints for button
         GridBagConstraints buttonConstraints = new GridBagConstraints();
         buttonConstraints.gridx = 1;
-        buttonConstraints.gridy = 3;
+        buttonConstraints.gridy = 6;
         buttonConstraints.weightx = 0.5;
         buttonConstraints.weighty = 0.5;
         buttonConstraints.fill = GridBagConstraints.NONE;

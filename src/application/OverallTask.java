@@ -7,12 +7,28 @@ import java.util.stream.Collectors;
 public class OverallTask extends Task {
 
   private final Time startTime;
+  private String description = "";
   private final Set<SubTask> subTasks;
 
   public OverallTask(String name, Duration duration, Time startTime) {
     super(name, duration);
     this.startTime = startTime;
     this.subTasks = new HashSet<>();
+  }
+
+  public OverallTask(String name, Duration duration, Time startTime, String description) {
+    super(name, duration);
+    this.startTime = startTime;
+    this.description = description;
+    this.subTasks = new HashSet<>();
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Set<SubTask> getAllSubTasks() {
