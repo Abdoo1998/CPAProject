@@ -30,9 +30,9 @@ public abstract class TaskGUI extends JFrame {
 
     //Strings used in TASKGUI
     /** Static string representing the label for the name of the task to be shown*/
-    private static final String TASK_STRING = "Task name";
+    static final String TASK_STRING = "Task name";
     /** Static string representing label for the duration to be shown */
-    private static final String DURATION_STRING = "Duration";
+    static final String DURATION_STRING = "Duration";
 
     /*Default fields*/
     /** Constant representing the default column size required by text fields*/

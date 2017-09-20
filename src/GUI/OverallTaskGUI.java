@@ -32,13 +32,13 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
 
     //String constants
     /** Starting time string*/
-    private static final String START_TIME = "Start time";
+    static final String START_TIME = "Start time";
     /** Button string*/
     private static final String BUTTON_STRING = "Create";
     /** Title of the OverallTaskGUI frame*/
     private static final String FRAME_TITLE = "Create New Task";
     /** Description string*/
-    private static final String DESCRIPTION_LABEL = "Description: ";
+    static final String DESCRIPTION_LABEL = "Description";
 
     /**
      * OverallTaskGUI constructor. Sets the title to the FRAME_TITLE static constant.
@@ -90,7 +90,7 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
      * Initialises the description label and the description text area.
      */
     private void setDescription() {
-        this.descriptionLabel = new JLabel(DESCRIPTION_LABEL);
+        this.descriptionLabel = new JLabel(DESCRIPTION_LABEL + ": ");
         descriptionLabel.setLabelFor(description);
         descriptionLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 

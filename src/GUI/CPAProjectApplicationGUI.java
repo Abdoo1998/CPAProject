@@ -36,9 +36,9 @@ public class CPAProjectApplicationGUI extends JFrame {
     /** Title for the Optimal View tab*/
     private static final String OPTIMAL_VIEW_TAB_STRING = "Optimal Plan View";
     /** Application width*/
-    public static final int APPLICATION_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
+    static final int APPLICATION_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
     /** Application height*/
-    public static final int APPLICATION_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height - 100;
+    static final int APPLICATION_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height - 100;
     /** Menu width*/
     private static final int MENU_WIDTH = APPLICATION_WIDTH;
     /** Menu height*/
