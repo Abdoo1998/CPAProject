@@ -163,7 +163,9 @@ public class TaskDataPanel extends JPanel {
     private void setGeneralTaskPanel() {
         this.generalTaskPanel = new JPanel();
 
-        Dimension separationDimension = new Dimension(0, 10);
+        Dimension separationDimension1 = new Dimension(0, 10);
+        Dimension separationDimension2 = new Dimension(0, 5);
+
 
         this.namePanel = new JPanel();
         this.durationPanel = new JPanel();
@@ -183,7 +185,7 @@ public class TaskDataPanel extends JPanel {
         durationPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel durationNameLabel = new JLabel(TaskGUI.DURATION_STRING + ": ");
         durationNameLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        JLabel durationLabel = new JLabel(task.getDuration().toString());
+        JLabel durationLabel = new JLabel(task.getDuration().toString() + " hrs");
         durationLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         durationPanel.add(durationNameLabel);
         durationPanel.add(durationLabel);
@@ -208,18 +210,20 @@ public class TaskDataPanel extends JPanel {
         descriptionPanel.add(descriptionLabel);
 
         generalTaskPanel.setLayout(new BoxLayout(generalTaskPanel, BoxLayout.PAGE_AXIS));
+        //separation
+        generalTaskPanel.add(Box.createRigidArea(separationDimension1));
         generalTaskPanel.add(namePanel);
         //separation
-        generalTaskPanel.add(Box.createRigidArea(separationDimension));
+        generalTaskPanel.add(Box.createRigidArea(separationDimension2));
         generalTaskPanel.add(durationPanel);
         //separation
-        generalTaskPanel.add(Box.createRigidArea(separationDimension));
+        generalTaskPanel.add(Box.createRigidArea(separationDimension2));
         generalTaskPanel.add(startTimePanel);
         //separation
-        generalTaskPanel.add(Box.createRigidArea(separationDimension));
+        generalTaskPanel.add(Box.createRigidArea(separationDimension2));
         generalTaskPanel.add(descriptionPanel);
         //separation
-        generalTaskPanel.add(Box.createRigidArea(separationDimension));
+        generalTaskPanel.add(Box.createRigidArea(separationDimension1));
         //sets titled border
         TitledBorder border = BorderFactory.createTitledBorder(BorderFactory
                 .createLineBorder(Color.LIGHT_GRAY), "Task Panel");
@@ -231,8 +235,9 @@ public class TaskDataPanel extends JPanel {
     private void setCustomLayout() {
 
         //constraints for tree view of dependencies
-
+        //TODO: create tree view of dependencies for addition
         //constraints for options for dependencies
+        //TODO: create options for dependencies and overall task, then update task view and task in task data panel
 
         //constraints for general task panel
         GridBagConstraints generalTaskPanelConstraints = new GridBagConstraints();
@@ -251,7 +256,7 @@ public class TaskDataPanel extends JPanel {
         scrollPaneGanttConstraints.gridx = 4;
         scrollPaneGanttConstraints.gridy = 3;
         scrollPaneGanttConstraints.weightx = 0.5;
-        scrollPaneGanttConstraints.weighty = 1;
+        scrollPaneGanttConstraints.weighty = 0.5;
         scrollPaneGanttConstraints.gridheight = 10;
         scrollPaneGanttConstraints.insets = new Insets(0, 30, 50, 30);
         //scrollPaneGanttConstraints.anchor = GridBagConstraints.LAST_LINE_END;
