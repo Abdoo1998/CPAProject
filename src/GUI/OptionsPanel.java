@@ -80,6 +80,8 @@ public class OptionsPanel extends JPanel implements ActionListener {
         descriptionScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         this.updateDescriptionButton = new JButton(UPDATE_DESCRIPTION_BUTTON);
         updateDescriptionButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        updateDescriptionButton.setActionCommand(UPDATE_DESCRIPTION_BUTTON);
+        updateDescriptionButton.addActionListener(this);
 
         JLabel name = new JLabel(OverallTaskGUI.TASK_STRING + ": ");
         name.setFont(FontCollection.DEFAULT_FONT_PLAIN);
@@ -196,6 +198,9 @@ public class OptionsPanel extends JPanel implements ActionListener {
             case UPDATE_NAME_BUTTON: {
                 JTabbedPane tabbedPane = applicationReference.getTabbedPane();
                 String newName = nameField.getText();
+                if (newName.equals("")) {
+                    return;
+                }
                 //update name of task
                 task.setName(newName);
                 //update task data panel
@@ -209,6 +214,9 @@ public class OptionsPanel extends JPanel implements ActionListener {
             }
             case UPDATE_DURATION_BUTTON: {
                 Duration newDuration = durationField.getDuration();
+                if (newDuration.getHours() == 0 && newDuration.getTotalMinutes() == 0) {
+                    return;
+                }
                 //update duration of task
                 task.setDuration(newDuration);
                 //update task data panel
@@ -219,12 +227,25 @@ public class OptionsPanel extends JPanel implements ActionListener {
             }
             case UPDATE_START_TIME_BUTTON: {
                 Time newStartTime = startTimeField.getTime();
+                if (newStartTime.getHours() == 0 && newStartTime.getMinutes() == 0) {
+                    return;
+                }
                 //update start time of task
                 task.setStartTime(newStartTime);
                 //update task panel
                 taskDataPanel.getTaskStartTimeLabel().setText(newStartTime.toString());
                 //update start time in task view
                 applicationReference.updateTaskPanel();
+                break;
+            }
+            case UPDATE_DESCRIPTION_BUTTON: {
+                String newDescription = description.getText();
+                //update description of task
+                task.setDescription(newDescription);
+                //update task data panel
+                taskDataPanel.getTaskDescriptionTextArea().setEditable(true);
+                taskDataPanel.getTaskDescriptionTextArea().setText(newDescription);
+                taskDataPanel.getTaskDescriptionTextArea().setEditable(false);
                 break;
             }
         }

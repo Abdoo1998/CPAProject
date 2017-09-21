@@ -98,7 +98,7 @@ public class TaskDataPanel extends JPanel {
     }
 
     public JTextArea getTaskDescriptionTextArea() {
-        return (JTextArea) getGeneralTaskPanel().getComponent(7);
+        return (JTextArea) ((JScrollPane) getGeneralTaskPanel().getComponent(7)).getViewport().getView();
     }
 
     private void setDependenciesArea() {

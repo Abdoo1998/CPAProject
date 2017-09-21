@@ -16,7 +16,7 @@ public class Main {
         //OverallTaskGUI overallTask = new OverallTaskGUI();
         //javax.swing.SwingUtilities.invokeLater(overallTask::showGUI);
 
-        OverallTask t1 = new OverallTask("Morning routine", new Duration(0, 15), new Time(10, 40));
+        OverallTask t1 = new OverallTask("Morning routine", new Duration(0, 15), new Time(10, 40), "This is my morning routine");
         OverallTask t2 = new OverallTask("Afternoon routine", new Duration(0, 10), new Time(15, 30));
         OverallTask t3 = new OverallTask("Dinner", new Duration(0, 45), new Time(21, 45));
         List<OverallTask> tasks = new LinkedList<>();
