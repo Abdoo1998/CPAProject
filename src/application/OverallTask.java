@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class OverallTask extends Task {
 
-  private final Time startTime;
+  private Time startTime;
   private String description = "";
   private final Set<SubTask> subTasks;
 
@@ -45,6 +45,10 @@ public class OverallTask extends Task {
 
   public Time getStartTime() {
     return startTime;
+  }
+
+  public void setStartTime(Time startTime) {
+    this.startTime = startTime;
   }
 
   @Override

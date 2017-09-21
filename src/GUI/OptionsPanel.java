@@ -2,6 +2,7 @@ package GUI;
 
 import application.Duration;
 import application.OverallTask;
+import application.Time;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -197,24 +198,34 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 String newName = nameField.getText();
                 //update name of task
                 task.setName(newName);
-                //update task panel
+                //update task data panel
                 taskDataPanel.getTaskNameLabel().setText(newName);
-                //taskDataPanel.getGeneralTaskPanel().revalidate();
                 //update name of tab
                 int index = tabbedPane.getSelectedIndex();
                 tabbedPane.setTabComponentAt(index, new RemovableTabComponent(newName, tabbedPane, taskDataPanel));
-                tabbedPane.revalidate();
                 //update name in task view
                 applicationReference.updateTaskPanel();
+                break;
             }
             case UPDATE_DURATION_BUTTON: {
                 Duration newDuration = durationField.getDuration();
                 //update duration of task
                 task.setDuration(newDuration);
-                //update task panel
-                taskDataPanel.getTaskDurationLabel().setText(newDuration.toString());
+                //update task data panel
+                taskDataPanel.getTaskDurationLabel().setText(newDuration.toString() + " hrs");
                 //update duration in task view
                 applicationReference.updateTaskPanel();
+                break;
+            }
+            case UPDATE_START_TIME_BUTTON: {
+                Time newStartTime = startTimeField.getTime();
+                //update start time of task
+                task.setStartTime(newStartTime);
+                //update task panel
+                taskDataPanel.getTaskStartTimeLabel().setText(newStartTime.toString());
+                //update start time in task view
+                applicationReference.updateTaskPanel();
+                break;
             }
         }
     }
