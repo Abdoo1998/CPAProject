@@ -91,6 +91,13 @@ public class TaskDataPanel extends JPanel {
         //disables the menu
         ganttChartPanel.setPopupMenu(null);
 
+        //these four lines fix problem with scaling the gantt chart and labels being scaled too, which meant that the
+        // axis labels and the legend would be totally distorted.
+        ganttChartPanel.setMinimumDrawHeight(50);
+        ganttChartPanel.setMaximumDrawHeight(5000);
+        ganttChartPanel.setMinimumDrawWidth(50);
+        ganttChartPanel.setMaximumDrawWidth(5000);
+
         //sets the dependencies scroll pane
         setDependenciesScrollPane();
 
@@ -259,7 +266,7 @@ public class TaskDataPanel extends JPanel {
         generalTaskPanelConstraints.anchor = GridBagConstraints.BASELINE_LEADING;
         add(generalTaskPanel, generalTaskPanelConstraints);
 
-        //constraints for scrollpane with gantt chart
+        //constraints for scrollpane with gantt chart : "Dependencies"
         GridBagConstraints scrollPaneGanttConstraints = new GridBagConstraints();
         scrollPaneGanttConstraints.gridx = 4;
         scrollPaneGanttConstraints.gridy = 3;
