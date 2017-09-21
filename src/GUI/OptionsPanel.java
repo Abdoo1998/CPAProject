@@ -71,11 +71,8 @@ public class OptionsPanel extends JPanel implements ActionListener {
         //panel on the left, handles editing an Overall task's direct fields (not dependencies)
         setEditTaskPanel();
 
-        //Panel called Manage Dependencies
-        //TODO: Add dependency
-        //TODO: Delete dependency
-        //TODO: Edit dependency
-        //TODO: Optimise dependencies (once Naman and Erik finish)
+        //Panel on the right, manages the dependencies of the Overall task
+        setManageDependenciesPanel();
 
     }
 
@@ -142,6 +139,17 @@ public class OptionsPanel extends JPanel implements ActionListener {
         //add the edit task panel to the options panel
         this.add(editTaskPanel);
     }
+
+    private void setManageDependenciesPanel() {
+        //Panel on the right, manages the dependencies of the Overall task, called Manage Dependencies
+        //TODO: Add dependency
+        //TODO: Delete dependency
+        //TODO: Edit dependency
+        //TODO: Optimise dependencies (once Naman and Erik finish)
+
+        
+    }
+
 
     private void setCustomLayout(JPanel editTaskPanel, JLabel nameLabel, JLabel durationLabel,
                                  JLabel startTimeLabel, JLabel descriptionLabel) {
