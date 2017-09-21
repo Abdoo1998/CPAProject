@@ -46,13 +46,14 @@ public class OptionsPanel extends JPanel {
         this.updateDurationButton = new JButton("Update duration");
         updateDurationButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
-        //sets start time panel
         this.startTimeField = new TimeTextField("h", "m");
         this.updateStartTimeButton = new JButton("Update start time");
         updateStartTimeButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
-        //set description panel
         this.description = new JTextArea(5, 20);
+        description.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        description.setLineWrap(true);
+        description.setWrapStyleWord(true);
         this.descriptionScrollPane = new JScrollPane(description);
         descriptionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

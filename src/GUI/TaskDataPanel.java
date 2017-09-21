@@ -20,6 +20,8 @@ import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
 
+import static GUI.TaskGUI.DEFAULT_INSETS;
+
 /**
  * Class representing the data panel for a task in the task view of the application. This data panel is opened by
  * clicking on a certain task in the task view, and allows the user to update the task and to view its dependencies.
@@ -56,6 +58,7 @@ public class TaskDataPanel extends JPanel {
     private static final int VERTICAL_SCROLL_BAR_SPEED = 18;
     /** String used when no description was provided by the user*/
     static final String DEFAULT_NO_DESCRIPTION = "No description was provided by the user.";
+    private static final Insets TOP_DEFAULT_INSETS = new Insets(10, 10, 20, 10);
 
 
     public TaskDataPanel(CPAProjectApplicationGUI applicationReference, OverallTask task) {
@@ -165,46 +168,45 @@ public class TaskDataPanel extends JPanel {
     }
 
     private void setGeneralTaskPanel() {
-        this.generalTaskPanel = new JPanel();
-
-        Dimension separationDimension1 = new Dimension(0, 8);
-        Dimension separationDimension2 = new Dimension(0, 4);
-
-
-        this.namePanel = new JPanel();
-        this.durationPanel = new JPanel();
-        this.startTimePanel = new JPanel();
-        this.descriptionPanel = new JPanel();
+        this.generalTaskPanel = new JPanel(new GridBagLayout());
 
         //setting up name panel
-        namePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel nameLabel = new JLabel(TaskGUI.TASK_STRING + ": ");
         nameLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         JLabel taskName = new JLabel(task.getTaskName());
         taskName.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        namePanel.add(nameLabel);
-        namePanel.add(taskName);
 
-        //setting up duration panel
-        durationPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //constraints for name labels
+        GridBagConstraints nameLabelConstraints = createConstraints(0,0, TOP_DEFAULT_INSETS);
+        generalTaskPanel.add(nameLabel, nameLabelConstraints);
+        GridBagConstraints nameConstraints = createConstraints(1, 0, TOP_DEFAULT_INSETS);
+        generalTaskPanel.add(taskName, nameConstraints);
+
+        //setting up duration labels
         JLabel durationNameLabel = new JLabel(TaskGUI.DURATION_STRING + ": ");
         durationNameLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         JLabel durationLabel = new JLabel(task.getDuration().toString() + " hrs");
         durationLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        durationPanel.add(durationNameLabel);
-        durationPanel.add(durationLabel);
+
+        //constraints for duration labels
+        GridBagConstraints durationNameLabelConstraints = createConstraints(0,1);
+        generalTaskPanel.add(durationNameLabel, durationNameLabelConstraints);
+        GridBagConstraints durationConstraints = createConstraints(1, 1);
+        generalTaskPanel.add(durationLabel, durationConstraints);
 
         //setting up start time panel
-        startTimePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel startTimeNameLabel = new JLabel(OverallTaskGUI.START_TIME + ": ");
         startTimeNameLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         JLabel startTimeLabel = new JLabel(task.getStartTime().toString());
         startTimeLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        startTimePanel.add(startTimeNameLabel);
-        startTimePanel.add(startTimeLabel);
 
-        //setting up description panel
-        descriptionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //constraints for start time labels
+        GridBagConstraints startTimeNameLabelConstraints = createConstraints(0,2);
+        generalTaskPanel.add(startTimeNameLabel, startTimeNameLabelConstraints);
+        GridBagConstraints startTimeConstraints = createConstraints(1, 2);
+        generalTaskPanel.add(startTimeLabel, startTimeConstraints);
+
+        //setting up description label, text area and scroll pane
         JLabel descriptionNameLabel = new JLabel(OverallTaskGUI.DESCRIPTION_LABEL + ": ");
         descriptionNameLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         //uses text area because otherwise a label would only represent a single line of text, problems with layout
@@ -215,7 +217,6 @@ public class TaskDataPanel extends JPanel {
         descriptionTextArea.setWrapStyleWord(true);
         descriptionTextArea.setLineWrap(true);
         descriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
         //sets de scroll pane to hold the description area, to handle when the description is too long for the size
         //allocated for it
         this.descriptionScrollPane = new JScrollPane(descriptionTextArea);
@@ -223,24 +224,12 @@ public class TaskDataPanel extends JPanel {
         descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         descriptionScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
-        descriptionPanel.add(descriptionNameLabel);
-        descriptionPanel.add(descriptionScrollPane);
+        //constraints for description label and scroll pane
+        GridBagConstraints descriptionLabelConstraints = createConstraints(0,3);
+        generalTaskPanel.add(descriptionNameLabel, descriptionLabelConstraints);
+        GridBagConstraints descriptionScrollConstraints = createConstraints(1, 3);
+        generalTaskPanel.add(descriptionScrollPane, descriptionScrollConstraints);
 
-        generalTaskPanel.setLayout(new BoxLayout(generalTaskPanel, BoxLayout.PAGE_AXIS));
-        //separation
-        generalTaskPanel.add(Box.createRigidArea(separationDimension1));
-        generalTaskPanel.add(namePanel);
-        //separation
-        generalTaskPanel.add(Box.createRigidArea(separationDimension2));
-        generalTaskPanel.add(durationPanel);
-        //separation
-        generalTaskPanel.add(Box.createRigidArea(separationDimension2));
-        generalTaskPanel.add(startTimePanel);
-        //separation
-        generalTaskPanel.add(Box.createRigidArea(separationDimension2));
-        generalTaskPanel.add(descriptionPanel);
-        //separation
-        generalTaskPanel.add(Box.createRigidArea(separationDimension1));
         //sets titled border
         TitledBorder border = BorderFactory.createTitledBorder(BorderFactory
                 .createLineBorder(Color.LIGHT_GRAY), "Task Panel");
@@ -251,18 +240,6 @@ public class TaskDataPanel extends JPanel {
 
     private void setOptionsPanel() {
       this.optionsPanel = new OptionsPanel(task);
-/*
-        //setting up name panel
-        namePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JLabel nameLabel = new JLabel(TaskGUI.TASK_STRING + ": ");
-        nameLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        JLabel taskName = new JLabel(task.getTaskName());
-        taskName.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        namePanel.add(nameLabel);
-        namePanel.add(taskName);
-    */
-
-
     }
 
     private void setCustomLayout() {
@@ -300,5 +277,31 @@ public class TaskDataPanel extends JPanel {
         scrollPaneGanttConstraints.insets = new Insets(0, 30, 50, 30);
         scrollPaneGanttConstraints.fill = GridBagConstraints.BOTH;
         add(ganttScrollPane, scrollPaneGanttConstraints);
+    }
+
+    private GridBagConstraints createConstraints(int gridx, int gridy) {
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = gridx;
+        constraints.gridy = gridy;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = DEFAULT_INSETS;
+
+        return constraints;
+    }
+
+    private GridBagConstraints createConstraints(int gridx, int gridy, Insets insets) {
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = gridx;
+        constraints.gridy = gridy;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = insets;
+
+        return constraints;
     }
 }
