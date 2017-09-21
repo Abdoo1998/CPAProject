@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static GUI.TaskDataPanel.DEFAULT_NO_DESCRIPTION;
 import static GUI.TaskGUI.DEFAULT_INSETS;
 
 /**
@@ -19,26 +20,43 @@ import static GUI.TaskGUI.DEFAULT_INSETS;
  */
 public class OptionsPanel extends JPanel implements ActionListener {
 
+    /**A reference to the application*/
     private CPAProjectApplicationGUI applicationReference;
+    /** A reference to the task to modify*/
     private OverallTask task;
+    /** A reference to the task data panel of the task*/
     private TaskDataPanel taskDataPanel;
 
+    /** A reference to the name field where the user will input the new name*/
     private CPATextField nameField;
+    /** A reference to the button that will update the name of the task*/
     private JButton updateNameButton;
 
+    /** A reference to the duration field where the user will input the new duration*/
     private TimeTextField durationField;
+    /** A reference to the button that will update the duration of the task*/
     private JButton updateDurationButton;
 
+    /** A reference to the start time fiels where the user will input the new start time*/
     private TimeTextField startTimeField;
+    /** A reference to the button that will update the start time of the task*/
     private JButton updateStartTimeButton;
 
+    /** A reference to the text area containing the new description of the task*/
     private JTextArea description;
+    /** A reference to the scroll pane containing the text area with the description of the task*/
     private JScrollPane descriptionScrollPane;
+    /** A reference to the button that will update the description of the task*/
     private JButton updateDescriptionButton;
 
+    //constants
+    /** The string on the name button*/
     private static final String UPDATE_NAME_BUTTON = "Update name";
+    /** The string on the duration button*/
     private static final String UPDATE_DURATION_BUTTON = "Update duration";
+    /** The string on the start time button*/
     private static final String UPDATE_START_TIME_BUTTON = "Update start time";
+    /** The string on the description button*/
     private static final String UPDATE_DESCRIPTION_BUTTON = "Update description";
 
 
@@ -49,6 +67,19 @@ public class OptionsPanel extends JPanel implements ActionListener {
         this.taskDataPanel = taskDataPanel;
 
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        //panel on the left, handles editing an Overall task's direct fields (not dependencies)
+        setEditTaskPanel();
+
+        //Panel called Manage Dependencies
+        //TODO: Add dependency
+        //TODO: Delete dependency
+        //TODO: Edit dependency
+        //TODO: Optimise dependencies (once Naman and Erik finish)
+
+    }
+
+    private void setEditTaskPanel() {
         //panel on the left, handles editing an Overall task's direct fields (not dependencies)
         JPanel editTaskPanel = new JPanel(new GridBagLayout());
 
@@ -110,18 +141,6 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
         //add the edit task panel to the options panel
         this.add(editTaskPanel);
-
-        //TODO: Update start time
-        //TODO: Update duration
-        //TODO: Update description
-        //TODO: Update button
-
-        //Panel called Manage Dependencies
-        //TODO: Add dependency
-        //TODO: Delete dependency
-        //TODO: Edit dependency
-        //TODO: Optimise dependencies (once Naman and Erik finish)
-
     }
 
     private void setCustomLayout(JPanel editTaskPanel, JLabel nameLabel, JLabel durationLabel,
@@ -240,6 +259,9 @@ public class OptionsPanel extends JPanel implements ActionListener {
             }
             case UPDATE_DESCRIPTION_BUTTON: {
                 String newDescription = description.getText();
+                if (newDescription.equals("")) {
+                    newDescription = DEFAULT_NO_DESCRIPTION;
+                }
                 //update description of task
                 task.setDescription(newDescription);
                 //update task data panel
