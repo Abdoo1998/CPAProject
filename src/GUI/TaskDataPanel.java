@@ -62,6 +62,15 @@ public class TaskDataPanel extends JPanel {
         //sets the gridbag layout
         this.setLayout(new GridBagLayout());
 
+        //sets dependencies panel
+        setDependenciesArea();
+        //set general task panel
+        setGeneralTaskPanel();
+        //sets layout
+        setCustomLayout();
+    }
+
+    private void setDependenciesArea() {
         IntervalCategoryDataset dataset = createDataset();
 
         JFreeChart ganttChart = ChartFactory.createGanttChart(
@@ -83,12 +92,6 @@ public class TaskDataPanel extends JPanel {
         //sets the scroll pane
         setScrollPane();
 
-        //sets preferred size for chart panel and scroll pane
-        ganttChartPanel.setPreferredSize(new Dimension((int) ((CPAProjectApplicationGUI.APPLICATION_WIDTH - 500) / 1.5),
-                (int) ((CPAProjectApplicationGUI.APPLICATION_HEIGHT - 100) / 1.25)));
-
-        ganttScrollPane.setPreferredSize(new Dimension((int) ((CPAProjectApplicationGUI.APPLICATION_WIDTH - 300) / 1.5),
-                (int) ((CPAProjectApplicationGUI.APPLICATION_HEIGHT - 100) / 1.5)));
         //sets vertical speed of scroll
         ganttScrollPane.getVerticalScrollBar().setUnitIncrement(VERTICAL_SCROLL_BAR_SPEED);
         //sets titled border for gantt chart panel
@@ -99,11 +102,6 @@ public class TaskDataPanel extends JPanel {
         Border margin = new EmptyBorder(10,10,10,10);
         ganttScrollPane.setBorder(new CompoundBorder(border, margin));
 
-
-        //set general task panel
-        setGeneralTaskPanel();
-        //sets layout
-        setCustomLayout();
     }
 
     public JFreeChart getGanttChart() {
@@ -163,8 +161,8 @@ public class TaskDataPanel extends JPanel {
     private void setGeneralTaskPanel() {
         this.generalTaskPanel = new JPanel();
 
-        Dimension separationDimension1 = new Dimension(0, 10);
-        Dimension separationDimension2 = new Dimension(0, 5);
+        Dimension separationDimension1 = new Dimension(0, 8);
+        Dimension separationDimension2 = new Dimension(0, 4);
 
 
         this.namePanel = new JPanel();
@@ -203,11 +201,16 @@ public class TaskDataPanel extends JPanel {
         descriptionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         JLabel descriptionNameLabel = new JLabel(OverallTaskGUI.DESCRIPTION_LABEL + ": ");
         descriptionNameLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        JLabel descriptionLabel = new JLabel(
-                task.getDescription().equals("") ? DEFAULT_NO_DESCRIPTION : task.getDescription());
-        descriptionLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        //uses text area because otherwise a label would only represent a single line of text, problems with layout
+        JTextArea descriptionTextArea = new JTextArea(
+                task.getDescription().equals("") ? DEFAULT_NO_DESCRIPTION : task.getDescription(), 5, 20);
+        descriptionTextArea.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        descriptionTextArea.setEditable(false);
+        descriptionTextArea.setWrapStyleWord(true);
+        descriptionTextArea.setLineWrap(true);
+        descriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         descriptionPanel.add(descriptionNameLabel);
-        descriptionPanel.add(descriptionLabel);
+        descriptionPanel.add(descriptionTextArea);
 
         generalTaskPanel.setLayout(new BoxLayout(generalTaskPanel, BoxLayout.PAGE_AXIS));
         //separation
@@ -243,24 +246,25 @@ public class TaskDataPanel extends JPanel {
         GridBagConstraints generalTaskPanelConstraints = new GridBagConstraints();
         generalTaskPanelConstraints.gridx = 4;
         generalTaskPanelConstraints.gridy = 0;
-        generalTaskPanelConstraints.weightx = 0.5;
-        generalTaskPanelConstraints.weighty = 1;
+        generalTaskPanelConstraints.weightx = 1;
+        generalTaskPanelConstraints.weighty = 0.75;
+        generalTaskPanelConstraints.gridwidth = 3;
         generalTaskPanelConstraints.gridheight = 3;
         generalTaskPanelConstraints.insets = new Insets(20, 30, 20, 30);
         generalTaskPanelConstraints.fill = GridBagConstraints.VERTICAL;
-        //generalTaskPanelConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
+        generalTaskPanelConstraints.anchor = GridBagConstraints.BASELINE_LEADING;
         add(generalTaskPanel, generalTaskPanelConstraints);
 
         //constraints for scrollpane with gantt chart
         GridBagConstraints scrollPaneGanttConstraints = new GridBagConstraints();
         scrollPaneGanttConstraints.gridx = 4;
         scrollPaneGanttConstraints.gridy = 3;
-        scrollPaneGanttConstraints.weightx = 0.5;
-        scrollPaneGanttConstraints.weighty = 0.5;
-        scrollPaneGanttConstraints.gridheight = 10;
+        scrollPaneGanttConstraints.weightx = 1;
+        scrollPaneGanttConstraints.weighty = 1;
+        scrollPaneGanttConstraints.gridwidth = 3;
+        scrollPaneGanttConstraints.gridheight = 7;
         scrollPaneGanttConstraints.insets = new Insets(0, 30, 50, 30);
-        //scrollPaneGanttConstraints.anchor = GridBagConstraints.LAST_LINE_END;
-        scrollPaneGanttConstraints.fill = GridBagConstraints.VERTICAL;
+        scrollPaneGanttConstraints.fill = GridBagConstraints.BOTH;
         add(ganttScrollPane, scrollPaneGanttConstraints);
     }
 }

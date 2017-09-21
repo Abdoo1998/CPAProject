@@ -30,7 +30,7 @@ public final class Duration {
 
   @Override
   public String toString() {
-    return hours + ":" + minutes;
+    return (hours >= 10 ? hours : "0" + hours) + ":" + (minutes >= 10 ? minutes : "0" + minutes);
   }
 
   public Time getEndTime(Time startTime) {
