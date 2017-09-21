@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
+import static GUI.TaskGUI.DEFAULT_INSETS;
+
 /**
  * Represents a JPanel holding all options within a Task Data Panel
  *
@@ -34,36 +36,54 @@ public class OptionsPanel extends JPanel {
 
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         //panel on the left, handles editing an Overall task's direct fields (not dependencies)
-        JPanel editTaskPanel = new JPanel();
+        JPanel editTaskPanel = new JPanel(new GridBagLayout());
 
-        //creates panels for every field that the edit task panel will handle
-        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel durationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel startTimePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel descriptionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        this.nameField = new CPATextField(20);
+        this.updateNameButton = new JButton("Update name");
+        updateNameButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
-        //sets name panel
-        setNamePanel(namePanel);
-
-        //sets duration panel
         this.durationField = new TimeTextField("h", "m");
         this.updateDurationButton = new JButton("Update duration");
-        setTimeTextFieldPanel(durationPanel, durationField, updateDurationButton,
-                OverallTaskGUI.DURATION_STRING + ": ");
+        updateDurationButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
         //sets start time panel
         this.startTimeField = new TimeTextField("h", "m");
         this.updateStartTimeButton = new JButton("Update start time");
-        setTimeTextFieldPanel(startTimePanel, startTimeField, updateStartTimeButton,
-                OverallTaskGUI.START_TIME + ": ");
+        updateStartTimeButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
         //set description panel
         this.description = new JTextArea(5, 20);
         this.descriptionScrollPane = new JScrollPane(description);
+        descriptionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        descriptionScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         this.updateDescriptionButton = new JButton("Update description");
-        setDescriptionPanel(descriptionPanel, description, descriptionScrollPane, updateDescriptionButton);
+        updateDescriptionButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
-        setEditTaskPanelLayout(editTaskPanel, namePanel, durationPanel, startTimePanel, descriptionPanel);
+        JLabel name = new JLabel(OverallTaskGUI.TASK_STRING + ": ");
+        name.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        name.setLabelFor(nameField);
+
+        JLabel duration = new JLabel(OverallTaskGUI.DURATION_STRING + ": ");
+        duration.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        duration.setLabelFor(durationField);
+
+        JLabel startTime = new JLabel(OverallTaskGUI.START_TIME + ": ");
+        startTime.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        startTime.setLabelFor(startTimeField);
+
+        JLabel description = new JLabel(OverallTaskGUI.DESCRIPTION_LABEL + ": ");
+        description.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        description.setLabelFor(descriptionScrollPane);
+
+
+        setCustomLayout(editTaskPanel, name, duration, startTime, description);
+
+        //sets titled border for edit task panel
+        TitledBorder border = BorderFactory.createTitledBorder(BorderFactory
+                .createLineBorder(Color.LIGHT_GRAY), "Edit Task");
+        border.setTitleFont(FontCollection.DEFAULT_FONT_PLAIN);
+        editTaskPanel.setBorder(border);
 
         //add the edit task panel to the options panel
         this.add(editTaskPanel);
@@ -81,108 +101,72 @@ public class OptionsPanel extends JPanel {
 
     }
 
-    private void setNamePanel(JPanel namePanel) {
-        assert namePanel != null : "Arguments must not be null";
-        //creates name label
-        JLabel nameLabel = new JLabel(OverallTaskGUI.TASK_STRING + ": ");
-        nameLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        //creates name text field
-        this.nameField = new CPATextField(20);
-        //accessibility
-        nameLabel.setLabelFor(nameField);
-        //creates update name button
-        this.updateNameButton = new JButton("Update name");
-        updateNameButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        //adds to name panel
-        namePanel.add(nameLabel);
-        namePanel.add(nameField);
-        namePanel.add(updateNameButton);
-    }
+    private void setCustomLayout(JPanel editTaskPanel, JLabel nameLabel, JLabel durationLabel,
+                                 JLabel startTimeLabel, JLabel descriptionLabel) {
 
-    public void setTimeTextFieldPanel(JPanel timeTextFieldPanel, TimeTextField timeTextField, JButton button, String labelName) {
-        assert timeTextFieldPanel != null && timeTextField != null && button != null : "Arguments must not be null";
+        //constraints for name label
+        GridBagConstraints nameConstraints = createConstraints(0,0);
+        editTaskPanel.add(nameLabel, nameConstraints);
 
-        //creates name label
-        JLabel label = new JLabel(labelName);
-        label.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        //accessibility
-        label.setLabelFor(timeTextField);
-        //sets font for button
-        button.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        //adds to panel
-        timeTextFieldPanel.add(label);
-        timeTextFieldPanel.add(timeTextField);
-        timeTextFieldPanel.add(button);
-    }
+        //constraints for name field
+        GridBagConstraints nameFieldConstraints = createConstraints(1,0);
+        editTaskPanel.add(nameField, nameFieldConstraints);
 
-    private void setDescriptionPanel(JPanel descriptionPanel, JTextArea description,
-                                     JScrollPane descriptionScrollPane, JButton updateDescriptionButton) {
-        assert descriptionPanel != null && description != null && descriptionScrollPane != null
-                && updateDescriptionButton != null : "Arguments must not be null";
-        //sets description label
-        JLabel descriptionLabel = new JLabel(OverallTaskGUI.DESCRIPTION_LABEL + ": ");
-        descriptionLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        //accessibility
-        descriptionLabel.setLabelFor(description);
-        //sets options for text area
-        description.setLineWrap(true);
-        description.setLineWrap(true);
-        description.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        //sets scroll pane that has been assigned to JTextArea
-        descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        descriptionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        descriptionScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        //sets font for button
-        updateDescriptionButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        //constraints for name button
+        GridBagConstraints nameButtonConstraints = createConstraints(2, 0);
+        editTaskPanel.add(updateNameButton, nameButtonConstraints);
 
-        //adds to panel
-        descriptionPanel.add(descriptionLabel);
-        descriptionPanel.add(descriptionScrollPane);
-        descriptionPanel.add(updateDescriptionButton);
+        //constraints for duration label
+        GridBagConstraints durationConstraints = createConstraints(0, 1);
+        editTaskPanel.add(durationLabel, durationConstraints);
+
+        //constraints for duration field
+        GridBagConstraints durationFieldConstraints = createConstraints(1, 1);
+        editTaskPanel.add(durationField, durationFieldConstraints);
+
+        //constraints for duration button
+        GridBagConstraints durationButtonConstraints = createConstraints(2, 1);
+        editTaskPanel.add(updateDurationButton, durationButtonConstraints);
+
+        //constraints for start time label
+        GridBagConstraints startTimeConstraints = createConstraints(0, 2);
+        editTaskPanel.add(startTimeLabel, startTimeConstraints);
+
+        //constraints for start time field
+        GridBagConstraints startTimeFieldConstraints = createConstraints(1, 2);
+        editTaskPanel.add(startTimeField, startTimeFieldConstraints);
+
+        //constraints for start time button
+        GridBagConstraints startTimeButtonConstraints = createConstraints(2, 2);
+        editTaskPanel.add(updateStartTimeButton, startTimeButtonConstraints);
+
+        //constraints for description label
+        GridBagConstraints descriptionConstraints = createConstraints(0, 3);
+        editTaskPanel.add(descriptionLabel, descriptionConstraints);
+
+        //constraints for description scroll pane
+        GridBagConstraints descriptionScrollPaneConstraints = createConstraints(1, 3);
+        editTaskPanel.add(descriptionScrollPane, descriptionScrollPaneConstraints);
+
+        //constraints for description button
+        GridBagConstraints descriptionButtonConstraints = createConstraints(2, 3);
+        editTaskPanel.add(updateDescriptionButton, descriptionButtonConstraints);
 
     }
 
-    private void setEditTaskPanelLayout(JPanel editTaskPanel, JPanel namePanel, JPanel durationPanel,
-                                  JPanel startTimePanel, JPanel descriptionPanel) {
+    private GridBagConstraints createConstraints(int gridx, int gridy) {
 
-        editTaskPanel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = gridx;
+        constraints.gridy = gridy;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = DEFAULT_INSETS;
 
-        GridBagConstraints namePanelConstraints = new GridBagConstraints();
-        namePanelConstraints.gridx = 0;
-        namePanelConstraints.gridy = 0;
-        namePanelConstraints.weightx = 0.5;
-        namePanelConstraints.weighty = 0.5;
-        namePanelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        editTaskPanel.add(namePanel, namePanelConstraints);
-
-        GridBagConstraints durationPanelConstraints = new GridBagConstraints();
-        durationPanelConstraints.gridx = 0;
-        durationPanelConstraints.gridy = 1;
-        durationPanelConstraints.weightx = 0.5;
-        durationPanelConstraints.weighty = 0.5;
-        durationPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        editTaskPanel.add(durationPanel, durationPanelConstraints);
-
-        GridBagConstraints startTimePanelConstraints = new GridBagConstraints();
-        startTimePanelConstraints.gridx = 0;
-        startTimePanelConstraints.gridy = 2;
-        startTimePanelConstraints.weightx = 0.5;
-        startTimePanelConstraints.weighty = 0.5;
-        startTimePanelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        editTaskPanel.add(startTimePanel, startTimePanelConstraints);
-
-        GridBagConstraints descriptionPanelConstraints = new GridBagConstraints();
-        descriptionPanelConstraints.gridx = 0;
-        descriptionPanelConstraints.gridy = 3;
-        descriptionPanelConstraints.weightx = 0.5;
-        descriptionPanelConstraints.weighty = 0.5;
-        descriptionPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
-        editTaskPanel.add(descriptionPanel, descriptionPanelConstraints);
-
-        //sets titled border
-        TitledBorder border = BorderFactory.createTitledBorder(BorderFactory
-                .createLineBorder(Color.LIGHT_GRAY), "Edit task");
-        border.setTitleFont(FontCollection.DEFAULT_FONT_PLAIN);
-        editTaskPanel.setBorder(border);
+        return constraints;
     }
+
+
+
 }
