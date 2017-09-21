@@ -1,7 +1,9 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 /**
  * Represents a text field used in the CPA application
@@ -15,6 +17,10 @@ public class CPATextField extends JTextField {
      */
     public CPATextField(int i) {
         super(i);
+        supportControlAction(KeyEvent.VK_C, new DefaultEditorKit.CopyAction());
+        supportControlAction(KeyEvent.VK_V, new DefaultEditorKit.PasteAction());
+        supportControlAction(KeyEvent.VK_X, new DefaultEditorKit.CutAction());
+        setFont(FontCollection.DEFAULT_FONT_PLAIN);
     }
 
     /**

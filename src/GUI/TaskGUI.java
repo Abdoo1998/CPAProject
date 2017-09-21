@@ -4,9 +4,7 @@ import application.Duration;
 import application.Task;
 
 import javax.swing.*;
-import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 /**
  * Abstract class representing the GUI common components for application.Task extending classes
@@ -117,7 +115,7 @@ public abstract class TaskGUI extends JFrame {
     }
 
     /**
-     * Initialises the task name text field. Also, gives the text field copy, cut and paste capabilities
+     * Initialises the task name text field.
      * @param textFieldColumnWidth the column width required by TextField constructor for layout purposes
      */
     private void setTextField(int textFieldColumnWidth) {
@@ -126,10 +124,6 @@ public abstract class TaskGUI extends JFrame {
         taskNameField.setPreferredSize(new Dimension(150, 25));
         taskNameField.setActionCommand(TASK_STRING);
         taskNameField.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        //copy, paste and cut action support
-        taskNameField.supportControlAction(KeyEvent.VK_C, new DefaultEditorKit.CopyAction());
-        taskNameField.supportControlAction(KeyEvent.VK_V, new DefaultEditorKit.PasteAction());
-        taskNameField.supportControlAction(KeyEvent.VK_X, new DefaultEditorKit.CutAction());
 
     }
 

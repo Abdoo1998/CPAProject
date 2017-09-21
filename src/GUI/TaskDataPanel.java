@@ -49,7 +49,7 @@ public class TaskDataPanel extends JPanel {
     /** Scroll pane holding the description panel*/
     private JScrollPane descriptionScrollPane;
     /** Panel holding all options for the opened overall task*/
-    private JPanel optionsPanel;
+    private OptionsPanel optionsPanel;
 
     //Default constants
     /** Vertical scrolling speed for gantt chart scroll pane*/
@@ -249,19 +249,18 @@ public class TaskDataPanel extends JPanel {
     }
 
     private void setOptionsPanel() {
-      this.optionsPanel = new JPanel();
+      this.optionsPanel = new OptionsPanel(task);
+/*
+        //setting up name panel
+        namePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JLabel nameLabel = new JLabel(TaskGUI.TASK_STRING + ": ");
+        nameLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        JLabel taskName = new JLabel(task.getTaskName());
+        taskName.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        namePanel.add(nameLabel);
+        namePanel.add(taskName);
+    */
 
-      //this can be done in a similar panel to task panel called Edit Task panel
-      //TODO: Update name
-      //TODO: Update start time
-      //TODO: Update duration
-      //TODO: Update description
-
-      //Panel called Manage Dependencies
-      //TODO: Add dependency
-      //TODO: Delete dependency
-      //TODO: Edit dependency
-      //TODO: Optimise dependencies (once Naman and Erik finish)
 
     }
 
@@ -272,18 +271,22 @@ public class TaskDataPanel extends JPanel {
         //constraints for options for dependencies
         //TODO: create options for dependencies and overall task, then update task view and task in task data panel
 
-        //constraints for general task panel
-        GridBagConstraints generalTaskPanelConstraints = new GridBagConstraints();
-        generalTaskPanelConstraints.gridx = 0;
-        generalTaskPanelConstraints.gridy = 0;
-        generalTaskPanelConstraints.weightx = 1;
-        generalTaskPanelConstraints.weighty = 0.75;
-        generalTaskPanelConstraints.gridwidth = 3;
-        generalTaskPanelConstraints.gridheight = 3;
-        generalTaskPanelConstraints.insets = new Insets(20, 30, 20, 30);
-        generalTaskPanelConstraints.fill = GridBagConstraints.VERTICAL;
-        generalTaskPanelConstraints.anchor = GridBagConstraints.BASELINE_LEADING;
-        add(generalTaskPanel, generalTaskPanelConstraints);
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel.add(generalTaskPanel);
+        topPanel.add(optionsPanel);
+
+        //constraints for top panel
+        GridBagConstraints topPanelConstraints = new GridBagConstraints();
+        topPanelConstraints.gridx = 0;
+        topPanelConstraints.gridy = 0;
+        topPanelConstraints.weightx = 1;
+        topPanelConstraints.weighty = 1;
+        topPanelConstraints.gridwidth = 3;
+        topPanelConstraints.gridheight = 3;
+        topPanelConstraints.insets = new Insets(20, 30, 20, 30);
+        topPanelConstraints.fill = GridBagConstraints.BOTH;
+        topPanelConstraints.anchor = GridBagConstraints.BASELINE_LEADING;
+        add(topPanel, topPanelConstraints);
 
         //constraints for scrollpane with gantt chart : "Dependencies"
         GridBagConstraints scrollPaneGanttConstraints = new GridBagConstraints();

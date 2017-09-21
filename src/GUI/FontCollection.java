@@ -6,7 +6,9 @@ import java.awt.*;
  * Collection of fonts (Font Objects) and associated constants used throughout the GUI
  * @author gorosgobe
  */
-public class FontCollection {
+public final class FontCollection {
+
+    private FontCollection() {}
 
     /** Default font size*/
     public static final int DEFAULT_FONT_SIZE = 16;
