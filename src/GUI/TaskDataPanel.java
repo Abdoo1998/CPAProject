@@ -48,14 +48,14 @@ public class TaskDataPanel extends JPanel {
     private JPanel descriptionPanel;
     /** Scroll pane holding the description panel*/
     private JScrollPane descriptionScrollPane;
+    /** Panel holding all options for the opened overall task*/
+    private JPanel optionsPanel;
 
     //Default constants
     /** Vertical scrolling speed for gantt chart scroll pane*/
     private static final int VERTICAL_SCROLL_BAR_SPEED = 18;
     /** String used when no description was provided by the user*/
     static final String DEFAULT_NO_DESCRIPTION = "No description was provided by the user.";
-
-
 
 
     public TaskDataPanel(CPAProjectApplicationGUI applicationReference, OverallTask task) {
@@ -68,6 +68,8 @@ public class TaskDataPanel extends JPanel {
         setDependenciesArea();
         //set general task panel
         setGeneralTaskPanel();
+        //sets options panel
+        setOptionsPanel();
         //sets layout
         setCustomLayout();
     }
@@ -246,6 +248,23 @@ public class TaskDataPanel extends JPanel {
 
     }
 
+    private void setOptionsPanel() {
+      this.optionsPanel = new JPanel();
+
+      //this can be done in a similar panel to task panel called Edit Task panel
+      //TODO: Update name
+      //TODO: Update start time
+      //TODO: Update duration
+      //TODO: Update description
+
+      //Panel called Manage Dependencies
+      //TODO: Add dependency
+      //TODO: Delete dependency
+      //TODO: Edit dependency
+      //TODO: Optimise dependencies (once Naman and Erik finish)
+
+    }
+
     private void setCustomLayout() {
 
         //constraints for tree view of dependencies
@@ -255,7 +274,7 @@ public class TaskDataPanel extends JPanel {
 
         //constraints for general task panel
         GridBagConstraints generalTaskPanelConstraints = new GridBagConstraints();
-        generalTaskPanelConstraints.gridx = 4;
+        generalTaskPanelConstraints.gridx = 0;
         generalTaskPanelConstraints.gridy = 0;
         generalTaskPanelConstraints.weightx = 1;
         generalTaskPanelConstraints.weighty = 0.75;
@@ -268,7 +287,7 @@ public class TaskDataPanel extends JPanel {
 
         //constraints for scrollpane with gantt chart : "Dependencies"
         GridBagConstraints scrollPaneGanttConstraints = new GridBagConstraints();
-        scrollPaneGanttConstraints.gridx = 4;
+        scrollPaneGanttConstraints.gridx = 0;
         scrollPaneGanttConstraints.gridy = 3;
         scrollPaneGanttConstraints.weightx = 1;
         scrollPaneGanttConstraints.weighty = 1;
