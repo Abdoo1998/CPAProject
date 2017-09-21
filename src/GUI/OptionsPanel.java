@@ -1,5 +1,6 @@
 package GUI;
 
+import application.Duration;
 import application.OverallTask;
 
 import javax.swing.*;
@@ -59,10 +60,14 @@ public class OptionsPanel extends JPanel implements ActionListener {
         this.durationField = new TimeTextField("h", "m");
         this.updateDurationButton = new JButton(UPDATE_DURATION_BUTTON);
         updateDurationButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        updateDurationButton.setActionCommand(UPDATE_DURATION_BUTTON);
+        updateDurationButton.addActionListener(this);
 
         this.startTimeField = new TimeTextField("h", "m");
         this.updateStartTimeButton = new JButton(UPDATE_START_TIME_BUTTON);
         updateStartTimeButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        updateStartTimeButton.setActionCommand(UPDATE_START_TIME_BUTTON);
+        updateStartTimeButton.addActionListener(this);
 
         this.description = new JTextArea(5, 20);
         description.setFont(FontCollection.DEFAULT_FONT_PLAIN);
@@ -194,14 +199,22 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 task.setName(newName);
                 //update task panel
                 taskDataPanel.getTaskNameLabel().setText(newName);
-                taskDataPanel.getGeneralTaskPanel().revalidate();
+                //taskDataPanel.getGeneralTaskPanel().revalidate();
                 //update name of tab
                 int index = tabbedPane.getSelectedIndex();
                 tabbedPane.setTabComponentAt(index, new RemovableTabComponent(newName, tabbedPane, taskDataPanel));
                 tabbedPane.revalidate();
                 //update name in task view
                 applicationReference.updateTaskPanel();
-
+            }
+            case UPDATE_DURATION_BUTTON: {
+                Duration newDuration = durationField.getDuration();
+                //update duration of task
+                task.setDuration(newDuration);
+                //update task panel
+                taskDataPanel.getTaskDurationLabel().setText(newDuration.toString());
+                //update duration in task view
+                applicationReference.updateTaskPanel();
             }
         }
     }

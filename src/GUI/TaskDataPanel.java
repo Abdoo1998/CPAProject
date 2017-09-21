@@ -81,12 +81,24 @@ public class TaskDataPanel extends JPanel {
         return task;
     }
 
-    JPanel getGeneralTaskPanel() {
+    public JPanel getGeneralTaskPanel() {
         return generalTaskPanel;
     }
 
-    JLabel getTaskNameLabel() {
+    public JLabel getTaskNameLabel() {
         return (JLabel) getGeneralTaskPanel().getComponent(1);
+    }
+
+    public JLabel getTaskDurationLabel() {
+        return (JLabel) getGeneralTaskPanel().getComponent(3);
+    }
+
+    public JLabel getTaskStartTimeLabel() {
+        return (JLabel) getGeneralTaskPanel().getComponent(5);
+    }
+
+    public JTextArea getTaskDescriptionTextArea() {
+        return (JTextArea) getGeneralTaskPanel().getComponent(7);
     }
 
     private void setDependenciesArea() {
