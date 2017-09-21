@@ -63,7 +63,7 @@ public class OptionsPanel extends JPanel {
         this.updateDescriptionButton = new JButton("Update description");
         setDescriptionPanel(descriptionPanel, description, descriptionScrollPane, updateDescriptionButton);
 
-        setEditTaskPanel(editTaskPanel, namePanel, durationPanel, startTimePanel, descriptionPanel);
+        setEditTaskPanelLayout(editTaskPanel, namePanel, durationPanel, startTimePanel, descriptionPanel);
 
         //add the edit task panel to the options panel
         this.add(editTaskPanel);
@@ -142,28 +142,43 @@ public class OptionsPanel extends JPanel {
 
     }
 
-    private void setEditTaskPanel(JPanel editTaskPanel, JPanel namePanel, JPanel durationPanel,
+    private void setEditTaskPanelLayout(JPanel editTaskPanel, JPanel namePanel, JPanel durationPanel,
                                   JPanel startTimePanel, JPanel descriptionPanel) {
 
-        editTaskPanel.setLayout(new BoxLayout(editTaskPanel, BoxLayout.PAGE_AXIS));
+        editTaskPanel.setLayout(new GridBagLayout());
 
-        Dimension separationDimension1 = new Dimension(0, 8);
-        Dimension separationDimension2 = new Dimension(0, 4);
+        GridBagConstraints namePanelConstraints = new GridBagConstraints();
+        namePanelConstraints.gridx = 0;
+        namePanelConstraints.gridy = 0;
+        namePanelConstraints.weightx = 0.5;
+        namePanelConstraints.weighty = 0.5;
+        namePanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        editTaskPanel.add(namePanel, namePanelConstraints);
 
-        //separation
-        editTaskPanel.add(Box.createRigidArea(separationDimension1));
-        editTaskPanel.add(namePanel);
-        //separation
-        editTaskPanel.add(Box.createRigidArea(separationDimension2));
-        editTaskPanel.add(durationPanel);
-        //separation
-        editTaskPanel.add(Box.createRigidArea(separationDimension2));
-        editTaskPanel.add(startTimePanel);
-        //separation
-        editTaskPanel.add(Box.createRigidArea(separationDimension2));
-        editTaskPanel.add(descriptionPanel);
-        //separation
-        editTaskPanel.add(Box.createRigidArea(separationDimension1));
+        GridBagConstraints durationPanelConstraints = new GridBagConstraints();
+        durationPanelConstraints.gridx = 0;
+        durationPanelConstraints.gridy = 1;
+        durationPanelConstraints.weightx = 0.5;
+        durationPanelConstraints.weighty = 0.5;
+        durationPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        editTaskPanel.add(durationPanel, durationPanelConstraints);
+
+        GridBagConstraints startTimePanelConstraints = new GridBagConstraints();
+        startTimePanelConstraints.gridx = 0;
+        startTimePanelConstraints.gridy = 2;
+        startTimePanelConstraints.weightx = 0.5;
+        startTimePanelConstraints.weighty = 0.5;
+        startTimePanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        editTaskPanel.add(startTimePanel, startTimePanelConstraints);
+
+        GridBagConstraints descriptionPanelConstraints = new GridBagConstraints();
+        descriptionPanelConstraints.gridx = 0;
+        descriptionPanelConstraints.gridy = 3;
+        descriptionPanelConstraints.weightx = 0.5;
+        descriptionPanelConstraints.weighty = 0.5;
+        descriptionPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        editTaskPanel.add(descriptionPanel, descriptionPanelConstraints);
+
         //sets titled border
         TitledBorder border = BorderFactory.createTitledBorder(BorderFactory
                 .createLineBorder(Color.LIGHT_GRAY), "Edit task");

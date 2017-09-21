@@ -221,6 +221,7 @@ public class TaskDataPanel extends JPanel {
         this.descriptionScrollPane = new JScrollPane(descriptionTextArea);
         descriptionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        descriptionScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
         descriptionPanel.add(descriptionNameLabel);
         descriptionPanel.add(descriptionScrollPane);
