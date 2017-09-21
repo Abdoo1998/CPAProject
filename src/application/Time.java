@@ -22,7 +22,7 @@ public class Time implements Comparable<Time> {
 
   @Override
   public String toString() {
-    return hours + ":" + minutes;
+    return (hours >= 10 ? hours : "0" + hours) + ":" + (minutes >= 10 ? minutes : "0" + minutes);
   }
 
   //pre: otherTime is later than current time

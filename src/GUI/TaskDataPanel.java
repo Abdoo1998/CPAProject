@@ -104,10 +104,6 @@ public class TaskDataPanel extends JPanel {
 
     }
 
-    public JFreeChart getGanttChart() {
-        return ganttChartPanel.getChart();
-    }
-
     private TaskSeriesCollection createDataset() {
         TaskSeries dependencies = new TaskSeries("Dependencies of " + task.getTaskName() + " task");
 
