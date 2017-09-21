@@ -47,7 +47,12 @@ public class OverallTask extends Task {
     return startTime;
   }
 
-//  public TaskGraph generateGraph() {
+  @Override
+  public String toString() {
+    return "[" + getTaskName() + ", " + getDuration() + ", " + getStartTime() + "]\n";
+  }
+
+  //  public TaskGraph generateGraph() {
 //    TaskGraph graph = new TaskGraph();
 //
 //    TaskGraphNode startNode = graph.getStartNode();

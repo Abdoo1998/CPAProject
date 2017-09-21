@@ -5,6 +5,8 @@ import application.OverallTask;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import static GUI.TaskGUI.DEFAULT_INSETS;
 
@@ -13,9 +15,11 @@ import static GUI.TaskGUI.DEFAULT_INSETS;
  *
  * @author gorosgobe
  */
-public class OptionsPanel extends JPanel {
+public class OptionsPanel extends JPanel implements ActionListener {
 
+    private CPAProjectApplicationGUI applicationReference;
     private OverallTask task;
+    private TaskDataPanel taskDataPanel;
 
     private CPATextField nameField;
     private JButton updateNameButton;
@@ -30,24 +34,34 @@ public class OptionsPanel extends JPanel {
     private JScrollPane descriptionScrollPane;
     private JButton updateDescriptionButton;
 
+    private static final String UPDATE_NAME_BUTTON = "Update name";
+    private static final String UPDATE_DURATION_BUTTON = "Update duration";
+    private static final String UPDATE_START_TIME_BUTTON = "Update start time";
+    private static final String UPDATE_DESCRIPTION_BUTTON = "Update description";
 
-    public OptionsPanel(OverallTask task) {
+
+
+    public OptionsPanel(OverallTask task, TaskDataPanel taskDataPanel, CPAProjectApplicationGUI applicationReference) {
+        this.applicationReference = applicationReference;
         this.task = task;
+        this.taskDataPanel = taskDataPanel;
 
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         //panel on the left, handles editing an Overall task's direct fields (not dependencies)
         JPanel editTaskPanel = new JPanel(new GridBagLayout());
 
         this.nameField = new CPATextField(20);
-        this.updateNameButton = new JButton("Update name");
+        this.updateNameButton = new JButton(UPDATE_NAME_BUTTON);
         updateNameButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        updateNameButton.setActionCommand(UPDATE_NAME_BUTTON);
+        updateNameButton.addActionListener(this);
 
         this.durationField = new TimeTextField("h", "m");
-        this.updateDurationButton = new JButton("Update duration");
+        this.updateDurationButton = new JButton(UPDATE_DURATION_BUTTON);
         updateDurationButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
         this.startTimeField = new TimeTextField("h", "m");
-        this.updateStartTimeButton = new JButton("Update start time");
+        this.updateStartTimeButton = new JButton(UPDATE_START_TIME_BUTTON);
         updateStartTimeButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
         this.description = new JTextArea(5, 20);
@@ -58,7 +72,7 @@ public class OptionsPanel extends JPanel {
         descriptionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         descriptionScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        this.updateDescriptionButton = new JButton("Update description");
+        this.updateDescriptionButton = new JButton(UPDATE_DESCRIPTION_BUTTON);
         updateDescriptionButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
 
         JLabel name = new JLabel(OverallTaskGUI.TASK_STRING + ": ");
@@ -169,5 +183,26 @@ public class OptionsPanel extends JPanel {
     }
 
 
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
 
+        switch (actionEvent.getActionCommand()) {
+            case UPDATE_NAME_BUTTON: {
+                JTabbedPane tabbedPane = applicationReference.getTabbedPane();
+                String newName = nameField.getText();
+                //update name of task
+                task.setName(newName);
+                //update task panel
+                taskDataPanel.getTaskNameLabel().setText(newName);
+                taskDataPanel.getGeneralTaskPanel().revalidate();
+                //update name of tab
+                int index = tabbedPane.getSelectedIndex();
+                tabbedPane.setTabComponentAt(index, new RemovableTabComponent(newName, tabbedPane, taskDataPanel));
+                tabbedPane.revalidate();
+                //update name in task view
+                applicationReference.updateTaskPanel();
+
+            }
+        }
+    }
 }

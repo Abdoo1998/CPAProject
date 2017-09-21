@@ -80,20 +80,39 @@ public class CPAProjectApplicationGUI extends JFrame {
         return tasks;
     }
 
+
+    public void updateTaskPanel() {
+        taskPanel.removeAll();
+        showAllOverallTasks(tasks);
+    }
+
+    private void showAllOverallTasks(List<OverallTask> tasks) {
+        addAllOverallTasks(tasks, false);
+    }
+
     /**
      * Adds a task to the task view and to the task list. Recalculates size of scrollable pane with addition
      * of elements.
      * @param task the task to add
      */
-    public void addOverallTask(OverallTask task) {
-        tasks.add(task);
+    public void addOverallTask(OverallTask task, boolean addToList, int counter) {
+
+        //specifies the position of the added OverallViewComponent. If addToList is true, then the position used is
+        // task.size(), else it is used as a counter carried by the function
+        int position = counter;
+
+        if (addToList) {
+            tasks.add(task);
+            position = tasks.size();
+        }
         Dimension componentDimension = new Dimension(OVERALL_TASK_VIEW_COMPONENT_WIDTH, OVERALL_TASK_VIEW_COMPONENT_HEIGHT);
-        OverallTaskViewComponent overallTaskViewComponent = new OverallTaskViewComponent(this, task, componentDimension);
+        OverallTaskViewComponent overallTaskViewComponent = new OverallTaskViewComponent(this, task,
+                componentDimension);
 
         //constraints for the nth component, with row and column limits specified by constants
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = (tasks.size() - 1) % MAX_TASK_VIEW_NUM_WIDTH;
-        constraints.gridy = (tasks.size() - 1) / MAX_TASK_VIEW_NUM_WIDTH;
+        constraints.gridx = (position - 1) % MAX_TASK_VIEW_NUM_WIDTH;
+        constraints.gridy = (position - 1) / MAX_TASK_VIEW_NUM_WIDTH;
         constraints.insets = new Insets(10,10,10,10);
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1.0;
@@ -107,6 +126,11 @@ public class CPAProjectApplicationGUI extends JFrame {
                     (int) taskPanel.getPreferredSize().getHeight() + OVERALL_TASK_VIEW_COMPONENT_HEIGHT));
             taskPanel.revalidate();
         }
+
+    }
+
+    public void addOverallTask(OverallTask task) {
+        addOverallTask(task, true, 1);
     }
 
     /**
@@ -114,10 +138,16 @@ public class CPAProjectApplicationGUI extends JFrame {
      * a list, and then show it on the GUI by calling this method.
      * @param taskList the list of tasks to be shown/added on the GUI
      */
-    public void addAllOverallTasks(List<OverallTask> taskList) {
+    public void addAllOverallTasks(List<OverallTask> taskList, boolean addToList) {
+        int count = 1;
         for (OverallTask t : taskList) {
-            addOverallTask(t);
+            addOverallTask(t, addToList, count);
+            count++;
         }
+    }
+
+    public void addAllOverallTasks(List<OverallTask> taskList) {
+        addAllOverallTasks(taskList, true);
     }
 
     /**

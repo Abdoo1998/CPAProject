@@ -2,8 +2,8 @@ package application;
 
 public abstract class Task {
 
-  private final String name;
-  private final Duration duration;
+  private String name;
+  private Duration duration;
 
   public Task(String name, Duration duration) {
     this.name = name;
@@ -16,6 +16,14 @@ public abstract class Task {
 
   public Duration getDuration() {
     return duration;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setDuration(Duration duration) {
+    this.duration = duration;
   }
 
   @Override

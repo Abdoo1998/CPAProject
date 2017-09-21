@@ -244,12 +244,13 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         GridBagConstraints scrollPaneConstraints = new GridBagConstraints();
         scrollPaneConstraints.gridx = 0;
         scrollPaneConstraints.gridy = 4;
+        scrollPaneConstraints.weightx = 0.5;
+        scrollPaneConstraints.weighty = 0.5;
         scrollPaneConstraints.gridwidth = 2;
         scrollPaneConstraints.gridheight = 2;
         //no weightx and weight y as we want it in the middle
-        scrollPaneConstraints.fill = GridBagConstraints.HORIZONTAL;
+        scrollPaneConstraints.fill = GridBagConstraints.BOTH;
         scrollPaneConstraints.insets = DEFAULT_INSETS;
-        scrollPaneConstraints.gridwidth = 2;
         add(treePanel, scrollPaneConstraints);
 
         //button constraints

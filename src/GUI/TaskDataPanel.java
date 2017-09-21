@@ -77,6 +77,18 @@ public class TaskDataPanel extends JPanel {
         setCustomLayout();
     }
 
+    public OverallTask getTask() {
+        return task;
+    }
+
+    JPanel getGeneralTaskPanel() {
+        return generalTaskPanel;
+    }
+
+    JLabel getTaskNameLabel() {
+        return (JLabel) getGeneralTaskPanel().getComponent(1);
+    }
+
     private void setDependenciesArea() {
         IntervalCategoryDataset dataset = createDataset();
 
@@ -239,7 +251,7 @@ public class TaskDataPanel extends JPanel {
     }
 
     private void setOptionsPanel() {
-      this.optionsPanel = new OptionsPanel(task);
+      this.optionsPanel = new OptionsPanel(task, this, applicationReference);
     }
 
     private void setCustomLayout() {
