@@ -46,6 +46,8 @@ public class TaskDataPanel extends JPanel {
     private JPanel startTimePanel;
     /** Panel holding the description of the overall task*/
     private JPanel descriptionPanel;
+    /** Scroll pane holding the description panel*/
+    private JScrollPane descriptionScrollPane;
 
     //Default constants
     /** Vertical scrolling speed for gantt chart scroll pane*/
@@ -89,8 +91,8 @@ public class TaskDataPanel extends JPanel {
         //disables the menu
         ganttChartPanel.setPopupMenu(null);
 
-        //sets the scroll pane
-        setScrollPane();
+        //sets the dependencies scroll pane
+        setDependenciesScrollPane();
 
         //sets vertical speed of scroll
         ganttScrollPane.getVerticalScrollBar().setUnitIncrement(VERTICAL_SCROLL_BAR_SPEED);
@@ -101,7 +103,6 @@ public class TaskDataPanel extends JPanel {
         //compound border uses empty border for margins
         Border margin = new EmptyBorder(10,10,10,10);
         ganttScrollPane.setBorder(new CompoundBorder(border, margin));
-
     }
 
     private TaskSeriesCollection createDataset() {
@@ -148,7 +149,7 @@ public class TaskDataPanel extends JPanel {
         //TODO: COMPLETE, THIS METHOD IS CALLED WHEN CPA IS EVALUATED ON THE GANTT CHART
     }
 
-    private void setScrollPane() {
+    private void setDependenciesScrollPane() {
       this.ganttScrollPane = new JScrollPane(ganttChartPanel);
       ganttScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
       ganttScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -205,8 +206,15 @@ public class TaskDataPanel extends JPanel {
         descriptionTextArea.setWrapStyleWord(true);
         descriptionTextArea.setLineWrap(true);
         descriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+
+        //sets de scroll pane to hold the description area, to handle when the description is too long for the size
+        //allocated for it
+        this.descriptionScrollPane = new JScrollPane(descriptionTextArea);
+        descriptionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
         descriptionPanel.add(descriptionNameLabel);
-        descriptionPanel.add(descriptionTextArea);
+        descriptionPanel.add(descriptionScrollPane);
 
         generalTaskPanel.setLayout(new BoxLayout(generalTaskPanel, BoxLayout.PAGE_AXIS));
         //separation

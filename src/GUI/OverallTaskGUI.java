@@ -27,6 +27,8 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
     private JLabel descriptionLabel;
     /** Text area representing the description of the OverallTask*/
     private JTextArea description;
+    /** Scroll pane holding the description text area*/
+    private JScrollPane descriptionScrollPane;
     /** Button representing the create button that will generate the OverallTask*/
     private JButton button;
 
@@ -52,6 +54,7 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         setStartTimeField();
         setStartTimeLabel();
         setDescription();
+        setDescriptionScrollPane();
         setButton();
         setOverallTaskLayout();
     }
@@ -102,6 +105,15 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         //sets the area to wrap around words and not characters
         description.setWrapStyleWord(true);
         description.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+    }
+
+    /**
+     * Initialises the description scroll pane.
+     */
+    private void setDescriptionScrollPane() {
+        this.descriptionScrollPane = new JScrollPane(description);
+        descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        descriptionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
     }
 
     /**
@@ -166,7 +178,7 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
         descriptionConstraints.weighty = 0.5;
         descriptionConstraints.fill = GridBagConstraints.HORIZONTAL;
         descriptionConstraints.insets = DEFAULT_INSETS;
-        getContentPane().add(description, descriptionConstraints);
+        getContentPane().add(descriptionScrollPane, descriptionConstraints);
 
         //constraints for button
         GridBagConstraints buttonConstraints = new GridBagConstraints();
