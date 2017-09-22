@@ -326,7 +326,9 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 break;
             }
             case REMOVE_DEPENDENCY_BUTTON: {
-
+                //GUI handles the removal of the dependency
+                RemoveDependencyGUI removeDependencyGUI = new RemoveDependencyGUI(taskDataPanel, task);
+                javax.swing.SwingUtilities.invokeLater(removeDependencyGUI::createAndShowGUI);
                 break;
             }
         }

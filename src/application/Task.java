@@ -27,6 +27,11 @@ public abstract class Task {
   }
 
   @Override
+  public String toString() {
+    return getTaskName() + ", " + getDuration();
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static application.SubTask.findSubTaskInDependencies;
+
 /**
  * GUI representing an application.SubTask
  *
@@ -158,7 +160,7 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
     }
 
     /**
-     * Sets the JTree to be a representation of all dependencies of the given OverallTasks.
+     * Sets the JTree to be a representation of all dependencies of the given OverallTask.
      * @param overallTask the task to represent in a tree view (root task)
      */
     private void setTreeView(OverallTask overallTask) {
@@ -346,50 +348,6 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
         }
 
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-    }
-
-    /**
-     * Returns the subTask with equal task name as the taskToBeAdded parameter. The method searches for the SubTask in
-     * the dependencies of the parent task. A precondition is that the subTask is present in the dependencies of the parent
-     * task given.
-     * @param parent the task that contains the SubTask
-     * @param taskToBeAdded the string representing the task name of the subTask to return
-     * @return the subTask associated to the taskToBeAdded parameter under parent.
-     */
-    private SubTask findSubTaskInDependencies(OverallTask parent, String taskToBeAdded) {
-        //subtask is in dependencies as it has been selected in the tree view
-
-        for (SubTask t : parent.getAllSubTasks()) {
-            SubTask subTask = findRecursivelySubTask(t, taskToBeAdded);
-            if (subTask != null) {
-                return subTask;
-            }
-        }
-        //will not get here because of precondition
-        return null;
-    }
-
-    /**
-     * Recursive helper for findSubTaskInDependencies, returns the SubTask searched in the parent parameter that matches
-     * the taaskToBeAdded string (with its task name field equal to it).
-     * @param parent the task that contains the subtask
-     * @param taskToBeAdded the string representing the task name of the subTask to return
-     * @return the subTask associated to the taskToBeAdded parameter under parent.
-     */
-    private SubTask findRecursivelySubTask(SubTask parent, String taskToBeAdded) {
-
-        if (parent.getTaskName().equals(taskToBeAdded)) {
-            return parent;
-        }
-
-        for (SubTask t : parent.getDependencies()) {
-            SubTask subTask = findRecursivelySubTask(t, taskToBeAdded);
-            if (subTask != null) {
-                return subTask;
-            }
-        }
-
-        return null;
     }
 
     /**

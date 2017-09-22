@@ -175,6 +175,8 @@ public class TaskDataPanel extends JPanel {
 
     private void optimise() {
         //TODO: COMPLETE, THIS METHOD IS CALLED WHEN CPA IS EVALUATED ON THE GANTT CHART
+        //recompute gantt chart
+        //update it
     }
 
     private void setDependenciesScrollPane() {
