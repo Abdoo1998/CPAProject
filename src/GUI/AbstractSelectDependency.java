@@ -167,6 +167,14 @@ public abstract class AbstractSelectDependency extends JFrame implements ActionL
 
     }
 
+    public void updateTreeView() {
+        setTreeView(task);
+        //sets the scroll panel's viewport to be the tree
+        treePanel.setViewportView(tree);
+        treePanel.revalidate();
+    }
+
+
     /**
      * Initialises and shows the Remove Dependency GUI JFrame
      */

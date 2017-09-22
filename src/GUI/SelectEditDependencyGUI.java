@@ -52,6 +52,15 @@ public class SelectEditDependencyGUI extends AbstractSelectDependency {
     }
 
     @Override
+    public void updateTreeView() {
+        super.updateTreeView();
+    }
+
+    public JTree getTree() {
+      return super.getTree();
+    }
+
+    @Override
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()) {
             case SELECT_BUTTON_STRING: {
@@ -64,10 +73,9 @@ public class SelectEditDependencyGUI extends AbstractSelectDependency {
                 }
                 //create the GUI that will handle the editing
                 SubTask subTask = SubTask.findSubTaskInDependencies(getTask(), getSelectedNode().getText());
-                EditDependencyGUI editDependencyGUI = new EditDependencyGUI(subTask, getTaskDataPanel());
+                EditDependencyGUI editDependencyGUI = new EditDependencyGUI(this, subTask, getTaskDataPanel());
                 javax.swing.SwingUtilities.invokeLater(editDependencyGUI::showGUI);
 
-                this.close();
                 break;
             }
             case CANCEL_BUTTON_STRING: {
