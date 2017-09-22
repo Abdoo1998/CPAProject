@@ -20,7 +20,7 @@ import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
 
-import static GUI.TaskGUI.DEFAULT_INSETS;
+import static GUI.LayoutUtils.createConstraints;
 
 /**
  * Class representing the data panel for a task in the task view of the application. This data panel is opened by
@@ -295,29 +295,5 @@ public class TaskDataPanel extends JPanel {
         add(ganttScrollPane, scrollPaneGanttConstraints);
     }
 
-    private GridBagConstraints createConstraints(int gridx, int gridy) {
 
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = gridx;
-        constraints.gridy = gridy;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.insets = DEFAULT_INSETS;
-
-        return constraints;
-    }
-
-    private GridBagConstraints createConstraints(int gridx, int gridy, Insets insets) {
-
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = gridx;
-        constraints.gridy = gridy;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.insets = insets;
-
-        return constraints;
-    }
 }

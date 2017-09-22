@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 
 import static GUI.TaskDataPanel.DEFAULT_NO_DESCRIPTION;
 import static GUI.TaskGUI.DEFAULT_INSETS;
+import static GUI.LayoutUtils.setButton;
 
 /**
  * Represents a JPanel holding all options within a Task Data Panel
@@ -97,13 +98,13 @@ public class OptionsPanel extends JPanel implements ActionListener {
         JPanel editTaskPanel = new JPanel(new GridBagLayout());
 
         this.nameField = new CPATextField(20);
-        this.updateNameButton = setButton(UPDATE_NAME_BUTTON);
+        this.updateNameButton = setButton(UPDATE_NAME_BUTTON, this);
 
         this.durationField = new TimeTextField("h", "m");
-        this.updateDurationButton = setButton(UPDATE_DURATION_BUTTON);
+        this.updateDurationButton = setButton(UPDATE_DURATION_BUTTON, this);
 
         this.startTimeField = new TimeTextField("h", "m");
-        this.updateStartTimeButton = setButton(UPDATE_START_TIME_BUTTON);
+        this.updateStartTimeButton = setButton(UPDATE_START_TIME_BUTTON, this);
 
         this.description = new JTextArea(5, 20);
         description.setFont(FontCollection.DEFAULT_FONT_PLAIN);
@@ -113,7 +114,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
         descriptionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         descriptionScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        this.updateDescriptionButton = setButton(UPDATE_DESCRIPTION_BUTTON);
+        this.updateDescriptionButton = setButton(UPDATE_DESCRIPTION_BUTTON, this);
 
         JLabel name = new JLabel(OverallTaskGUI.TASK_STRING + ": ");
         name.setFont(FontCollection.DEFAULT_FONT_PLAIN);
@@ -154,12 +155,11 @@ public class OptionsPanel extends JPanel implements ActionListener {
         //in the button, the constructor argument doesn't work.
         addDependencyButton.setText(ADD_DEPENDENCY_BUTTON);
 
-        this.removeDependencyButton = setButton(REMOVE_DEPENDENCY_BUTTON);
-        this.editDependencyButton = setButton(EDIT_DEPENDENCY_BUTTON);
-        this.deleteOverallTaskButton = setButton(DELETE_OVERALL_TASK_BUTTON);
-        this.optimiseScheduleButton = setButton(OPTIMISE_SCHEDULE_BUTTON);
+        this.removeDependencyButton = setButton(REMOVE_DEPENDENCY_BUTTON, this);
+        this.editDependencyButton = setButton(EDIT_DEPENDENCY_BUTTON, this);
+        this.deleteOverallTaskButton = setButton(DELETE_OVERALL_TASK_BUTTON, this);
+        this.optimiseScheduleButton = setButton(OPTIMISE_SCHEDULE_BUTTON, this);
 
-        //TODO: Add dependency - subtask
         //TODO: Delete dependency - subtask
         //TODO: Edit dependency - subtask
         //TODO: Delete itself - overall task
@@ -176,16 +176,6 @@ public class OptionsPanel extends JPanel implements ActionListener {
         //add the edit task panel to the options panel
         this.add(manageDependenciesPanel);
 
-    }
-
-    private JButton setButton(String labelAndIdentifier) {
-
-        JButton button = new JButton(labelAndIdentifier);
-        button.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        button.setActionCommand(labelAndIdentifier);
-        button.addActionListener(this);
-
-        return button;
     }
 
 
@@ -333,6 +323,10 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 taskDataPanel.getTaskDescriptionTextArea().setEditable(true);
                 taskDataPanel.getTaskDescriptionTextArea().setText(newDescription);
                 taskDataPanel.getTaskDescriptionTextArea().setEditable(false);
+                break;
+            }
+            case REMOVE_DEPENDENCY_BUTTON: {
+
                 break;
             }
         }

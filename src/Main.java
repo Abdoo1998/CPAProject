@@ -1,4 +1,5 @@
 import GUI.CPAProjectApplicationGUI;
+import GUI.MessageGUI;
 import application.Duration;
 import application.OverallTask;
 import application.SubTask;
@@ -73,6 +74,9 @@ public class Main {
         application.revalidate();
 
 
+        MessageGUI messageGUI = new MessageGUI("New message", "This is my first message to the first user.");
+
+        javax.swing.SwingUtilities.invokeLater(messageGUI::createAndShowGUI);
 
 
 
