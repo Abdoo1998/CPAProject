@@ -1,9 +1,11 @@
 package GUI;
 
 import application.OverallTask;
+import application.SubTask;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -53,14 +55,19 @@ public class SelectEditDependencyGUI extends AbstractSelectDependency {
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()) {
             case SELECT_BUTTON_STRING: {
-                //if the selected task is the overall task, give warning to user and dont do anything
+                //if the selected task is the overall task, give warning message to user and dont do anything
                 if (getSelectedNode().getText().equals(getTask().getTaskName())) {
                     MessageGUI messageGUI = new MessageGUI("Warning", "The task that you have selected ("
                             + getTask().getTaskName() + ") is not a dependency. Please choose a dependency instead.");
                     javax.swing.SwingUtilities.invokeLater(messageGUI::createAndShowGUI);
                     break;
                 }
+                //create the GUI that will handle the editing
+                SubTask subTask = SubTask.findSubTaskInDependencies(getTask(), getSelectedNode().getText());
+                EditDependencyGUI editDependencyGUI = new EditDependencyGUI(subTask);
+                javax.swing.SwingUtilities.invokeLater(editDependencyGUI::showGUI);
 
+                this.close();
                 break;
             }
             case CANCEL_BUTTON_STRING: {
@@ -72,6 +79,13 @@ public class SelectEditDependencyGUI extends AbstractSelectDependency {
 
     @Override
     public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) getTree().getLastSelectedPathComponent();
 
+        if (node == null) {
+            //Nothing is selected.
+            return;
+        }
+
+        getSelectedNode().setText((String) node.getUserObject());
     }
 }
