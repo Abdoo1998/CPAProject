@@ -75,6 +75,27 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
     }
 
     /**
+     * Constructs a new subtaskGUI, with the OverallTask parameter being the one selected by default in the task
+     * dropdown
+     * @param tasksToShow the list of all OverallTasks held in the GUI
+     * @param toBeSelectedTask the Overall Task selected by default
+     */
+    public SubTaskGUI(List<OverallTask> tasksToShow, OverallTask toBeSelectedTask) {
+        //List given must be of ALL Overall tasks
+        super();
+        setTitle(FRAME_TITLE);
+        setStringTaskMap(tasksToShow);
+        setDropdownLabel();
+        setJComboBox(tasksToShow, toBeSelectedTask.getTaskName());
+        setSelectedLabelAndSelectedNode();
+        OverallTask overallTask = stringTaskMap.get(taskDropdown.getSelectedItem());
+        setTreeView(overallTask);
+        setScrollPane();
+        setButton();
+        setSubTaskLayout();
+    }
+
+    /**
      * Initialises the string to overall task map used by the JComboBox
      * @param tasksToShow the list of OverallTasks
      */
@@ -101,6 +122,20 @@ public class SubTaskGUI extends TaskGUI implements ActionListener, TreeSelection
     private void setJComboBox(List<OverallTask> tasksToShow) {
         this.taskDropdown = new JComboBox<>(stringTaskMap.keySet().toArray());
         taskDropdown.setSelectedIndex(0);
+        taskDropdown.setEditable(true);
+        taskDropdown.addActionListener(this);
+        taskDropdown.setActionCommand(TASK_DROPDOWN_STRING);
+        taskDropdown.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+    }
+
+    /**
+     * Initialises and sets the task dropdown JComboBox
+     * @param tasksToShow the list of overall tasks to show in the dropdown
+     * @param selectedTaskName the name of the task selected by default
+     */
+    private void setJComboBox(List<OverallTask> tasksToShow, String selectedTaskName) {
+        this.taskDropdown = new JComboBox<>(stringTaskMap.keySet().toArray());
+        taskDropdown.setSelectedItem(selectedTaskName);
         taskDropdown.setEditable(true);
         taskDropdown.addActionListener(this);
         taskDropdown.setActionCommand(TASK_DROPDOWN_STRING);

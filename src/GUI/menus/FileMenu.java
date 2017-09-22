@@ -99,7 +99,8 @@ public class FileMenu extends JMenu {
         newOverallTaskItem.setAction(new NewOverallTaskAction(applicationReference));
         newOverallTaskItem.setText(MENU_STRING_TASK);
 
-        newSubTaskItem.setAction(new NewSubTaskAction(applicationReference));
+        //null parameter because the default selected task doesnt matter
+        newSubTaskItem.setAction(new NewSubTaskAction(applicationReference, null));
         newSubTaskItem.setText(MENU_STRING_SUBTASK);
 
     }

@@ -2,6 +2,7 @@ package GUI.menus.actions;
 
 import GUI.CPAProjectApplicationGUI;
 import GUI.SubTaskGUI;
+import application.OverallTask;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,14 +16,18 @@ public class NewSubTaskAction extends AbstractAction {
 
     /** A reference to the application GUI*/
     private CPAProjectApplicationGUI applicationReference;
+    /** A boolean indicating whether the overall parent task should be selected by default*/
+    private OverallTask parentTask;
 
     /**
      * Constructor for the action. Calls super and initialises the application GUI field
      * @param applicationReference a reference to the CPAProjectApplicationGUI
+     * @param parentTask the parent overall task to be selected by default
      */
-    public NewSubTaskAction(CPAProjectApplicationGUI applicationReference) {
+    public NewSubTaskAction(CPAProjectApplicationGUI applicationReference, OverallTask parentTask) {
         super();
         this.applicationReference = applicationReference;
+        this.parentTask = parentTask;
     }
 
     /**
@@ -31,7 +36,15 @@ public class NewSubTaskAction extends AbstractAction {
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        SubTaskGUI subTaskGUI = new SubTaskGUI(applicationReference.getTasks());
+
+        SubTaskGUI subTaskGUI;
+
+        if (parentTask != null) {
+            subTaskGUI = new SubTaskGUI(applicationReference.getTasks(), parentTask);
+        } else {
+            subTaskGUI = new SubTaskGUI(applicationReference.getTasks());
+        }
         SwingUtilities.invokeLater(subTaskGUI::showGUI);
+
     }
 }

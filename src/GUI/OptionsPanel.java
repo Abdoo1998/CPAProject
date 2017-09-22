@@ -1,5 +1,6 @@
 package GUI;
 
+import GUI.menus.actions.NewSubTaskAction;
 import application.Duration;
 import application.OverallTask;
 import application.Time;
@@ -146,7 +147,13 @@ public class OptionsPanel extends JPanel implements ActionListener {
         //Panel on the right, manages the dependencies of the Overall task, called Manage Dependencies
         JPanel manageDependenciesPanel = new JPanel(new GridBagLayout());
 
-        this.addDependencyButton = setButton(ADD_DEPENDENCY_BUTTON);
+        this.addDependencyButton = new JButton(ADD_DEPENDENCY_BUTTON);
+        addDependencyButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        addDependencyButton.setAction(new NewSubTaskAction(applicationReference, task));
+        //for some reason, when I use setAction instead of using the actionlistener, I need to set manually the text
+        //in the button, the constructor argument doesn't work.
+        addDependencyButton.setText(ADD_DEPENDENCY_BUTTON);
+
         this.removeDependencyButton = setButton(REMOVE_DEPENDENCY_BUTTON);
         this.editDependencyButton = setButton(EDIT_DEPENDENCY_BUTTON);
         this.deleteOverallTaskButton = setButton(DELETE_OVERALL_TASK_BUTTON);
