@@ -29,17 +29,7 @@ public class WarningGUI extends AbstractMessage implements ActionListener {
      * @param message the message to display
      */
     public WarningGUI(String title, String message) {
-        super(title, message);
-        this.continueButtonAction = super.getCloseAction(this);
-        this.cancelButtonAction = super.getCloseAction(this);
-
-        JButton continueButton = LayoutUtils.setButton(CONTINUE_BUTTON, this);
-        JButton cancelButton = LayoutUtils.setButton(CANCEL_BUTTON, this);
-
-        setResizable(false);
-
-        setCustomLayout(continueButton, cancelButton);
-
+        this(title, message, null, null);
     }
 
     /**
@@ -52,8 +42,19 @@ public class WarningGUI extends AbstractMessage implements ActionListener {
      */
     public WarningGUI(String title, String message, Action continueButtonAction, Action cancelButtonAction) {
         super(title, message);
-        this.continueButtonAction = continueButtonAction;
-        this.cancelButtonAction = cancelButtonAction;
+        //if it is null, default to close
+        if (continueButtonAction != null) {
+            this.continueButtonAction = continueButtonAction;
+        } else {
+            this.continueButtonAction = AbstractMessage.getCloseAction(this);
+        }
+
+        //if it is null, default to close
+        if (cancelButtonAction != null) {
+            this.cancelButtonAction = cancelButtonAction;
+        } else {
+            this.cancelButtonAction = AbstractMessage.getCloseAction(this);
+        }
 
         JButton continueButton = LayoutUtils.setButton(CONTINUE_BUTTON, this);
         JButton cancelButton = LayoutUtils.setButton(CANCEL_BUTTON, this);

@@ -330,6 +330,27 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 javax.swing.SwingUtilities.invokeLater(removeDependencyGUI::createAndShowGUI);
                 break;
             }
+            case EDIT_DEPENDENCY_BUTTON: {
+                break;
+            }
+            case DELETE_OVERALL_TASK_BUTTON: {
+
+                Action proceedWithDeletion = new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+
+                    }
+                };
+
+
+                WarningGUI warningGUI = new WarningGUI("Warning", "Warning: you are about to delete the " +
+                        "task you are currently viewing. This will also delete all the dependencies. Do you wish to " +
+                        "proceed?");
+
+                Action cancelDeletion = AbstractMessage.getCloseAction(warningGUI);
+
+                javax.swing.SwingUtilities.invokeLater(warningGUI::createAndShowGUI);
+            }
         }
     }
 }

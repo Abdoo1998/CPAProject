@@ -110,7 +110,7 @@ public abstract class AbstractMessage extends JFrame {
      * @param message the message to close
      * @return a closing action for the message supplied
      */
-    public Action getCloseAction(AbstractMessage message) {
+    public static Action getCloseAction(AbstractMessage message) {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
