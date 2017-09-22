@@ -35,7 +35,6 @@ public class RemoveButton extends JButton implements ActionListener, MouseListen
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         int i = pane.indexOfTabComponent(removableTabComponent);
-        System.out.println(i);
         if (i != -1) {
             pane.remove(i);
         }

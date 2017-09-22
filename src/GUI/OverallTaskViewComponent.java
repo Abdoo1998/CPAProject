@@ -84,7 +84,7 @@ public class OverallTaskViewComponent extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        OverallTaskViewComponent overallTaskViewComponent = (OverallTaskViewComponent) mouseEvent.getSource();
+
         JTabbedPane pane = applicationReference.getTabbedPane();
         TaskDataPanel taskDataPanel = new TaskDataPanel(applicationReference, task);
         //adds tab to tabbed pane

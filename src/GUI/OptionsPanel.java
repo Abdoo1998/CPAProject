@@ -335,19 +335,30 @@ public class OptionsPanel extends JPanel implements ActionListener {
             }
             case DELETE_OVERALL_TASK_BUTTON: {
 
+                WarningGUI warningGUI = new WarningGUI("Warning", "Warning: you are about to delete the " +
+                        "task you are currently viewing. This will also delete all the dependencies. Do you wish to " +
+                        "proceed?", null, null);
+
                 Action proceedWithDeletion = new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
-
+                        //remove task
+                        applicationReference.getTasks().remove(task);
+                        System.out.println(applicationReference.getTasks());
+                        //go back to application task view
+                        JTabbedPane pane = applicationReference.getTabbedPane();
+                        //close tab
+                        int index = pane.indexOfComponent(taskDataPanel);
+                        pane.remove(index);
+                        //set selected index to be the task view, the first tab
+                        pane.setSelectedIndex(0);
+                        //close warning
+                        warningGUI.close();
+                        applicationReference.updateTaskPanel();
                     }
                 };
 
-
-                WarningGUI warningGUI = new WarningGUI("Warning", "Warning: you are about to delete the " +
-                        "task you are currently viewing. This will also delete all the dependencies. Do you wish to " +
-                        "proceed?");
-
-                Action cancelDeletion = AbstractMessage.getCloseAction(warningGUI);
+                warningGUI.setContinueButtonAction(proceedWithDeletion);
 
                 javax.swing.SwingUtilities.invokeLater(warningGUI::createAndShowGUI);
             }

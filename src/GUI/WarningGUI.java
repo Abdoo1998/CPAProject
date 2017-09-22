@@ -65,6 +65,14 @@ public class WarningGUI extends AbstractMessage implements ActionListener {
 
     }
 
+    public void setContinueButtonAction(Action continueButtonAction) {
+        this.continueButtonAction = continueButtonAction;
+    }
+
+    public void setCancelButtonAction(Action cancelButtonAction) {
+        this.cancelButtonAction = cancelButtonAction;
+    }
+
     /**
      * Sets the custom layout of the warning GUI
      * @param continueButton the continue button to set
