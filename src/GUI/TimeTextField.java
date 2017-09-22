@@ -67,6 +67,14 @@ public class TimeTextField extends JPanel {
 
     }
 
+    public JFormattedTextField getHoursField() {
+        return hours;
+    }
+
+    public JFormattedTextField getMinutesField() {
+        return minutes;
+    }
+
     /**
      * Gets the time in the TimeTextField
      * @return the time in the TimeTextField if all fields are completed, else returns null
