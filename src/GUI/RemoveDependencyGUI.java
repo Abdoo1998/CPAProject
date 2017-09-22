@@ -200,6 +200,7 @@ public class RemoveDependencyGUI extends JFrame implements ActionListener, TreeS
                             "selected is the main task: cannot be removed as it is not a dependency. Please choose " +
                             "a dependency of the main task.");
                     javax.swing.SwingUtilities.invokeLater(messageGUI::createAndShowGUI);
+                    break;
                 }
                 //remove dependency from task
                 SubTask subTask = SubTask.findSubTaskInDependencies(task, selectedNode.getText());
@@ -213,9 +214,9 @@ public class RemoveDependencyGUI extends JFrame implements ActionListener, TreeS
                     parent.removeDependency(subTask);
                 }
                 //update gantt chart
-
+                taskDataPanel.updateGanttChart();
                 this.close();
-
+                break;
             }
         }
     }

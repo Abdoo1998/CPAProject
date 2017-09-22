@@ -30,6 +30,14 @@ public class NewSubTaskAction extends AbstractAction {
         this.parentTask = parentTask;
     }
 
+    public CPAProjectApplicationGUI getApplicationReference() {
+        return applicationReference;
+    }
+
+    public OverallTask getParentTask() {
+        return parentTask;
+    }
+
     /**
      * Overriden actionPerformed method to show the GUI when a certain button in the menu is pressed
      * @param actionEvent the action event generated

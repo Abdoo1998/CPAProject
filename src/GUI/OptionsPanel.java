@@ -1,6 +1,5 @@
 package GUI;
 
-import GUI.menus.actions.NewSubTaskAction;
 import application.Duration;
 import application.OverallTask;
 import application.Time;
@@ -11,9 +10,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static GUI.LayoutUtils.setButton;
 import static GUI.TaskDataPanel.DEFAULT_NO_DESCRIPTION;
 import static GUI.TaskGUI.DEFAULT_INSETS;
-import static GUI.LayoutUtils.setButton;
 
 /**
  * Represents a JPanel holding all options within a Task Data Panel
@@ -148,13 +147,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
         //Panel on the right, manages the dependencies of the Overall task, called Manage Dependencies
         JPanel manageDependenciesPanel = new JPanel(new GridBagLayout());
 
-        this.addDependencyButton = new JButton(ADD_DEPENDENCY_BUTTON);
-        addDependencyButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        addDependencyButton.setAction(new NewSubTaskAction(applicationReference, task));
-        //for some reason, when I use setAction instead of using the actionlistener, I need to set manually the text
-        //in the button, the constructor argument doesn't work.
-        addDependencyButton.setText(ADD_DEPENDENCY_BUTTON);
-
+        this.addDependencyButton = setButton(ADD_DEPENDENCY_BUTTON, this);
         this.removeDependencyButton = setButton(REMOVE_DEPENDENCY_BUTTON, this);
         this.editDependencyButton = setButton(EDIT_DEPENDENCY_BUTTON, this);
         this.deleteOverallTaskButton = setButton(DELETE_OVERALL_TASK_BUTTON, this);
@@ -323,6 +316,12 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 taskDataPanel.getTaskDescriptionTextArea().setEditable(true);
                 taskDataPanel.getTaskDescriptionTextArea().setText(newDescription);
                 taskDataPanel.getTaskDescriptionTextArea().setEditable(false);
+                break;
+            }
+            case ADD_DEPENDENCY_BUTTON: {
+                //add dependency GUI handles the updating of the Gantt chart
+                AddDependencyGUI addDependencyGUI = new AddDependencyGUI(applicationReference.getTasks(), task, taskDataPanel);
+                javax.swing.SwingUtilities.invokeLater(addDependencyGUI::showGUI);
                 break;
             }
             case REMOVE_DEPENDENCY_BUTTON: {

@@ -150,7 +150,7 @@ public class TaskDataPanel extends JPanel {
         return collection;
     }
 
-    private void recursiveAdd(TaskSeries series, SubTask subTaskToAdd) {
+    private void recursiveAdd(TaskSeries dependencies, SubTask subTaskToAdd) {
 
         if (subTaskToAdd == null) {
             return;
@@ -159,11 +159,10 @@ public class TaskDataPanel extends JPanel {
         SimpleTimePeriod tp1 = new SimpleTimePeriod(date(31, Calendar.OCTOBER, 2001),
                 date(17, Calendar.NOVEMBER, 2001));
 
-        //something with subTaskToAdd
-        series.add(new Task(subTaskToAdd.getTaskName(), tp1));
+        dependencies.add(new Task(subTaskToAdd.getTaskName(), tp1));
 
         for (SubTask t : subTaskToAdd.getDependencies()) {
-            recursiveAdd(series, t);
+            recursiveAdd(dependencies, t);
         }
     }
 
@@ -177,6 +176,38 @@ public class TaskDataPanel extends JPanel {
         //TODO: COMPLETE, THIS METHOD IS CALLED WHEN CPA IS EVALUATED ON THE GANTT CHART
         //recompute gantt chart
         //update it
+    }
+
+    public void updateGanttChart() {
+
+        IntervalCategoryDataset dataset = createDataset();
+
+        JFreeChart ganttChart = ChartFactory.createGanttChart(
+                "",
+                "",
+                "",
+                dataset,
+                true,
+                true,
+                false
+        );
+
+        //reset the panel
+        ganttChartPanel = new ChartPanel(ganttChart);
+        ganttChartPanel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        //disables the menu
+        ganttChartPanel.setPopupMenu(null);
+
+        //these four lines fix problem with scaling the gantt chart and labels being scaled too, which meant that the
+        // axis labels and the legend would be totally distorted.
+        ganttChartPanel.setMinimumDrawHeight(50);
+        ganttChartPanel.setMaximumDrawHeight(5000);
+        ganttChartPanel.setMinimumDrawWidth(50);
+        ganttChartPanel.setMaximumDrawWidth(5000);
+
+        //update scroll pane
+        ganttScrollPane.setViewportView(ganttChartPanel);
+        ganttScrollPane.revalidate();
     }
 
     private void setDependenciesScrollPane() {
