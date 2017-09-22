@@ -26,10 +26,12 @@ public class RemoveDependencyGUI extends AbstractSelectDependency {
     private static final String REMOVE_BUTTON_STRING = "Remove";
     /** String representing the string on the cancel button*/
     private static final String CANCEL_BUTTON_STRING = "Cancel";
+    /** String representing the string on the label*/
+    private static final String REMOVE_DEPENDENCY_MESSAGE = "Remove dependency";
 
 
     public RemoveDependencyGUI(TaskDataPanel taskDataPanel, OverallTask task) {
-        super(taskDataPanel, task);
+        super(taskDataPanel, task, REMOVE_DEPENDENCY_MESSAGE);
         setTitle(FRAME_TITLE);
 
         JButton removeButton = LayoutUtils.setButton(REMOVE_BUTTON_STRING, this);

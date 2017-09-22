@@ -42,13 +42,10 @@ public abstract class AbstractSelectDependency extends JFrame implements ActionL
     /** Path to the application icon*/
     private static final String ICON_PATH = "GUI/images/mainIcon.png";
 
-    /** String representing the string on the label*/
-    private static final String REMOVE_DEPENDENCY_MESSAGE = "Remove dependency";
-
-    public AbstractSelectDependency(TaskDataPanel taskDataPanel, OverallTask task) {
+    public AbstractSelectDependency(TaskDataPanel taskDataPanel, OverallTask task, String labelText) {
         this.task = task;
         this.taskDataPanel = taskDataPanel;
-        setSelectedLabelAndSelectedNode();
+        setSelectedLabelAndSelectedNode(labelText);
         setTreeView(task);
         setScrollPane();
         setCustomLayout();
@@ -82,9 +79,9 @@ public abstract class AbstractSelectDependency extends JFrame implements ActionL
      * Sets the labels representing the text informing the user about selection of a node to be removed and the
      * text representation of the node selected.
      */
-    private void setSelectedLabelAndSelectedNode() {
+    private void setSelectedLabelAndSelectedNode(String labelText) {
 
-        this.selectedLabel = new JLabel(REMOVE_DEPENDENCY_MESSAGE + ": ");
+        this.selectedLabel = new JLabel(labelText + ": ");
         selectedLabel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         //the selectedNode text will be determined by the selection of a particular node in the tree view
         //initial is default overall task

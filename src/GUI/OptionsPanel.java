@@ -333,6 +333,8 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 break;
             }
             case EDIT_DEPENDENCY_BUTTON: {
+                SelectEditDependencyGUI selectEditDependencyGUI = new SelectEditDependencyGUI(taskDataPanel, task);
+                javax.swing.SwingUtilities.invokeLater(selectEditDependencyGUI::createAndShowGUI);
                 break;
             }
             case DELETE_OVERALL_TASK_BUTTON: {
