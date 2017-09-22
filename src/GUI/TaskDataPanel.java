@@ -40,14 +40,6 @@ public class TaskDataPanel extends JPanel {
     private ChartPanel ganttChartPanel;
     /** Panel holding the name, duration, start time and description of the overall task*/
     private JPanel generalTaskPanel;
-    /** Panel holding the name of the overall task*/
-    private JPanel namePanel;
-    /** Panel holding the duration of the overall task*/
-    private JPanel durationPanel;
-    /** Panel holding the start time of the overall task*/
-    private JPanel startTimePanel;
-    /** Panel holding the description of the overall task*/
-    private JPanel descriptionPanel;
     /** Scroll pane holding the description panel*/
     private JScrollPane descriptionScrollPane;
     /** Panel holding all options for the opened overall task*/

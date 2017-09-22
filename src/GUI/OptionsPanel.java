@@ -27,6 +27,8 @@ public class OptionsPanel extends JPanel implements ActionListener {
     /** A reference to the task data panel of the task*/
     private TaskDataPanel taskDataPanel;
 
+    // EDIT TASK PANEL
+
     /** A reference to the name field where the user will input the new name*/
     private CPATextField nameField;
     /** A reference to the button that will update the name of the task*/
@@ -49,6 +51,13 @@ public class OptionsPanel extends JPanel implements ActionListener {
     /** A reference to the button that will update the description of the task*/
     private JButton updateDescriptionButton;
 
+    //MANAGE DEPENDENCIES PANEL
+    private JButton addDependencyButton;
+    private JButton removeDependencyButton;
+    private JButton editDependencyButton;
+    private JButton deleteOverallTaskButton;
+    private JButton optimiseScheduleButton;
+
     //constants
     /** The string on the name button*/
     private static final String UPDATE_NAME_BUTTON = "Update name";
@@ -58,6 +67,12 @@ public class OptionsPanel extends JPanel implements ActionListener {
     private static final String UPDATE_START_TIME_BUTTON = "Update start time";
     /** The string on the description button*/
     private static final String UPDATE_DESCRIPTION_BUTTON = "Update description";
+
+    private static final String ADD_DEPENDENCY_BUTTON = "Add dependency";
+    private static final String REMOVE_DEPENDENCY_BUTTON = "Remove dependency";
+    private static final String EDIT_DEPENDENCY_BUTTON = "Edit dependency";
+    private static final String DELETE_OVERALL_TASK_BUTTON = "Delete task";
+    private static final String OPTIMISE_SCHEDULE_BUTTON = "Optimise schedule";
 
 
 
@@ -81,22 +96,13 @@ public class OptionsPanel extends JPanel implements ActionListener {
         JPanel editTaskPanel = new JPanel(new GridBagLayout());
 
         this.nameField = new CPATextField(20);
-        this.updateNameButton = new JButton(UPDATE_NAME_BUTTON);
-        updateNameButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        updateNameButton.setActionCommand(UPDATE_NAME_BUTTON);
-        updateNameButton.addActionListener(this);
+        this.updateNameButton = setButton(UPDATE_NAME_BUTTON);
 
         this.durationField = new TimeTextField("h", "m");
-        this.updateDurationButton = new JButton(UPDATE_DURATION_BUTTON);
-        updateDurationButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        updateDurationButton.setActionCommand(UPDATE_DURATION_BUTTON);
-        updateDurationButton.addActionListener(this);
+        this.updateDurationButton = setButton(UPDATE_DURATION_BUTTON);
 
         this.startTimeField = new TimeTextField("h", "m");
-        this.updateStartTimeButton = new JButton(UPDATE_START_TIME_BUTTON);
-        updateStartTimeButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        updateStartTimeButton.setActionCommand(UPDATE_START_TIME_BUTTON);
-        updateStartTimeButton.addActionListener(this);
+        this.updateStartTimeButton = setButton(UPDATE_START_TIME_BUTTON);
 
         this.description = new JTextArea(5, 20);
         description.setFont(FontCollection.DEFAULT_FONT_PLAIN);
@@ -106,10 +112,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
         descriptionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         descriptionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         descriptionScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        this.updateDescriptionButton = new JButton(UPDATE_DESCRIPTION_BUTTON);
-        updateDescriptionButton.setFont(FontCollection.DEFAULT_FONT_PLAIN);
-        updateDescriptionButton.setActionCommand(UPDATE_DESCRIPTION_BUTTON);
-        updateDescriptionButton.addActionListener(this);
+        this.updateDescriptionButton = setButton(UPDATE_DESCRIPTION_BUTTON);
 
         JLabel name = new JLabel(OverallTaskGUI.TASK_STRING + ": ");
         name.setFont(FontCollection.DEFAULT_FONT_PLAIN);
@@ -127,8 +130,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
         description.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         description.setLabelFor(descriptionScrollPane);
 
-
-        setCustomLayout(editTaskPanel, name, duration, startTime, description);
+        setCustomLayoutEditTaskPanel(editTaskPanel, name, duration, startTime, description);
 
         //sets titled border for edit task panel
         TitledBorder border = BorderFactory.createTitledBorder(BorderFactory
@@ -142,16 +144,45 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
     private void setManageDependenciesPanel() {
         //Panel on the right, manages the dependencies of the Overall task, called Manage Dependencies
-        //TODO: Add dependency
-        //TODO: Delete dependency
-        //TODO: Edit dependency
-        //TODO: Optimise dependencies (once Naman and Erik finish)
+        JPanel manageDependenciesPanel = new JPanel(new GridBagLayout());
 
-        
+        this.addDependencyButton = setButton(ADD_DEPENDENCY_BUTTON);
+        this.removeDependencyButton = setButton(REMOVE_DEPENDENCY_BUTTON);
+        this.editDependencyButton = setButton(EDIT_DEPENDENCY_BUTTON);
+        this.deleteOverallTaskButton = setButton(DELETE_OVERALL_TASK_BUTTON);
+        this.optimiseScheduleButton = setButton(OPTIMISE_SCHEDULE_BUTTON);
+
+        //TODO: Add dependency - subtask
+        //TODO: Delete dependency - subtask
+        //TODO: Edit dependency - subtask
+        //TODO: Delete itself - overall task
+        //TODO: Optimise dependencies (once Naman and Erik finish) - compute CPA and show in Gantt chart
+
+        setCustomLayoutManageDependenciesPanel(manageDependenciesPanel);
+
+        //sets titled border for edit task panel
+        TitledBorder border = BorderFactory.createTitledBorder(BorderFactory
+                .createLineBorder(Color.LIGHT_GRAY), "Manage Dependencies");
+        border.setTitleFont(FontCollection.DEFAULT_FONT_PLAIN);
+        manageDependenciesPanel.setBorder(border);
+
+        //add the edit task panel to the options panel
+        this.add(manageDependenciesPanel);
+
+    }
+
+    private JButton setButton(String labelAndIdentifier) {
+
+        JButton button = new JButton(labelAndIdentifier);
+        button.setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        button.setActionCommand(labelAndIdentifier);
+        button.addActionListener(this);
+
+        return button;
     }
 
 
-    private void setCustomLayout(JPanel editTaskPanel, JLabel nameLabel, JLabel durationLabel,
+    private void setCustomLayoutEditTaskPanel(JPanel editTaskPanel, JLabel nameLabel, JLabel durationLabel,
                                  JLabel startTimeLabel, JLabel descriptionLabel) {
 
         //constraints for name label
@@ -201,6 +232,25 @@ public class OptionsPanel extends JPanel implements ActionListener {
         //constraints for description button
         GridBagConstraints descriptionButtonConstraints = createConstraints(2, 3);
         editTaskPanel.add(updateDescriptionButton, descriptionButtonConstraints);
+
+    }
+
+    private void setCustomLayoutManageDependenciesPanel(JPanel manageDependenciesPanel) {
+
+        GridBagConstraints addDependencyConstraints = createConstraints(0,0);
+        manageDependenciesPanel.add(addDependencyButton, addDependencyConstraints);
+
+        GridBagConstraints removeDependencyConstraints = createConstraints(0, 1);
+        manageDependenciesPanel.add(removeDependencyButton, removeDependencyConstraints);
+
+        GridBagConstraints editDependencyConstraints = createConstraints(0, 2);
+        manageDependenciesPanel.add(editDependencyButton, editDependencyConstraints);
+
+        GridBagConstraints deleteOverallTaskConstraints = createConstraints(0, 3);
+        manageDependenciesPanel.add(deleteOverallTaskButton,deleteOverallTaskConstraints);
+
+        GridBagConstraints optimiseAndScheduleConstraints = createConstraints(0,4);
+        manageDependenciesPanel.add(optimiseScheduleButton, optimiseAndScheduleConstraints);
 
     }
 
