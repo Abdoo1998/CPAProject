@@ -1,5 +1,6 @@
 import GUI.CPAProjectApplicationGUI;
 import GUI.MessageGUI;
+import GUI.WarningGUI;
 import application.Duration;
 import application.OverallTask;
 import application.SubTask;
@@ -74,9 +75,10 @@ public class Main {
         application.revalidate();
 
 
-        MessageGUI messageGUI = new MessageGUI("New message", "This is my first message to the first user.");
-
+        MessageGUI messageGUI = new MessageGUI("New message", "This is my first message to the first user. ahshsajhjaskhd sahshaakj askhhhjask ashdsh hdsahjd ksh ahd kj sa sak hs shs shs shs shs sh");
+        WarningGUI warningGUI = new WarningGUI("Warning", "This is a warning, you should take care if you are trying to do ssadddddddd asdddd adsadsd dasadsdsomething like this. asd sa sads a dsad asd as das ");
         javax.swing.SwingUtilities.invokeLater(messageGUI::createAndShowGUI);
+        javax.swing.SwingUtilities.invokeLater(warningGUI::createAndShowGUI);
 
 
 

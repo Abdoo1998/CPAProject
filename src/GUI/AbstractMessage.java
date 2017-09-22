@@ -5,6 +5,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
 /**
@@ -21,6 +22,8 @@ public abstract class AbstractMessage extends JFrame {
     private static final String ICON_PATH = "GUI/images/mainIcon.png";
     /** A reference to the customisable panel*/
     private JPanel panel;
+    /** An int used to put into different lines the message supplied in the argument to the constructor*/
+    private static final int WORDS_PER_LINE = 16;
 
     public AbstractMessage(String title, String message) {
         this.title = title;
@@ -76,14 +79,13 @@ public abstract class AbstractMessage extends JFrame {
 
     private String insertNewLine(String message) {
 
-        int wordsPerLine = 21;
         int count = 0;
         String copy = "";
 
         for (int i = 0; i < message.length(); i++) {
             if (message.charAt(i) == ' ') {
                 count++;
-                if (count == wordsPerLine) {
+                if (count == WORDS_PER_LINE) {
                     copy += '\n';
                     count = 0;
                 } else {
@@ -101,6 +103,20 @@ public abstract class AbstractMessage extends JFrame {
      */
     public void close() {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }
+
+    /**
+     * Returns a closing action.
+     * @param message the message to close
+     * @return a closing action for the message supplied
+     */
+    public Action getCloseAction(AbstractMessage message) {
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                message.close();
+            }
+        };
     }
 
     /**
