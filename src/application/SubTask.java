@@ -91,9 +91,9 @@ public class SubTask extends Task {
    * Finds the parent of the task with the given task name. A precondition is that the task
    * with the supplied name exists in the dependencies of the initial root value. Another precondition is that the child
    * is not directly under the overall task (in its dependencies).
-   * @param task
-   * @param subTaskName
-   * @return
+   * @param task The subtask from which to start searching for the parent of the task with supplied task name
+   * @param subTaskName the name of the task of which we want to find the parent
+   * @return the parent task of the task with supplied task name
    */
   public static SubTask findParentSubTaskOf(OverallTask task, String subTaskName) {
 
