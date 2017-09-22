@@ -274,7 +274,7 @@ public class TaskDataPanel extends JPanel {
         topPanelConstraints.gridx = 0;
         topPanelConstraints.gridy = 0;
         topPanelConstraints.weightx = 1;
-        topPanelConstraints.weighty = 1;
+        topPanelConstraints.weighty = 0;
         topPanelConstraints.gridwidth = 3;
         topPanelConstraints.gridheight = 3;
         topPanelConstraints.insets = new Insets(20, 30, 20, 30);
@@ -290,8 +290,9 @@ public class TaskDataPanel extends JPanel {
         scrollPaneGanttConstraints.weighty = 1;
         scrollPaneGanttConstraints.gridwidth = 3;
         scrollPaneGanttConstraints.gridheight = 7;
-        scrollPaneGanttConstraints.insets = new Insets(0, 30, 50, 30);
+        scrollPaneGanttConstraints.insets = new Insets(0, 30, 20, 30);
         scrollPaneGanttConstraints.fill = GridBagConstraints.BOTH;
+        scrollPaneGanttConstraints.anchor = GridBagConstraints.BELOW_BASELINE_LEADING;
         add(ganttScrollPane, scrollPaneGanttConstraints);
     }
 
