@@ -16,6 +16,8 @@ import java.awt.event.WindowEvent;
  */
 public class EditDependencyGUI extends TaskGUI implements ActionListener {
 
+    /** A reference to the task data panel*/
+    private final TaskDataPanel taskDataPanel;
     /** The subtask to edit*/
     private SubTask subTask;
 
@@ -27,8 +29,9 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
     private static final String CANCEL_BUTTON_STRING = "Cancel";
 
 
-    public EditDependencyGUI(SubTask subTask) {
+    public EditDependencyGUI(SubTask subTask, TaskDataPanel taskDataPanel) {
         this.subTask = subTask;
+        this.taskDataPanel = taskDataPanel;
 
         JButton updateButton = LayoutUtils.setButton(UPDATE_BUTTON_STRING, this);
         JButton cancelButton = LayoutUtils.setButton(CANCEL_BUTTON_STRING, this);
@@ -74,11 +77,48 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
+    private boolean isValidDuration() {
+
+        int hours = Integer.parseInt(getDurationField().getHoursField().getText());
+        int minutes = Integer.parseInt(getDurationField().getMinutesField().getText());
+
+
+        return (hours == 0 && minutes == 0)
+                || (hours >= 24)
+                || (minutes >= 60);
+    }
+
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()) {
             case UPDATE_BUTTON_STRING: {
-                //do something
+                //update subtask
+                //check if name is valid
+                if (getTaskNameField().getText().equals("")) {
+                    //invalid subtask name, notify the user
+                    MessageGUI messageGUI = new MessageGUI("Invalid Name", "A subtask cannot have an " +
+                            "empty name. Please input a valid name for the subtask.");
+                    javax.swing.SwingUtilities.invokeLater(messageGUI::createAndShowGUI);
+                    break;
+                }
+                //check if duration is valid
+                if (isValidDuration()) {
+
+                    String minutes = getDurationField().getMinutesField().getText();
+                    int minutesInt = Integer.parseInt(minutes);
+
+                    //invalid duration, notify the user
+                    MessageGUI messageGUI = new MessageGUI("Invalid Duration", "A subtask cannot have a " +
+                            "duration of " + getDurationField().getHoursField().getText()  + " hrs and " +
+                             minutes + ((minutesInt == 1) ? " min." : " mins.") + " Please input a valid duration " +
+                            "for the subtask.");
+                    javax.swing.SwingUtilities.invokeLater(messageGUI::createAndShowGUI);
+                    break;
+                }
+                //name and duration are valid
+                subTask.setName(getTaskNameField().getText());
+                subTask.setDuration(getDurationField().getDuration());
+                taskDataPanel.updateGanttChart();
                 this.close();
                 break;
             }
