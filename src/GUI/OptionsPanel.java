@@ -275,6 +275,8 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 //update name of tab
                 int index = tabbedPane.getSelectedIndex();
                 tabbedPane.setTabComponentAt(index, new RemovableTabComponent(newName, tabbedPane, taskDataPanel));
+                //update name of legend in gantt chart, not necessarily efficient but can be changed if necessary
+                taskDataPanel.updateGanttChart();
                 //update name in task view
                 applicationReference.updateTaskPanel();
                 break;
@@ -361,6 +363,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 warningGUI.setContinueButtonAction(proceedWithDeletion);
 
                 javax.swing.SwingUtilities.invokeLater(warningGUI::createAndShowGUI);
+                break;
             }
         }
     }
