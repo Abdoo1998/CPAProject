@@ -4,46 +4,44 @@ package GUI;
 import application.*;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.view.mxGraph;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GraphView extends JFrame implements ActionListener {
+public class GraphView extends JFrame {
 
     private OverallTask task;
-    private Action action;
-    private mxGraph graph;
+    private CPAGraph graph;
     private mxGraphComponent graphComponent;
     private JScrollPane scrollPane;
     private Map<String, Task> idToTask;
-    private int id = 0;
 
     private static final int DEFAULT_WIDTH = 100;
     private static final int DEFAULT_HEIGHT = 40;
     private static final int VERTICAL_SCROLL_SPEED = 18;
     private static final int HORIZONTAL_SCROLL_SPEED = 18;
 
-    public GraphView(String title, OverallTask task, Action action) {
+    public GraphView(String title, OverallTask task) {
         super(title);
         setResizable(false);
 
         this.task = task;
-        this.action = action;
         this.idToTask = new HashMap<>();
-        this.graph = new mxGraph();
+        this.graph = new CPAGraph();
         Object parent = graph.getDefaultParent();
-
 
         graph.setCellsEditable(false);
         graph.setCellsMovable(false);
         graph.setCellsResizable(false);
         graph.setCellsSelectable(false);
         graph.setConnectableEdges(false);
+        graph.setEdgeLabelsMovable(false);
+        graph.setAllowDanglingEdges(false);
+        //sets only selection of one cell
+        graph.getSelectionModel().setSingleSelection(true);
 
         //sets up the graph component and draws the graph
         this.graphComponent = insertAndDrawAllTasks(parent, task);
@@ -64,17 +62,23 @@ public class GraphView extends JFrame implements ActionListener {
         panelConstraints.gridy = 0;
         panelConstraints.weightx = 1;
         panelConstraints.weighty = 1;
+        panelConstraints.gridwidth = 2;
+        panelConstraints.gridwidth = 2;
         panelConstraints.insets = new Insets(8, 8, 8, 8);
         panelConstraints.fill = GridBagConstraints.BOTH;
         add(scrollPane, panelConstraints);
     }
 
-    public mxGraph getGraph() {
+    public CPAGraph getGraph() {
         return graph;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
+    public mxGraphComponent getGraphComponent() {
+        return graphComponent;
+    }
+
+    public void close() {
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
     private mxGraphComponent insertAndDrawAllTasks(Object parent, OverallTask task) {
@@ -154,15 +158,15 @@ public class GraphView extends JFrame implements ActionListener {
 
     public Object createAndInsertVertex(Object parent, OverallTask task) {
         //precondition is that id == 0
-        idToTask.put(String.valueOf(id), task);
+        idToTask.put(task.getTaskName(), task);
         //increments id after putting the overall task into the map
-        return graph.insertVertex(parent, String.valueOf(++id), task.getTaskName(), 0, 0,
+        return graph.insertVertex(parent, task.getTaskName(), task.getTaskName(), 0, 0,
                 DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
     public Object createAndInsertVertex(Object parent, SubTask subTask) {
-        idToTask.put(String.valueOf(id), subTask);
-        Object vertex = graph.insertVertex(parent, String.valueOf(++id), subTask.getTaskName(), 0, 0,
+        idToTask.put(subTask.getTaskName(), subTask);
+        Object vertex = graph.insertVertex(parent, subTask.getTaskName(), subTask.getTaskName(), 0, 0,
                 DEFAULT_WIDTH, DEFAULT_HEIGHT);
         return vertex;
     }
@@ -172,7 +176,7 @@ public class GraphView extends JFrame implements ActionListener {
     }
 
     public void updateGraph() {
-        this.graph = new mxGraph();
+        this.graph = new CPAGraph();
         Object parent = graph.getDefaultParent();
 
         graph.setCellsEditable(false);
@@ -191,9 +195,6 @@ public class GraphView extends JFrame implements ActionListener {
     }
 
     public SubTask getSubTask(String id) {
-        if (Integer.parseInt(id) == 0) {
-            throw new IllegalArgumentException("ID must not be 0, use getOverallTask()");
-        }
         return (SubTask) idToTask.get(id);
     }
 
@@ -202,7 +203,7 @@ public class GraphView extends JFrame implements ActionListener {
     }
 
     public void insertEdge(Object parent, Object node1, Object node2) {
-       graph.insertEdge(parent, String.valueOf(++id), null, node1, node2);
+       graph.insertEdge(parent, null, null, node1, node2);
     }
 
     public void showGUI() {
@@ -258,14 +259,9 @@ public class GraphView extends JFrame implements ActionListener {
     public static void main(String[] args) {
 
 
-        GraphView frame = new GraphView("Graph View", createTest(), null);
+        GraphView frame = new GraphView("Graph View", createTest());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        action.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
     }
 }
