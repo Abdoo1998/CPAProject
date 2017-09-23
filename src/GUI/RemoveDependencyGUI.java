@@ -73,7 +73,7 @@ public class RemoveDependencyGUI extends AbstractSelectDependency {
                     getTask().removeSubTask(subTask);
                 } else {
                     //otherwise, find parent task
-                    SubTask parent = SubTask.findParentSubTaskOf(getTask(), getSelectedNode().getText());
+                    SubTask parent = SubTask.findParentsSubTaskOf(getTask(), getSelectedNode().getText());
                     parent.removeDependency(subTask);
                 }
                 //update gantt chart

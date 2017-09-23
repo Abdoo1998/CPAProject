@@ -1,7 +1,6 @@
 package application;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SubTask extends Task {
 
@@ -43,6 +42,10 @@ public class SubTask extends Task {
     return "Subtask: " + super.toString();
   }
 
+  private static boolean hasSubTaskBeenVisited(SubTask subTask, Set<SubTask> visitedSubTasks) {
+    return visitedSubTasks.contains(subTask);
+  }
+
   /**
    * Returns the subTask with equal task name as the taskName parameter. The method searches for the SubTask in
    * the dependencies of the parent task. A precondition is that the subTask is present in the dependencies of the parent
@@ -54,13 +57,15 @@ public class SubTask extends Task {
   public static SubTask findSubTaskInDependencies(OverallTask parent, String taskName) {
     //subtask is in dependencies as it has been selected in the tree view
 
+    Set<SubTask> visitedSubtasks = new HashSet<>();
+
     for (SubTask t : parent.getAllSubTasks()) {
-      SubTask subTask = findRecursivelySubTask(t, taskName);
+      SubTask subTask = findRecursivelySubTask(t, taskName, visitedSubtasks);
       if (subTask != null) {
         return subTask;
       }
     }
-    //will not get here because of precondition
+
     return null;
   }
 
@@ -71,14 +76,24 @@ public class SubTask extends Task {
    * @param taskName the string representing the task name of the subTask to return
    * @return the subTask associated to the taskToBeAdded parameter under parent.
    */
-  private static SubTask findRecursivelySubTask(SubTask parent, String taskName) {
+  private static SubTask findRecursivelySubTask(SubTask parent, String taskName, Set<SubTask> visitedSubTasks) {
 
+    //if the subtask is the one we are looking for, return it
     if (parent.getTaskName().equals(taskName)) {
       return parent;
     }
 
+    //if subtask has already been visited, return not found
+    if (hasSubTaskBeenVisited(parent, visitedSubTasks)) {
+      return null;
+    }
+
+    //we have checked already that its not the parent, so we have visited it
+    visitedSubTasks.add(parent);
+
+    //else
     for (SubTask t : parent.getDependencies()) {
-      SubTask subTask = findRecursivelySubTask(t, taskName);
+      SubTask subTask = findRecursivelySubTask(t, taskName, visitedSubTasks);
       if (subTask != null) {
         return subTask;
       }
@@ -87,48 +102,106 @@ public class SubTask extends Task {
     return null;
   }
 
-  /**
-   * Finds the parent of the task with the given task name. A precondition is that the task
-   * with the supplied name exists in the dependencies of the initial root value. Another precondition is that the child
-   * is not directly under the overall task (in its dependencies).
-   * @param task The subtask from which to start searching for the parent of the task with supplied task name
-   * @param subTaskName the name of the task of which we want to find the parent
-   * @return the parent task of the task with supplied task name
-   */
-  public static SubTask findParentSubTaskOf(OverallTask task, String subTaskName) {
+
+
+  public static List<SubTask> findParentsOf(OverallTask task, String subTaskName) {
+    /*
+    Set<SubTask> visitedSubTasks = new HashSet<>();
+    List<SubTask> parents = new LinkedList<>();
 
     for (SubTask t : task.getAllSubTasks()) {
-      SubTask parent = findRecursiveParentSubtaskOf(t, subTaskName);
+      SubTask parent = findRecursiveParentSubtaskOf(t, subTaskName, visitedSubTasks, parents);
       if (parent != null) {
-        return parent;
+        parents.add(parent);
       }
     }
 
-    //will not get here
+    return parents;
+    */
     return null;
   }
 
-  /**
-   * Recursive helper that finds the parent of the task with the given task name. A precondition is that the task
-   * with the supplied name exists in the dependencies of the initial root value of the call in the non-helper function.
-   * @param root The subtask from which to start searching for the parent of the task with supplied task name
-   * @param taskName the name of the task of which we want to find the parent
-   * @return the parent task of the task with supplied task name
-   */
-  private static SubTask findRecursiveParentSubtaskOf(SubTask root, String taskName) {
+
+  private static SubTask findRecursiveParentSubtaskOf(SubTask root, String taskName, Set<SubTask> visitedSubTasks,
+                                                      List<SubTask> parents) {
 
     for (SubTask t : root.getDependencies()) {
       if (t.getTaskName().equals(taskName)) {
         //then original subtask is the parent we are looking for
         return root;
       } else {
-        SubTask parent = findRecursiveParentSubtaskOf(t, taskName);
+        SubTask parent = findRecursiveParentSubtaskOf(t, taskName, visitedSubTasks, parents);
         if (parent != null) {
           return parent;
         }
       }
     }
 
+    return null;
+  }
+
+  public static void main(String[] args) {
+    //test for find subtask in dependencies
+    Duration dummyDuration = new Duration(0, 10);
+    Time dummyTime = new Time(0, 10);
+
+    OverallTask overallTask = new OverallTask("A", dummyDuration, dummyTime);
+
+    SubTask B = new SubTask("B", dummyDuration);
+    SubTask C = new SubTask("C", dummyDuration);
+    SubTask D = new SubTask("D", dummyDuration);
+    SubTask E = new SubTask("E", dummyDuration);
+    SubTask F = new SubTask("F", dummyDuration);
+    SubTask G = new SubTask("G", dummyDuration);
+    SubTask H = new SubTask("H", dummyDuration);
+    SubTask I = new SubTask("I", dummyDuration);
+    SubTask J = new SubTask("J", dummyDuration);
+
+    overallTask.addSubTask(B);
+    overallTask.addSubTask(D);
+    overallTask.addSubTask(G);
+
+    B.addDependency(C);
+
+    D.addDependency(E);
+    D.addDependency(F);
+
+    F.addDependency(E);
+
+    G.addDependency(H);
+    G.addDependency(J);
+
+    H.addDependency(I);
+    J.addDependency(I);
+
+    System.out.println(findSubTaskInDependencies(overallTask, "A"));
+    System.out.println(findSubTaskInDependencies(overallTask, "B"));
+    System.out.println(findSubTaskInDependencies(overallTask, "C"));
+    System.out.println(findSubTaskInDependencies(overallTask, "D"));
+    System.out.println(findSubTaskInDependencies(overallTask, "E"));
+    System.out.println(findSubTaskInDependencies(overallTask, "F"));
+    System.out.println(findSubTaskInDependencies(overallTask, "G"));
+    System.out.println(findSubTaskInDependencies(overallTask, "H"));
+    System.out.println(findSubTaskInDependencies(overallTask, "I"));
+    System.out.println(findSubTaskInDependencies(overallTask, "J"));
+    System.out.println("--------------------------------------");
+    System.out.println("Expected null, got: " + findParentsOf(overallTask, "A"));
+    System.out.println("Expected null, got: " + findParentsOf(overallTask, "B"));
+    System.out.println("Expected B, got: " + findParentsOf(overallTask, "C"));
+    System.out.println("Expected null, got: " + findParentsOf(overallTask, "D"));
+    System.out.println("Expected null, got: " + findParentsOf(overallTask, "E"));
+    System.out.println("Expected null, got: " + findParentsOf(overallTask, "F"));
+    System.out.println("Expected null, got: " + findParentsOf(overallTask, "G"));
+    System.out.println("Expected null, got: " + findParentsOf(overallTask, "H"));
+    System.out.println("Expected null, got: " + findParentsOf(overallTask, "I"));
+    System.out.println("Expected null, got: " + findParentsOf(overallTask, "J"));
+
+
+
+
+  }
+//TODO: DELETE
+  public static SubTask findParentsSubTaskOf(OverallTask task, String text) {
     return null;
   }
 }
