@@ -4,8 +4,6 @@ import application.Duration;
 import application.SubTask;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -125,17 +123,6 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
                 subTask.setDuration(getDurationField().getDuration());
                 taskDataPanel.updateGanttChart();
                 this.close();
-
-                //update tree view in select edit dependency GUI by simply changing the name of the node
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectGUI.getTree().getLastSelectedPathComponent();
-                if (node == null) {
-                    //Nothing is selected.
-                    return;
-                }
-                //updates name of node by sending a nodeChanged notification to the node
-                DefaultTreeModel model = (DefaultTreeModel) selectGUI.getTree().getModel();
-                node.setUserObject(subTask.getTaskName());
-                model.nodeChanged(node);
 
                 break;
             }

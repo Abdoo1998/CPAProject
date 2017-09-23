@@ -1,14 +1,8 @@
 package GUI;
 
 import application.OverallTask;
-import application.SubTask;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -21,7 +15,7 @@ import static GUI.TaskGUI.TOP_DEFAULT_INSETS;
  *
  * @author gorosgobe
  */
-public abstract class AbstractSelectDependency extends JFrame implements ActionListener, TreeSelectionListener {
+public abstract class AbstractSelectDependency extends JFrame implements ActionListener {
 
 
     /** A reference to the task data panel*/
@@ -32,13 +26,9 @@ public abstract class AbstractSelectDependency extends JFrame implements ActionL
     private JLabel selectedLabel;
     /** A reference to the selected node in the tree, representing a subtask to remove */
     private JLabel selectedNode;
-    /** A reference to the scroll pane with the tree view*/
-    private JScrollPane treePanel;
-    /** A reference to the tree view*/
-    private JTree tree;
+
 
     //CONSTANTS
-
     /** Path to the application icon*/
     private static final String ICON_PATH = "GUI/images/mainIcon.png";
 
@@ -46,8 +36,6 @@ public abstract class AbstractSelectDependency extends JFrame implements ActionL
         this.task = task;
         this.taskDataPanel = taskDataPanel;
         setSelectedLabelAndSelectedNode(labelText);
-        setTreeView(task);
-        setScrollPane();
         setCustomLayout();
     }
 
@@ -67,14 +55,6 @@ public abstract class AbstractSelectDependency extends JFrame implements ActionL
         return selectedNode;
     }
 
-    public JScrollPane getTreePanel() {
-        return treePanel;
-    }
-
-    public JTree getTree() {
-        return tree;
-    }
-
     /**
      * Sets the labels representing the text informing the user about selection of a node to be removed and the
      * text representation of the node selected.
@@ -90,61 +70,6 @@ public abstract class AbstractSelectDependency extends JFrame implements ActionL
 
     }
 
-    /**
-     * Sets the JScrollPane that contains the tree view.
-     */
-    private void setScrollPane() {
-        //this is done outside of setTreeView because otherwise upon selection of Tasks on the
-        //task dropdown JComboBox, the treePanel wouldn't update
-        this.treePanel = new JScrollPane(tree);
-    }
-
-    /**
-     * Sets the JTree to be a representation of all dependencies of the given OverallTask.
-     * @param overallTask the task to represent in a tree view (root task)
-     */
-    private void setTreeView(OverallTask overallTask) {
-        //sets root with selected item
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(overallTask.getTaskName());
-
-        for (SubTask task : overallTask.getAllSubTasks()) {
-            root.add(setTreeRecursivelyFrom(task));
-        }
-
-        DefaultTreeModel treeModel = new DefaultTreeModel(root);
-        this.tree = new JTree(treeModel);
-        //allows for single selection
-        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        //adds frame as listener
-        tree.addTreeSelectionListener(this);
-        //selects first node (OverallTask) by default
-        DefaultMutableTreeNode overallNode = (DefaultMutableTreeNode) treeModel.getRoot();
-        tree.setSelectionPath(new TreePath(overallNode.getPath()));
-    }
-
-    /**
-     * Recursive helper for setTreeView. Sets the tree view (DefaultMutableTreeNode) for the given subtask
-     * and its dependencies.
-     * @param task the subtask to construct a node from
-     * @return the constructed tree node from the task given
-     */
-    private DefaultMutableTreeNode setTreeRecursivelyFrom(SubTask task) {
-
-        DefaultMutableTreeNode node = new DefaultMutableTreeNode(task.getTaskName());
-
-        //base case
-        if (task.getDependencies() == null) {
-            return new DefaultMutableTreeNode(task.getTaskName());
-        }
-
-        //set the tree recursively for each subtask
-        for (SubTask t : task.getDependencies()) {
-            node.add(setTreeRecursivelyFrom(t));
-        }
-
-        return node;
-
-    }
 
     /**
      * Sets the custom layout for the remove dependency GUI.
@@ -163,15 +88,8 @@ public abstract class AbstractSelectDependency extends JFrame implements ActionL
         scrollPaneConstraints.gridwidth = 2;
         scrollPaneConstraints.gridheight = 2;
         scrollPaneConstraints.fill = GridBagConstraints.BOTH;
-        add(treePanel, scrollPaneConstraints);
+        //add(treePanel, scrollPaneConstraints);
 
-    }
-
-    public void updateTreeView() {
-        setTreeView(task);
-        //sets the scroll panel's viewport to be the tree
-        treePanel.setViewportView(tree);
-        treePanel.revalidate();
     }
 
 

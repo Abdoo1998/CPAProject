@@ -4,8 +4,6 @@ import application.OverallTask;
 import application.SubTask;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -21,11 +19,11 @@ public class SelectEditDependencyGUI extends AbstractSelectDependency {
     /** The title of the frame*/
     private static final String FRAME_TITLE = "Select Dependency";
     /** String representing the string on the select button*/
-    private static final String SELECT_BUTTON_STRING = "Select";
+    private static final String SELECT_BUTTON_STRING = "Open";
     /** String representing the string on the cancel button*/
     private static final String CANCEL_BUTTON_STRING = "Cancel";
     /** String representing the string on the label*/
-    private static final String SELECT_DEPENDENCY_MESSAGE = "Select dependency";
+    private static final String SELECT_DEPENDENCY_MESSAGE = "Select dependency from";
 
     public SelectEditDependencyGUI(TaskDataPanel taskDataPanel, OverallTask task) {
         super(taskDataPanel, task, SELECT_DEPENDENCY_MESSAGE);
@@ -52,15 +50,6 @@ public class SelectEditDependencyGUI extends AbstractSelectDependency {
     }
 
     @Override
-    public void updateTreeView() {
-        super.updateTreeView();
-    }
-
-    public JTree getTree() {
-      return super.getTree();
-    }
-
-    @Override
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()) {
             case SELECT_BUTTON_STRING: {
@@ -83,17 +72,5 @@ public class SelectEditDependencyGUI extends AbstractSelectDependency {
             }
         }
 
-    }
-
-    @Override
-    public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) getTree().getLastSelectedPathComponent();
-
-        if (node == null) {
-            //Nothing is selected.
-            return;
-        }
-
-        getSelectedNode().setText((String) node.getUserObject());
     }
 }

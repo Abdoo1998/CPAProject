@@ -26,7 +26,8 @@ public class AddDependencyGUI extends SubTaskGUI {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        super.actionPerformed(actionEvent);
-        taskDataPanel.updateGanttChart();
+        AddDependencyGraphView addDependencyGraphView = new AddDependencyGraphView(super.getTitle(),
+                taskDataPanel.getTask(), this, taskDataPanel);
+        javax.swing.SwingUtilities.invokeLater(addDependencyGraphView::showGUI);
     }
 }

@@ -4,9 +4,6 @@ import application.OverallTask;
 import application.SubTask;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -82,18 +79,5 @@ public class RemoveDependencyGUI extends AbstractSelectDependency {
                 break;
             }
         }
-    }
-
-    //as with SubTaskGUI
-    @Override
-    public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) getTree().getLastSelectedPathComponent();
-
-        if (node == null) {
-            //Nothing is selected.
-            return;
-        }
-
-        getSelectedNode().setText((String) node.getUserObject());
     }
 }

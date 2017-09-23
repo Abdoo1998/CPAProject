@@ -323,6 +323,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
             case ADD_DEPENDENCY_BUTTON: {
                 //add dependency GUI handles the updating of the Gantt chart
                 AddDependencyGUI addDependencyGUI = new AddDependencyGUI(applicationReference.getTasks(), task, taskDataPanel);
+
                 javax.swing.SwingUtilities.invokeLater(addDependencyGUI::showGUI);
                 break;
             }

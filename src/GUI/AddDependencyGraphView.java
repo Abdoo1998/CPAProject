@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 public class AddDependencyGraphView extends GraphView implements ActionListener {
 
     private static final String SELECT_BUTTON_STRING = "Select";
+    private TaskDataPanel taskDataPanel;
     private SubTaskGUI subTaskGUI;
 
     public AddDependencyGraphView(String title, OverallTask task, SubTaskGUI subTaskGUI) {
@@ -27,6 +28,26 @@ public class AddDependencyGraphView extends GraphView implements ActionListener 
 
         //can select cells
         getGraph().setCellsSelectable(true);
+        //set up button
+        JButton selectButton = LayoutUtils.setButton(SELECT_BUTTON_STRING, this);
+
+        //set button
+        GridBagConstraints constraints = LayoutUtils.createConstraints(1, 2,
+                new Insets(8, 8, 8, 8), GridBagConstraints.LAST_LINE_END);
+        constraints.fill = GridBagConstraints.NONE;
+        add(selectButton, constraints);
+    }
+
+    public AddDependencyGraphView(String title, OverallTask task, SubTaskGUI subTaskGUI, TaskDataPanel taskDataPanel) {
+        super(title, task);
+        this.subTaskGUI = subTaskGUI;
+        this.taskDataPanel = taskDataPanel;
+        setMinimumSize(new Dimension(300, 200));
+        setMaximumSize(new Dimension(1200, 800));
+
+        //can select cells
+        getGraph().setCellsSelectable(true);
+        //set up button
         JButton selectButton = LayoutUtils.setButton(SELECT_BUTTON_STRING, this);
 
         //set button
@@ -42,7 +63,15 @@ public class AddDependencyGraphView extends GraphView implements ActionListener 
         switch (actionEvent.getActionCommand()) {
             case SELECT_BUTTON_STRING: {
 
+                if (getGraph().getSelectionCell() == null) {
+                    MessageGUI messageGUI = new MessageGUI("Invalid Selection", "You have not selected " +
+                            "a task to add a dependency to. Please select a task.");
+                    javax.swing.SwingUtilities.invokeLater(messageGUI::createAndShowGUI);
+                    return;
+                }
+                //something has been selected
                 String taskId = ((mxCell) getGraph().getSelectionCell()).getId();
+
                 if (taskId.equals(subTaskGUI.getStringTaskMap()
                         .get(subTaskGUI.getTaskDropdown().getSelectedItem()).getTaskName())) {
                     //task is the overall task
@@ -52,6 +81,10 @@ public class AddDependencyGraphView extends GraphView implements ActionListener 
                     //task is subtask
                     SubTask subTask = getSubTask(taskId);
                     subTask.addDependency(new SubTask(subTaskGUI.getTaskNameText(), subTaskGUI.getDuration()));
+                }
+
+                if (taskDataPanel != null) {
+                    taskDataPanel.updateGanttChart();
                 }
 
                 close();
