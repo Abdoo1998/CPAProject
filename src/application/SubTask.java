@@ -42,7 +42,7 @@ public class SubTask extends Task {
     return "Subtask: " + super.toString();
   }
 
-  private static boolean hasSubTaskBeenVisited(SubTask subTask, Set<SubTask> visitedSubTasks) {
+  public static boolean hasSubTaskBeenVisited(SubTask subTask, Set<SubTask> visitedSubTasks) {
     return visitedSubTasks.contains(subTask);
   }
 

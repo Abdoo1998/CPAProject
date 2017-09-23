@@ -77,18 +77,24 @@ public class GraphView extends JFrame implements ActionListener {
     }
 
     private void insertAndDrawAllTasks(Object parent, OverallTask task) {
+
+        Map<SubTask, Object> subTaskToNode = new HashMap<>();
+
         graph.getModel().beginUpdate();
 
         try {
+
             Object overallTaskNode = createAndInsertVertex(parent, task);
 
-            for (SubTask t : task.getAllSubTasks()) {
-                //insert first children
-                Object subTaskNode = createAndInsertVertex(parent, t);
-                //insert all children in each of the branches
-                insertRecursivelyIntoGraph(parent, t);
+            for (SubTask child : task.getAllSubTasks()) {
+                //insert first child
+                Object childNode = createAndInsertVertex(parent, child);
                 //connect the overall task with its children
-                insertEdge(parent, overallTaskNode, subTaskNode);
+                insertEdge(parent, overallTaskNode, childNode);
+                //child node has been added
+                subTaskToNode.put(child, childNode);
+                //insert all children in each of the branches
+                insertRecursivelyIntoGraph(parent, child, childNode, subTaskToNode);
             }
 
         } finally {
@@ -105,7 +111,31 @@ public class GraphView extends JFrame implements ActionListener {
 
     }
 
-    private void insertRecursivelyIntoGraph(Object parent, SubTask t) {
+    private void insertRecursivelyIntoGraph(Object parent, SubTask t, Object parentNode, Map<SubTask, Object> subTaskToNode) {
+
+        //base case
+        if (t.getDependencies().isEmpty()) {
+            System.out.println(t);
+            return;
+        }
+
+        for (SubTask child : t.getDependencies()) {
+
+            if (subTaskToNode.keySet().contains(child)) {
+                //child has alread been added, no need to draw another object, just the edge from the parent task to the child
+                insertEdge(parent, parentNode, subTaskToNode.get(child));
+                insertRecursivelyIntoGraph(parent, child, subTaskToNode.get(child), subTaskToNode);
+                return;
+            }
+
+            //child has not been added
+            Object childNode = createAndInsertVertex(parent, child);
+            insertEdge(parent, parentNode, childNode);
+            //add child
+            subTaskToNode.put(child, childNode);
+            //recurse
+            insertRecursivelyIntoGraph(parent, child, childNode, subTaskToNode);
+        }
 
     }
 
@@ -118,10 +148,9 @@ public class GraphView extends JFrame implements ActionListener {
     }
 
     public Object createAndInsertVertex(Object parent, SubTask subTask) {
-
-        Object vertex = graph.insertVertex(parent, subTask.getTaskName(), subTask.getTaskName(), 0, 0,
+        idToTask.put(String.valueOf(id), subTask);
+        Object vertex = graph.insertVertex(parent, String.valueOf(++id), subTask.getTaskName(), 0, 0,
                 DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        idToTask.put(subTask.getTaskName(), subTask);
         return vertex;
     }
 
