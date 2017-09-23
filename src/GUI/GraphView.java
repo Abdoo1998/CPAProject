@@ -7,6 +7,7 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -15,15 +16,16 @@ import java.util.Map;
 public class GraphView extends JFrame implements ActionListener {
 
     private OverallTask task;
-    private ActionListener action;
+    private Action action;
     private mxGraph graph;
-    private Object parent;
+    private mxGraphComponent graphComponent;
     private Map<String, Task> idToTask;
     private int id = 0;
 
     private static final int DEFAULT_WIDTH = 100;
     private static final int DEFAULT_HEIGHT = 40;
-
+    private static final int VERTICAL_SCROLL_SPEED = 18;
+    private static final int HORIZONTAL_SCROLL_SPEED = 18;
 
     public GraphView(OverallTask task, Action action) {
         super("Graph View");
@@ -32,14 +34,45 @@ public class GraphView extends JFrame implements ActionListener {
         this.action = action;
         this.idToTask = new HashMap<>();
         this.graph = new mxGraph();
-        this.parent = graph.getDefaultParent();
+        Object parent = graph.getDefaultParent();
 
-        insertAndDrawAllTasks(parent, task);
-        System.out.println("Found:" + SubTask.findSubTaskInDependencies(task, "L"));
+
+        graph.setCellsEditable(false);
+        graph.setCellsMovable(false);
+        graph.setCellsResizable(false);
+        graph.setCellsSelectable(false);
+        graph.setConnectableEdges(false);
+
+        //sets up the graph component and draws the graph
+        this.graphComponent = insertAndDrawAllTasks(parent, task);
+        graphComponent.setPreferredSize(graphComponent.getPreferredSize());
+        JPanel panel = new JPanel();
+        panel.add(graphComponent);
+        panel.setPreferredSize(panel.getPreferredSize());
+        this.setLayout(new GridBagLayout());
+        setCustomLayout(panel);
 
     }
 
-    private void insertAndDrawAllTasks(Object parent, OverallTask task) {
+    private void setCustomLayout(JPanel panel) {
+        GridBagConstraints panelConstraints = new GridBagConstraints();
+        panelConstraints.gridx = 0;
+        panelConstraints.gridy = 0;
+        panelConstraints.weightx = 1;
+        panelConstraints.weighty = 1;
+        panelConstraints.fill = GridBagConstraints.BOTH;
+        add(panel, panelConstraints);
+    }
+
+    public mxGraph getGraph() {
+        return graph;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    private mxGraphComponent insertAndDrawAllTasks(Object parent, OverallTask task) {
 
         Map<SubTask, Object> subTaskToNode = new HashMap<>();
 
@@ -66,26 +99,25 @@ public class GraphView extends JFrame implements ActionListener {
 
         //adds the graph to the frame
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
-        getContentPane().add(graphComponent);
+        graphComponent.setConnectable(false);
+        graphComponent.getVerticalScrollBar().setUnitIncrement(VERTICAL_SCROLL_SPEED);
+        graphComponent.getHorizontalScrollBar().setUnitIncrement(HORIZONTAL_SCROLL_SPEED);
 
         //sets up the hierarchical layout
         mxHierarchicalLayout layout = new mxHierarchicalLayout(graph);
+        layout.setOrientation(SwingConstants.WEST);
         layout.execute(parent);
 
+        return graphComponent;
     }
 
     private void insertRecursivelyIntoGraph(Object parent, SubTask t, Object parentNode, Map<SubTask, Object> subTaskToNode) {
         //base case
         if (t.getDependencies().isEmpty()) {
-            System.out.println("No dependencies: " + t);
             return;
         }
 
         for (SubTask child : t.getDependencies()) {
-            System.out.println();
-            System.out.println("Parent: " + t);
-            System.out.println("Child: " + child);
-            System.out.println();
 
             if (subTaskToNode.keySet().contains(child)) {
                 //child has alread been added, no need to draw another object, just the edge from the parent task to
@@ -186,8 +218,7 @@ public class GraphView extends JFrame implements ActionListener {
         G.addDependency(K);
         G.addDependency(L);
 
-
-
+        
         return overallTask;
     }
 
@@ -196,7 +227,7 @@ public class GraphView extends JFrame implements ActionListener {
 
         GraphView frame = new GraphView(createTest(), null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 800);
+        frame.pack();
         frame.setVisible(true);
     }
 
