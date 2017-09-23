@@ -19,6 +19,7 @@ public class GraphView extends JFrame implements ActionListener {
     private Action action;
     private mxGraph graph;
     private mxGraphComponent graphComponent;
+    private JScrollPane scrollPane;
     private Map<String, Task> idToTask;
     private int id = 0;
 
@@ -27,8 +28,9 @@ public class GraphView extends JFrame implements ActionListener {
     private static final int VERTICAL_SCROLL_SPEED = 18;
     private static final int HORIZONTAL_SCROLL_SPEED = 18;
 
-    public GraphView(OverallTask task, Action action) {
-        super("Graph View");
+    public GraphView(String title, OverallTask task, Action action) {
+        super(title);
+        setResizable(false);
 
         this.task = task;
         this.action = action;
@@ -46,22 +48,25 @@ public class GraphView extends JFrame implements ActionListener {
         //sets up the graph component and draws the graph
         this.graphComponent = insertAndDrawAllTasks(parent, task);
         graphComponent.setPreferredSize(graphComponent.getPreferredSize());
-        JPanel panel = new JPanel();
-        panel.add(graphComponent);
-        panel.setPreferredSize(panel.getPreferredSize());
+        this.scrollPane = new JScrollPane(graphComponent);
+        scrollPane.setPreferredSize(scrollPane.getPreferredSize());
+        scrollPane.getVerticalScrollBar().setUnitIncrement(VERTICAL_SCROLL_SPEED);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(HORIZONTAL_SCROLL_SPEED);
+        scrollPane.setBorder(null);
         this.setLayout(new GridBagLayout());
-        setCustomLayout(panel);
+        setCustomLayout(scrollPane);
 
     }
 
-    private void setCustomLayout(JPanel panel) {
+    private void setCustomLayout(JScrollPane scrollPane) {
         GridBagConstraints panelConstraints = new GridBagConstraints();
         panelConstraints.gridx = 0;
         panelConstraints.gridy = 0;
         panelConstraints.weightx = 1;
         panelConstraints.weighty = 1;
+        panelConstraints.insets = new Insets(8, 8, 8, 8);
         panelConstraints.fill = GridBagConstraints.BOTH;
-        add(panel, panelConstraints);
+        add(scrollPane, panelConstraints);
     }
 
     public mxGraph getGraph() {
@@ -100,8 +105,6 @@ public class GraphView extends JFrame implements ActionListener {
         //adds the graph to the frame
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
         graphComponent.setConnectable(false);
-        graphComponent.getVerticalScrollBar().setUnitIncrement(VERTICAL_SCROLL_SPEED);
-        graphComponent.getHorizontalScrollBar().setUnitIncrement(HORIZONTAL_SCROLL_SPEED);
 
         //sets up the hierarchical layout
         mxHierarchicalLayout layout = new mxHierarchicalLayout(graph);
@@ -164,6 +167,29 @@ public class GraphView extends JFrame implements ActionListener {
         return vertex;
     }
 
+    public Map<String, Task> getIdToTask() {
+        return idToTask;
+    }
+
+    public void updateGraph() {
+        this.graph = new mxGraph();
+        Object parent = graph.getDefaultParent();
+
+        graph.setCellsEditable(false);
+        graph.setCellsMovable(false);
+        graph.setCellsResizable(false);
+        graph.setCellsSelectable(false);
+        graph.setConnectableEdges(false);
+
+        //sets up the graph component and draws the graph
+        this.graphComponent = insertAndDrawAllTasks(parent, task);
+        graphComponent.setPreferredSize(graphComponent.getPreferredSize());
+        //update scroll pane
+        scrollPane.setViewportView(graphComponent);
+        scrollPane.revalidate();
+
+    }
+
     public SubTask getSubTask(String id) {
         if (Integer.parseInt(id) == 0) {
             throw new IllegalArgumentException("ID must not be 0, use getOverallTask()");
@@ -177,6 +203,13 @@ public class GraphView extends JFrame implements ActionListener {
 
     public void insertEdge(Object parent, Object node1, Object node2) {
        graph.insertEdge(parent, String.valueOf(++id), null, node1, node2);
+    }
+
+    public void showGUI() {
+        pack();
+        // shows GUI in center of application frame. Requires to be called after pack() and before setVisible(true)
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
 
@@ -218,14 +251,14 @@ public class GraphView extends JFrame implements ActionListener {
         G.addDependency(K);
         G.addDependency(L);
 
-        
+
         return overallTask;
     }
 
     public static void main(String[] args) {
 
 
-        GraphView frame = new GraphView(createTest(), null);
+        GraphView frame = new GraphView("Graph View", createTest(), null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
