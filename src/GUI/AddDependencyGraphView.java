@@ -14,54 +14,67 @@ import java.awt.event.ActionListener;
  *
  * @author gorosgobe
  */
-public class AddDependencyGraphView extends GraphView implements ActionListener {
+public class AddDependencyGraphView extends AbstractSelectDependencyGraphView implements ActionListener {
 
-    private static final String SELECT_BUTTON_STRING = "Select";
+    private static final String ADD_BUTTON_STRING = "Add";
+    private static final String CANCEL_BUTTON_STRING = "Cancel";
+    private static final String ADD_DEPENDENCY_MESSAGE = "Add dependency to";
     private TaskDataPanel taskDataPanel;
     private SubTaskGUI subTaskGUI;
 
     public AddDependencyGraphView(String title, OverallTask task, SubTaskGUI subTaskGUI) {
-        super(title, task);
+        super(title, task, null);
         this.subTaskGUI = subTaskGUI;
-        setMinimumSize(new Dimension(300, 200));
-        setMaximumSize(new Dimension(1200, 800));
 
-        //can select cells
-        getGraph().setCellsSelectable(true);
-        //set up button
-        JButton selectButton = LayoutUtils.setButton(SELECT_BUTTON_STRING, this);
-
-        //set button
-        GridBagConstraints constraints = LayoutUtils.createConstraints(1, 2,
-                new Insets(8, 8, 8, 8), GridBagConstraints.LAST_LINE_END);
-        constraints.fill = GridBagConstraints.NONE;
-        add(selectButton, constraints);
+        setFrameLayout();
+        setButtonLayout();
     }
 
     public AddDependencyGraphView(String title, OverallTask task, SubTaskGUI subTaskGUI, TaskDataPanel taskDataPanel) {
-        super(title, task);
+        super(title, task, taskDataPanel);
         this.subTaskGUI = subTaskGUI;
         this.taskDataPanel = taskDataPanel;
+
+        setFrameLayout();
+        setButtonLayout();
+    }
+
+    private void setFrameLayout() {
         setMinimumSize(new Dimension(300, 200));
         setMaximumSize(new Dimension(1200, 800));
 
+        getSelectedLabel().setText(ADD_DEPENDENCY_MESSAGE + ": ");
+        getSelectedLabel().setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        getSelectedNode().setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        getSelectedNode().setText(getTask().getTaskName());
+    }
+
+
+    private void setButtonLayout() {
         //can select cells
         getGraph().setCellsSelectable(true);
-        //set up button
-        JButton selectButton = LayoutUtils.setButton(SELECT_BUTTON_STRING, this);
 
-        //set button
-        GridBagConstraints constraints = LayoutUtils.createConstraints(1, 3,
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        //set up button
+        JButton selectButton = LayoutUtils.setButton(ADD_BUTTON_STRING, this);
+        JButton cancelButton = LayoutUtils.setButton(CANCEL_BUTTON_STRING, this);
+
+        panel.add(selectButton);
+        panel.add(cancelButton);
+
+        //set panel
+        GridBagConstraints constraints = LayoutUtils.createConstraints(1, 2,
                 new Insets(8, 8, 8, 8), GridBagConstraints.LAST_LINE_END);
         constraints.fill = GridBagConstraints.NONE;
-        add(selectButton, constraints);
+        add(panel, constraints);
+
     }
 
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()) {
-            case SELECT_BUTTON_STRING: {
+            case ADD_BUTTON_STRING: {
 
                 if (getGraph().getSelectionCell() == null) {
                     MessageGUI messageGUI = new MessageGUI("Invalid Selection", "You have not selected " +
@@ -89,6 +102,11 @@ public class AddDependencyGraphView extends GraphView implements ActionListener 
 
                 close();
                 subTaskGUI.close();
+                break;
+            }
+            case CANCEL_BUTTON_STRING: {
+                close();
+                break;
             }
         }
     }

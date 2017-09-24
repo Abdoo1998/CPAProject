@@ -225,7 +225,7 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
                     return;
                 }
                 //show GUI for add dependency graph view
-                AddDependencyGraphView graphView = new AddDependencyGraphView("Select parent task",
+                AddDependencyGraphView graphView = new AddDependencyGraphView("Select task to add to",
                         stringTaskMap.get(taskDropdown.getSelectedItem()), this);
                 javax.swing.SwingUtilities.invokeLater(graphView::showGUI);
             }
