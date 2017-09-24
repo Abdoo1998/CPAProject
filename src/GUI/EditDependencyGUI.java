@@ -2,6 +2,7 @@ package GUI;
 
 import application.Duration;
 import application.SubTask;
+import com.mxgraph.model.mxCell;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
     /** A reference to the task data panel*/
     private final TaskDataPanel taskDataPanel;
     /** A reference to the select GUI (used for updating the tree view)*/
-    private final SelectEditDependencyGUI selectGUI;
+    private final AbstractSelectDependencyGraphView graphView;
     /** The subtask to edit*/
     private SubTask subTask;
 
@@ -31,10 +32,10 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
     private static final String CANCEL_BUTTON_STRING = "Cancel";
 
 
-    public EditDependencyGUI(SelectEditDependencyGUI selectGUI, SubTask subTask, TaskDataPanel taskDataPanel) {
+    public EditDependencyGUI(AbstractSelectDependencyGraphView graphView, SubTask subTask, TaskDataPanel taskDataPanel) {
         this.subTask = subTask;
         this.taskDataPanel = taskDataPanel;
-        this.selectGUI = selectGUI;
+        this.graphView = graphView;
 
         JButton updateButton = LayoutUtils.setButton(UPDATE_BUTTON_STRING, this);
         JButton cancelButton = LayoutUtils.setButton(CANCEL_BUTTON_STRING, this);
@@ -97,7 +98,7 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
             case UPDATE_BUTTON_STRING: {
                 //update subtask
                 //check if name is valid
-                if (getTaskNameField().getText().equals("")) {
+                if (getTaskNameText().equals("")) {
                     //invalid subtask name, notify the user
                     MessageGUI messageGUI = new MessageGUI("Invalid Name", "A subtask cannot have an " +
                             "empty name. Please input a valid name for the subtask.");
@@ -122,8 +123,10 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
                 subTask.setName(getTaskNameField().getText());
                 subTask.setDuration(getDurationField().getDuration());
                 taskDataPanel.updateGanttChart();
+                mxCell cell = (mxCell) graphView.getGraph().getSelectionCell();
+                graphView.getGraph().getModel().setValue(cell, getTaskNameText());
+                graphView.getSelectedNode().setText(getTaskNameText());
                 this.close();
-
                 break;
             }
             case CANCEL_BUTTON_STRING: {

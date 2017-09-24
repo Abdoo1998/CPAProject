@@ -59,7 +59,7 @@ public class GraphView extends JFrame {
     private void setCustomLayout(JScrollPane scrollPane) {
         GridBagConstraints panelConstraints = new GridBagConstraints();
         panelConstraints.gridx = 0;
-        panelConstraints.gridy = 0;
+        panelConstraints.gridy = 1;
         panelConstraints.weightx = 1;
         panelConstraints.weighty = 1;
         panelConstraints.gridwidth = 2;
@@ -156,7 +156,7 @@ public class GraphView extends JFrame {
 
     }
 
-    public Object createAndInsertVertex(Object parent, OverallTask task) {
+    private Object createAndInsertVertex(Object parent, OverallTask task) {
         //precondition is that id == 0
         idToTask.put(task.getTaskName(), task);
         //increments id after putting the overall task into the map
@@ -164,7 +164,7 @@ public class GraphView extends JFrame {
                 DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-    public Object createAndInsertVertex(Object parent, SubTask subTask) {
+    private Object createAndInsertVertex(Object parent, SubTask subTask) {
         idToTask.put(subTask.getTaskName(), subTask);
         Object vertex = graph.insertVertex(parent, subTask.getTaskName(), subTask.getTaskName(), 0, 0,
                 DEFAULT_WIDTH, DEFAULT_HEIGHT);

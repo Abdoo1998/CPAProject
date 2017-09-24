@@ -6,7 +6,8 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 /**
- * GUI to add a dependency to a task from its task data panel. Handles updating of the Gantt Chart in the task data panel.
+ * GUI to add a dependency to a task from its task data panel. Calls an add dependency graph view, which handles the
+ * selection and addition.
  *
  * @author gorosgobe
  */

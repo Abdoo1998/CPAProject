@@ -323,7 +323,6 @@ public class OptionsPanel extends JPanel implements ActionListener {
             case ADD_DEPENDENCY_BUTTON: {
                 //add dependency GUI handles the updating of the Gantt chart
                 AddDependencyGUI addDependencyGUI = new AddDependencyGUI(applicationReference.getTasks(), task, taskDataPanel);
-
                 javax.swing.SwingUtilities.invokeLater(addDependencyGUI::showGUI);
                 break;
             }
@@ -334,8 +333,8 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 break;
             }
             case EDIT_DEPENDENCY_BUTTON: {
-                SelectEditDependencyGUI selectEditDependencyGUI = new SelectEditDependencyGUI(taskDataPanel, task);
-                javax.swing.SwingUtilities.invokeLater(selectEditDependencyGUI::createAndShowGUI);
+                SelectEditDependencyGraphView graphView = new SelectEditDependencyGraphView("Select task", task, taskDataPanel);
+                javax.swing.SwingUtilities.invokeLater(graphView::createAndShowGUI);
                 break;
             }
             case DELETE_OVERALL_TASK_BUTTON: {

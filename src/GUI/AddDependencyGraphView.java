@@ -51,7 +51,7 @@ public class AddDependencyGraphView extends GraphView implements ActionListener 
         JButton selectButton = LayoutUtils.setButton(SELECT_BUTTON_STRING, this);
 
         //set button
-        GridBagConstraints constraints = LayoutUtils.createConstraints(1, 2,
+        GridBagConstraints constraints = LayoutUtils.createConstraints(1, 3,
                 new Insets(8, 8, 8, 8), GridBagConstraints.LAST_LINE_END);
         constraints.fill = GridBagConstraints.NONE;
         add(selectButton, constraints);

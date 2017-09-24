@@ -62,8 +62,8 @@ public class SelectEditDependencyGUI extends AbstractSelectDependency {
                 }
                 //create the GUI that will handle the editing
                 SubTask subTask = SubTask.findSubTaskInDependencies(getTask(), getSelectedNode().getText());
-                EditDependencyGUI editDependencyGUI = new EditDependencyGUI(this, subTask, getTaskDataPanel());
-                javax.swing.SwingUtilities.invokeLater(editDependencyGUI::showGUI);
+                //EditDependencyGUI editDependencyGUI = new EditDependencyGUI(this, subTask, getTaskDataPanel());
+                //javax.swing.SwingUtilities.invokeLater(editDependencyGUI::showGUI);
 
                 break;
             }
