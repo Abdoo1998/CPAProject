@@ -35,8 +35,6 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
     private static final String LABEL_MESSAGE = "Select main task";
     /** String representing the task dropdown message*/
     private static final String TASK_DROPDOWN_STRING = "Task dropdown";
-    /** String representing the selected node in the tree view (subTask)*/
-    private static final String SELECTED_NODE_STRING = "Add as dependency to";
 
 
     /**
@@ -191,6 +189,10 @@ public class SubTaskGUI extends TaskGUI implements ActionListener {
 
     public Map<String, OverallTask> getStringTaskMap() {
         return stringTaskMap;
+    }
+
+    public String getButtonString() {
+        return BUTTON_STRING;
     }
 
     public void close() {

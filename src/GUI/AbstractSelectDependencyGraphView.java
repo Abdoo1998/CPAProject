@@ -41,7 +41,6 @@ public abstract class AbstractSelectDependencyGraphView extends GraphView implem
                 if (cell != null && cell instanceof mxCell && !getGraph().getModel().isEdge(cell)) {
                     String id = ((mxCell) cell).getId();
                     getSelectedNode().setText(id);
-                    getSelectedNode().revalidate();
                 } else {
                     getSelectedNode().setText("None selected");
                 }
