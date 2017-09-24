@@ -211,6 +211,7 @@ public class OverallTaskGUI extends TaskGUI implements ActionListener {
             return;
         }
         applicationReference.addOverallTask(new OverallTask(taskName, duration, startingTime, descriptionString));
+        applicationReference.updateTaskPanel();
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 }

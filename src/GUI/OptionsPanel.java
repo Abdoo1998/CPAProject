@@ -60,6 +60,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
     private JButton deleteOverallTaskButton;
     private JButton optimiseScheduleButton;
     private JButton showGraphViewButton;
+    private JButton newDependencyButton;
 
 
     //constants
@@ -78,6 +79,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
     private static final String DELETE_OVERALL_TASK_BUTTON = "Delete task";
     private static final String OPTIMISE_SCHEDULE_BUTTON = "Optimise schedule";
     private static final String SHOW_GRAPH_BUTTON = "Show graph view";
+    private static final String NEW_DEPENDENCY_BUTTON = "New dependency";
 
 
     public OptionsPanel(OverallTask task, TaskDataPanel taskDataPanel, CPAProjectApplicationGUI applicationReference) {
@@ -156,6 +158,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
         this.deleteOverallTaskButton = setButton(DELETE_OVERALL_TASK_BUTTON, this);
         this.optimiseScheduleButton = setButton(OPTIMISE_SCHEDULE_BUTTON, this);
         this.showGraphViewButton = setButton(SHOW_GRAPH_BUTTON, this);
+        this.newDependencyButton = setButton(NEW_DEPENDENCY_BUTTON, this);
         //TODO: Optimise dependencies (once Naman and Erik finish) - compute CPA and show in Gantt chart
 
         setCustomLayoutManageDependenciesPanel(manageDependenciesPanel);
@@ -244,6 +247,9 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
         GridBagConstraints showGraphConstraints = createConstraints(1, 0);
         manageDependenciesPanel.add(showGraphViewButton, showGraphConstraints);
+
+        GridBagConstraints newDependencyConstraints = createConstraints(1, 1);
+        manageDependenciesPanel.add(newDependencyButton, newDependencyConstraints);
 
     }
 
@@ -378,6 +384,10 @@ public class OptionsPanel extends JPanel implements ActionListener {
             case SHOW_GRAPH_BUTTON: {
                 GraphView graphView = new GraphView("Graph View of " + task.getTaskName(), task);
                 javax.swing.SwingUtilities.invokeLater(graphView::showGUI);
+                break;
+            }
+            case NEW_DEPENDENCY_BUTTON: {
+                break;
             }
         }
     }
