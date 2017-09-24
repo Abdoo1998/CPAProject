@@ -86,28 +86,11 @@ public class Main {
 //        javax.swing.SwingUtilities.invokeLater(subTaskGUI::showGUI);
 
 
-        application.addOverallTask(t2);
+        application.addOverallTask(t1);
         application.addOverallTask(t3);
         application.addOverallTask(t2);
         application.addOverallTask(overallTask);
-        application.addOverallTask(t3);
-        application.addOverallTask(t2);
-        application.addOverallTask(t3);
-        application.addOverallTask(t1);
-        application.addOverallTask(t2);
-        application.addOverallTask(t3);
-        application.addOverallTask(t2);
-        application.addOverallTask(t3);
-        application.addOverallTask(t2);
-        application.addOverallTask(t3);
-        application.addOverallTask(t1);
-        application.addOverallTask(t2);
-        application.addOverallTask(t3);
-        application.addOverallTask(t2);
-        application.addOverallTask(t3);
-        application.addOverallTask(t2);
-        application.addOverallTask(t3);
-        application.addOverallTask(t1);
+
         application.revalidate();
 
     }

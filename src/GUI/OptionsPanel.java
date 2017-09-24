@@ -52,12 +52,15 @@ public class OptionsPanel extends JPanel implements ActionListener {
     /** A reference to the button that will update the description of the task*/
     private JButton updateDescriptionButton;
 
+
     //MANAGE DEPENDENCIES PANEL
     private JButton addDependencyButton;
     private JButton removeDependencyButton;
     private JButton editDependencyButton;
     private JButton deleteOverallTaskButton;
     private JButton optimiseScheduleButton;
+    private JButton showGraphViewButton;
+
 
     //constants
     /** The string on the name button*/
@@ -69,12 +72,12 @@ public class OptionsPanel extends JPanel implements ActionListener {
     /** The string on the description button*/
     private static final String UPDATE_DESCRIPTION_BUTTON = "Update description";
 
-    private static final String ADD_SUBTASK_BUTTON = "Add Subtask";
-    private static final String REMOVE_SUBTASK_BUTTON = "Remove Subtask";
-    private static final String EDIT_SUBTASK_BUTTON = "Edit Subtask";
+    private static final String ADD_SUBTASK_BUTTON = "Add subtask";
+    private static final String REMOVE_SUBTASK_BUTTON = "Remove subtask";
+    private static final String EDIT_SUBTASK_BUTTON = "Edit subtask";
     private static final String DELETE_OVERALL_TASK_BUTTON = "Delete task";
     private static final String OPTIMISE_SCHEDULE_BUTTON = "Optimise schedule";
-
+    private static final String SHOW_GRAPH_BUTTON = "Show graph view";
 
 
     public OptionsPanel(OverallTask task, TaskDataPanel taskDataPanel, CPAProjectApplicationGUI applicationReference) {
@@ -152,7 +155,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
         this.editDependencyButton = setButton(EDIT_SUBTASK_BUTTON, this);
         this.deleteOverallTaskButton = setButton(DELETE_OVERALL_TASK_BUTTON, this);
         this.optimiseScheduleButton = setButton(OPTIMISE_SCHEDULE_BUTTON, this);
-
+        this.showGraphViewButton = setButton(SHOW_GRAPH_BUTTON, this);
         //TODO: Optimise dependencies (once Naman and Erik finish) - compute CPA and show in Gantt chart
 
         setCustomLayoutManageDependenciesPanel(manageDependenciesPanel);
@@ -238,6 +241,9 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
         GridBagConstraints optimiseAndScheduleConstraints = createConstraints(0,4);
         manageDependenciesPanel.add(optimiseScheduleButton, optimiseAndScheduleConstraints);
+
+        GridBagConstraints showGraphConstraints = createConstraints(1, 0);
+        manageDependenciesPanel.add(showGraphViewButton, showGraphConstraints);
 
     }
 
@@ -364,6 +370,14 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
                 javax.swing.SwingUtilities.invokeLater(warningGUI::createAndShowGUI);
                 break;
+            }
+            case OPTIMISE_SCHEDULE_BUTTON: {
+
+                break;
+            }
+            case SHOW_GRAPH_BUTTON: {
+                GraphView graphView = new GraphView("Graph View of " + task.getTaskName(), task);
+                javax.swing.SwingUtilities.invokeLater(graphView::showGUI);
             }
         }
     }

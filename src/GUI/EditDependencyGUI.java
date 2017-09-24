@@ -47,7 +47,7 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
         getDurationField().getHoursField().setText(duration.getHours() + "");
         getDurationField().getMinutesField().setText(duration.getRemainingMinutes() + "");
 
-        setTitle(FRAME_TITLE + " \"" + subTask.getTaskName() + "\"");
+        setTitle(FRAME_TITLE + " " + subTask.getTaskName());
         setResizable(false);
     }
 
