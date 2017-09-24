@@ -73,11 +73,13 @@ public abstract class AbstractSelectDependencyGraphView extends GraphView implem
      */
     private void setCustomLayout() {
 
-        GridBagConstraints selectedLabelConstraints = LayoutUtils.createConstraints(0, 0, TOP_DEFAULT_INSETS);
-        add(selectedLabel, selectedLabelConstraints);
+        JPanel labelAndNode = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        labelAndNode.add(getSelectedLabel());
+        labelAndNode.add(getSelectedNode());
 
-        GridBagConstraints selectedNodeStringConstraints = LayoutUtils.createConstraints(1, 0, TOP_DEFAULT_INSETS);
-        add(selectedNode, selectedNodeStringConstraints);
+        GridBagConstraints selectedLabelAndNodeConstraints = LayoutUtils.createConstraints(0, 0,
+                TOP_DEFAULT_INSETS, GridBagConstraints.FIRST_LINE_START);
+        add(labelAndNode, selectedLabelAndNodeConstraints);
 
     }
 

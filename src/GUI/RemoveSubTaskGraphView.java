@@ -15,19 +15,19 @@ import static GUI.TaskGUI.DEFAULT_INSETS;
  *
  * @author gorosgobe
  */
-public class RemoveDependencyGUI extends AbstractSelectDependencyGraphView {
+public class RemoveSubTaskGraphView extends AbstractSelectDependencyGraphView {
 
     /** Title of the frame*/
-    private static final String FRAME_TITLE = "Remove Dependency";
+    private static final String FRAME_TITLE = "Remove Subtask";
     /** String representing the string on the remove button*/
     private static final String REMOVE_BUTTON_STRING = "Remove";
     /** String representing the string on the cancel button*/
     private static final String CANCEL_BUTTON_STRING = "Cancel";
     /** String representing the text in the label*/
-    private static final String REMOVE_DEPENDENCY_LABEL = "Remove dependency";
+    private static final String REMOVE_DEPENDENCY_LABEL = "Remove subtask";
 
 
-    public RemoveDependencyGUI(TaskDataPanel taskDataPanel, OverallTask task) {
+    public RemoveSubTaskGraphView(TaskDataPanel taskDataPanel, OverallTask task) {
         super(FRAME_TITLE, task, taskDataPanel);
 
         //makes cells selectable
@@ -45,11 +45,11 @@ public class RemoveDependencyGUI extends AbstractSelectDependencyGraphView {
 
     private void setCustomLayout(JButton removeButton, JButton cancelButton) {
         //creates a panel for both buttons
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panel.add(removeButton);
         panel.add(cancelButton);
         GridBagConstraints buttonsConstraints = LayoutUtils.createConstraints(1,3, DEFAULT_INSETS,
-                GridBagConstraints.LAST_LINE_END);
+                GridBagConstraints.BASELINE_TRAILING);
         add(panel, buttonsConstraints);
     }
 

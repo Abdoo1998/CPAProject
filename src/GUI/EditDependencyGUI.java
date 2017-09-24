@@ -25,7 +25,7 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
     private SubTask subTask;
 
     /** String representing the title of the frame*/
-    private static final String FRAME_TITLE = "Edit Dependency";
+    private static final String FRAME_TITLE = "Edit Subtask";
     /** String on the update button*/
     private static final String UPDATE_BUTTON_STRING = "Update";
     /** String on cancel button*/
@@ -57,19 +57,13 @@ public class EditDependencyGUI extends TaskGUI implements ActionListener {
      */
     private void setCustomLayout(JButton updateButton, JButton cancelButton) {
 
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panel.add(updateButton);
         panel.add(cancelButton);
 
         //button constraints
-        GridBagConstraints panelConstraints = new GridBagConstraints();
-        panelConstraints.gridx = 1;
-        panelConstraints.gridy = 2;
-        panelConstraints.weightx = 0.5;
-        panelConstraints.weighty = 0.5;
-        panelConstraints.fill = GridBagConstraints.NONE;
-        panelConstraints.anchor = GridBagConstraints.LAST_LINE_END;
-        panelConstraints.insets = DEFAULT_INSETS;
+        GridBagConstraints panelConstraints = LayoutUtils.createConstraints(1, 3,
+                new Insets(8, 8, 8, 8), GridBagConstraints.BASELINE_TRAILING);
         add(panel, panelConstraints);
 
     }

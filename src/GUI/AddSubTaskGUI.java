@@ -11,17 +11,17 @@ import java.util.List;
  *
  * @author gorosgobe
  */
-public class AddDependencyGUI extends SubTaskGUI {
+public class AddSubTaskGUI extends SubTaskGUI {
 
     private TaskDataPanel taskDataPanel;
 
-    public AddDependencyGUI(List<OverallTask> tasksToShow, TaskDataPanel taskDataPanel) {
+    public AddSubTaskGUI(List<OverallTask> tasksToShow, TaskDataPanel taskDataPanel) {
         super(tasksToShow);
         this.taskDataPanel = taskDataPanel;
         getTaskDropdown().setEnabled(false);
     }
 
-    public AddDependencyGUI(List<OverallTask> tasksToShow, OverallTask toBeSelectedTask, TaskDataPanel taskDataPanel) {
+    public AddSubTaskGUI(List<OverallTask> tasksToShow, OverallTask toBeSelectedTask, TaskDataPanel taskDataPanel) {
         super(tasksToShow, toBeSelectedTask);
         this.taskDataPanel = taskDataPanel;
         getTaskDropdown().setEnabled(false);
@@ -31,9 +31,9 @@ public class AddDependencyGUI extends SubTaskGUI {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if (actionEvent.getActionCommand().equals(getButtonString())) {
-            AddDependencyGraphView addDependencyGraphView = new AddDependencyGraphView(super.getTitle(),
+            AddSubTaskGraphView addSubTaskGraphView = new AddSubTaskGraphView(super.getTitle(),
                     taskDataPanel.getTask(), this, taskDataPanel);
-            javax.swing.SwingUtilities.invokeLater(addDependencyGraphView::showGUI);
+            javax.swing.SwingUtilities.invokeLater(addSubTaskGraphView::showGUI);
         }
     }
 }

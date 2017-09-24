@@ -14,15 +14,15 @@ import java.awt.event.ActionListener;
  *
  * @author gorosgobe
  */
-public class AddDependencyGraphView extends AbstractSelectDependencyGraphView implements ActionListener {
+public class AddSubTaskGraphView extends AbstractSelectDependencyGraphView implements ActionListener {
 
     private static final String ADD_BUTTON_STRING = "Add";
     private static final String CANCEL_BUTTON_STRING = "Cancel";
-    private static final String ADD_DEPENDENCY_MESSAGE = "Add dependency to";
+    private static final String ADD_DEPENDENCY_MESSAGE = "Add subtask as dependency to";
     private TaskDataPanel taskDataPanel;
     private SubTaskGUI subTaskGUI;
 
-    public AddDependencyGraphView(String title, OverallTask task, SubTaskGUI subTaskGUI) {
+    public AddSubTaskGraphView(String title, OverallTask task, SubTaskGUI subTaskGUI) {
         super(title, task, null);
         this.subTaskGUI = subTaskGUI;
 
@@ -30,7 +30,7 @@ public class AddDependencyGraphView extends AbstractSelectDependencyGraphView im
         setButtonLayout();
     }
 
-    public AddDependencyGraphView(String title, OverallTask task, SubTaskGUI subTaskGUI, TaskDataPanel taskDataPanel) {
+    public AddSubTaskGraphView(String title, OverallTask task, SubTaskGUI subTaskGUI, TaskDataPanel taskDataPanel) {
         super(title, task, taskDataPanel);
         this.subTaskGUI = subTaskGUI;
         this.taskDataPanel = taskDataPanel;

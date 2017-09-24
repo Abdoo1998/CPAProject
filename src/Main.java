@@ -45,6 +45,43 @@ public class Main {
         s2.addDependency(s21);
         s2.addDependency(s22);
 
+        Duration dummyDuration = new Duration(0, 10);
+        Time dummyTime = new Time(0, 10);
+
+        OverallTask overallTask = new OverallTask("A", dummyDuration, dummyTime);
+
+        SubTask B = new SubTask("B", dummyDuration);
+        SubTask C = new SubTask("C", dummyDuration);
+        SubTask D = new SubTask("D", dummyDuration);
+        SubTask E = new SubTask("E", dummyDuration);
+        SubTask F = new SubTask("F", dummyDuration);
+        SubTask G = new SubTask("G", dummyDuration);
+        SubTask H = new SubTask("H", dummyDuration);
+        SubTask I = new SubTask("I", dummyDuration);
+        SubTask J = new SubTask("J", dummyDuration);
+        SubTask K = new SubTask("K", dummyDuration);
+        SubTask L = new SubTask("L", dummyDuration);
+
+        overallTask.addSubTask(B);
+        overallTask.addSubTask(C);
+        overallTask.addSubTask(D);
+        overallTask.addSubTask(E);
+
+        B.addDependency(F);
+        C.addDependency(F);
+        D.addDependency(F);
+        D.addDependency(I);
+        D.addDependency(K);
+        E.addDependency(G);
+        F.addDependency(H);
+        F.addDependency(I);
+        H.addDependency(J);
+        I.addDependency(J);
+        I.addDependency(H);
+        J.addDependency(K);
+        G.addDependency(K);
+        G.addDependency(L);
+
 //        SubTaskGUI subTaskGUI = new SubTaskGUI(tasks);
 //        javax.swing.SwingUtilities.invokeLater(subTaskGUI::showGUI);
 
@@ -52,6 +89,7 @@ public class Main {
         application.addOverallTask(t2);
         application.addOverallTask(t3);
         application.addOverallTask(t2);
+        application.addOverallTask(overallTask);
         application.addOverallTask(t3);
         application.addOverallTask(t2);
         application.addOverallTask(t3);

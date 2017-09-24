@@ -43,7 +43,7 @@ public class SelectEditDependencyGraphView extends AbstractSelectDependencyGraph
     private void setCustomLayout(JButton selectButton, JButton cancelButton) {
 
         //creates a panel for both buttons
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panel.add(selectButton);
         panel.add(cancelButton);
         GridBagConstraints buttonsConstraints = LayoutUtils.createConstraints(1,3, DEFAULT_INSETS,

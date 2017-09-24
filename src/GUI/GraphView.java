@@ -140,7 +140,7 @@ public class GraphView extends JFrame {
                     continue;
                 } else {
                     //avoids duplication of edges
-                    insertRecursivelyIntoGraph(parent, child, subTaskToNode.get(child), subTaskToNode);
+                    //insertRecursivelyIntoGraph(parent, child, subTaskToNode.get(child), subTaskToNode);
                     continue;
                 }
             }

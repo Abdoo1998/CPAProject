@@ -69,9 +69,9 @@ public class OptionsPanel extends JPanel implements ActionListener {
     /** The string on the description button*/
     private static final String UPDATE_DESCRIPTION_BUTTON = "Update description";
 
-    private static final String ADD_DEPENDENCY_BUTTON = "Add dependency";
-    private static final String REMOVE_DEPENDENCY_BUTTON = "Remove dependency";
-    private static final String EDIT_DEPENDENCY_BUTTON = "Edit dependency";
+    private static final String ADD_SUBTASK_BUTTON = "Add Subtask";
+    private static final String REMOVE_SUBTASK_BUTTON = "Remove Subtask";
+    private static final String EDIT_SUBTASK_BUTTON = "Edit Subtask";
     private static final String DELETE_OVERALL_TASK_BUTTON = "Delete task";
     private static final String OPTIMISE_SCHEDULE_BUTTON = "Optimise schedule";
 
@@ -147,9 +147,9 @@ public class OptionsPanel extends JPanel implements ActionListener {
         //Panel on the right, manages the dependencies of the Overall task, called Manage Dependencies
         JPanel manageDependenciesPanel = new JPanel(new GridBagLayout());
 
-        this.addDependencyButton = setButton(ADD_DEPENDENCY_BUTTON, this);
-        this.removeDependencyButton = setButton(REMOVE_DEPENDENCY_BUTTON, this);
-        this.editDependencyButton = setButton(EDIT_DEPENDENCY_BUTTON, this);
+        this.addDependencyButton = setButton(ADD_SUBTASK_BUTTON, this);
+        this.removeDependencyButton = setButton(REMOVE_SUBTASK_BUTTON, this);
+        this.editDependencyButton = setButton(EDIT_SUBTASK_BUTTON, this);
         this.deleteOverallTaskButton = setButton(DELETE_OVERALL_TASK_BUTTON, this);
         this.optimiseScheduleButton = setButton(OPTIMISE_SCHEDULE_BUTTON, this);
 
@@ -317,21 +317,21 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 taskDataPanel.getTaskDescriptionTextArea().setEditable(false);
                 break;
             }
-            case ADD_DEPENDENCY_BUTTON: {
+            case ADD_SUBTASK_BUTTON: {
                 //add dependency GUI calls add dependency graph view, which handles the updating of the Gantt chart
                 //add dependency gui is a special case of a subtask gui, with a blocked task dropdown and a reference to
                 //the task data panel we want to update after the addition
-                AddDependencyGUI addDependencyGUI = new AddDependencyGUI(applicationReference.getTasks(), task, taskDataPanel);
-                javax.swing.SwingUtilities.invokeLater(addDependencyGUI::showGUI);
+                AddSubTaskGUI addSubTaskGUI = new AddSubTaskGUI(applicationReference.getTasks(), task, taskDataPanel);
+                javax.swing.SwingUtilities.invokeLater(addSubTaskGUI::showGUI);
                 break;
             }
-            case REMOVE_DEPENDENCY_BUTTON: {
+            case REMOVE_SUBTASK_BUTTON: {
                 //GUI handles the removal of the dependency
-                RemoveDependencyGUI removeDependencyGUI = new RemoveDependencyGUI(taskDataPanel, task);
-                javax.swing.SwingUtilities.invokeLater(removeDependencyGUI::createAndShowGUI);
+                RemoveSubTaskGraphView removeSubTaskGraphView = new RemoveSubTaskGraphView(taskDataPanel, task);
+                javax.swing.SwingUtilities.invokeLater(removeSubTaskGraphView::createAndShowGUI);
                 break;
             }
-            case EDIT_DEPENDENCY_BUTTON: {
+            case EDIT_SUBTASK_BUTTON: {
                 SelectEditDependencyGraphView graphView = new SelectEditDependencyGraphView("Select task", task, taskDataPanel);
                 javax.swing.SwingUtilities.invokeLater(graphView::createAndShowGUI);
                 break;
