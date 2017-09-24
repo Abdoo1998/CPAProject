@@ -319,6 +319,8 @@ public class OptionsPanel extends JPanel implements ActionListener {
             }
             case ADD_DEPENDENCY_BUTTON: {
                 //add dependency GUI calls add dependency graph view, which handles the updating of the Gantt chart
+                //add dependency gui is a special case of a subtask gui, with a blocked task dropdown and a reference to
+                //the task data panel we want to update after the addition
                 AddDependencyGUI addDependencyGUI = new AddDependencyGUI(applicationReference.getTasks(), task, taskDataPanel);
                 javax.swing.SwingUtilities.invokeLater(addDependencyGUI::showGUI);
                 break;
@@ -345,7 +347,6 @@ public class OptionsPanel extends JPanel implements ActionListener {
                     public void actionPerformed(ActionEvent actionEvent) {
                         //remove task
                         applicationReference.getTasks().remove(task);
-                        System.out.println(applicationReference.getTasks());
                         //go back to application task view
                         JTabbedPane pane = applicationReference.getTabbedPane();
                         //close tab

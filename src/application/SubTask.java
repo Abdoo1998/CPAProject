@@ -104,33 +104,29 @@ public class SubTask extends Task {
 
 
 
-  public static List<SubTask> findParentsOf(OverallTask task, String subTaskName) {
-    /*
-    Set<SubTask> visitedSubTasks = new HashSet<>();
-    List<SubTask> parents = new LinkedList<>();
+  public static SubTask findParentOf(OverallTask task, String subTaskName) {
+
 
     for (SubTask t : task.getAllSubTasks()) {
-      SubTask parent = findRecursiveParentSubtaskOf(t, subTaskName, visitedSubTasks, parents);
+      SubTask parent = findRecursiveParentSubtaskOf(t, subTaskName);
       if (parent != null) {
-        parents.add(parent);
+        return parent;
       }
     }
 
-    return parents;
-    */
     return null;
+
   }
 
 
-  private static SubTask findRecursiveParentSubtaskOf(SubTask root, String taskName, Set<SubTask> visitedSubTasks,
-                                                      List<SubTask> parents) {
+  private static SubTask findRecursiveParentSubtaskOf(SubTask root, String taskName) {
 
     for (SubTask t : root.getDependencies()) {
       if (t.getTaskName().equals(taskName)) {
         //then original subtask is the parent we are looking for
         return root;
       } else {
-        SubTask parent = findRecursiveParentSubtaskOf(t, taskName, visitedSubTasks, parents);
+        SubTask parent = findRecursiveParentSubtaskOf(t, taskName);
         if (parent != null) {
           return parent;
         }
@@ -184,24 +180,9 @@ public class SubTask extends Task {
     System.out.println(findSubTaskInDependencies(overallTask, "H"));
     System.out.println(findSubTaskInDependencies(overallTask, "I"));
     System.out.println(findSubTaskInDependencies(overallTask, "J"));
-    System.out.println("--------------------------------------");
-    System.out.println("Expected null, got: " + findParentsOf(overallTask, "A"));
-    System.out.println("Expected null, got: " + findParentsOf(overallTask, "B"));
-    System.out.println("Expected B, got: " + findParentsOf(overallTask, "C"));
-    System.out.println("Expected null, got: " + findParentsOf(overallTask, "D"));
-    System.out.println("Expected null, got: " + findParentsOf(overallTask, "E"));
-    System.out.println("Expected null, got: " + findParentsOf(overallTask, "F"));
-    System.out.println("Expected null, got: " + findParentsOf(overallTask, "G"));
-    System.out.println("Expected null, got: " + findParentsOf(overallTask, "H"));
-    System.out.println("Expected null, got: " + findParentsOf(overallTask, "I"));
-    System.out.println("Expected null, got: " + findParentsOf(overallTask, "J"));
-
 
 
 
   }
-//TODO: DELETE
-  public static SubTask findParentsSubTaskOf(OverallTask task, String text) {
-    return null;
-  }
+
 }

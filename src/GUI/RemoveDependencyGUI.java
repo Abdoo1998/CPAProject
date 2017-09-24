@@ -15,7 +15,7 @@ import static GUI.TaskGUI.DEFAULT_INSETS;
  *
  * @author gorosgobe
  */
-public class RemoveDependencyGUI extends AbstractSelectDependency {
+public class RemoveDependencyGUI extends AbstractSelectDependencyGraphView {
 
     /** Title of the frame*/
     private static final String FRAME_TITLE = "Remove Dependency";
@@ -23,13 +23,20 @@ public class RemoveDependencyGUI extends AbstractSelectDependency {
     private static final String REMOVE_BUTTON_STRING = "Remove";
     /** String representing the string on the cancel button*/
     private static final String CANCEL_BUTTON_STRING = "Cancel";
-    /** String representing the string on the label*/
-    private static final String REMOVE_DEPENDENCY_MESSAGE = "Remove dependency";
+    /** String representing the text in the label*/
+    private static final String REMOVE_DEPENDENCY_LABEL = "Remove dependency";
 
 
     public RemoveDependencyGUI(TaskDataPanel taskDataPanel, OverallTask task) {
-        super(taskDataPanel, task, REMOVE_DEPENDENCY_MESSAGE);
-        setTitle(FRAME_TITLE);
+        super(FRAME_TITLE, task, taskDataPanel);
+
+        //makes cells selectable
+        getGraph().setCellsSelectable(true);
+
+        getSelectedLabel().setText(REMOVE_DEPENDENCY_LABEL + ": ");
+        getSelectedLabel().setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        getSelectedNode().setFont(FontCollection.DEFAULT_FONT_PLAIN);
+        getSelectedNode().setText(getTask().getTaskName());
 
         JButton removeButton = LayoutUtils.setButton(REMOVE_BUTTON_STRING, this);
         JButton cancelButton = LayoutUtils.setButton(CANCEL_BUTTON_STRING, this);
@@ -69,9 +76,13 @@ public class RemoveDependencyGUI extends AbstractSelectDependency {
                     //POSSIBLY ISSUE A WARNING TO USER, AS THIS WILL DELETE ALL DEPENDENCIES OF THE GIVEN SUBTASK
                     getTask().removeSubTask(subTask);
                 } else {
-                    //otherwise, find parent task
-                    SubTask parent = SubTask.findParentsSubTaskOf(getTask(), getSelectedNode().getText());
-                    parent.removeDependency(subTask);
+                    //otherwise, find parent tasks, until no more are found (subTask != null)
+                    SubTask parent = SubTask.findParentOf(getTask(), getSelectedNode().getText());
+                    while (parent != null) {
+                        parent.removeDependency(subTask);
+                        parent = SubTask.findParentOf(getTask(), getSelectedNode().getText());
+                    }
+                    //parent == null, so all parents have been found
                 }
                 //update gantt chart
                 getTaskDataPanel().updateGanttChart();
