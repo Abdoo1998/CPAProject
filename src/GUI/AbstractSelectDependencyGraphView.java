@@ -2,10 +2,13 @@ package GUI;
 
 
 import application.OverallTask;
+import com.mxgraph.model.mxCell;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import static GUI.TaskGUI.TOP_DEFAULT_INSETS;
 
@@ -28,6 +31,24 @@ public abstract class AbstractSelectDependencyGraphView extends GraphView implem
         this.taskDataPanel = taskDataPanel;
         this.selectedLabel = new JLabel();
         this.selectedNode = new JLabel();
+
+        //adds selection indicator
+        MouseAdapter adapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+
+                Object cell = getGraphComponent().getCellAt(mouseEvent.getX(), mouseEvent.getY());
+                if (cell != null && cell instanceof mxCell && !getGraph().getModel().isEdge(cell)) {
+                    String id = ((mxCell) cell).getId();
+                    getSelectedNode().setText(id);
+                    getSelectedNode().revalidate();
+                } else {
+                    getSelectedNode().setText("None selected");
+                }
+            }
+        };
+
+        getGraphComponent().getGraphControl().addMouseListener(adapter);
 
         setCustomLayout();
     }

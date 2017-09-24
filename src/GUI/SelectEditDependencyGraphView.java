@@ -7,9 +7,6 @@ import com.mxgraph.model.mxCell;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import static GUI.TaskGUI.DEFAULT_INSETS;
 
@@ -21,7 +18,7 @@ public class SelectEditDependencyGraphView extends AbstractSelectDependencyGraph
     /** String representing the string on the cancel button*/
     private static final String CANCEL_BUTTON_STRING = "Close";
     /** String representing the string on the label*/
-    private static final String SELECT_DEPENDENCY_MESSAGE = "Select dependency from";
+    private static final String SELECT_DEPENDENCY_MESSAGE = "Select dependency to edit";
 
     public SelectEditDependencyGraphView(String title, OverallTask task, TaskDataPanel taskDataPanel) {
         super(title, task, taskDataPanel);
@@ -31,26 +28,6 @@ public class SelectEditDependencyGraphView extends AbstractSelectDependencyGraph
         getSelectedLabel().setFont(FontCollection.DEFAULT_FONT_PLAIN);
         getSelectedNode().setFont(FontCollection.DEFAULT_FONT_PLAIN);
         getSelectedNode().setText(getTask().getTaskName());
-
-        MouseListener[] mls = getGraphComponent().getMouseListeners();
-
-        MouseAdapter adapter = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-
-                Object cell = getGraphComponent().getCellAt(mouseEvent.getX(), mouseEvent.getY());
-                if (cell != null && cell instanceof mxCell && !getGraph().getModel().isEdge(cell)) {
-                    String id = ((mxCell) cell).getId();
-                    getSelectedNode().setText(id);
-                    getSelectedNode().revalidate();
-                } else {
-                    getSelectedNode().setText("None selected");
-                }
-            }
-        };
-
-        getGraphComponent().getGraphControl().addMouseListener(adapter);
-
 
         JButton selectButton = LayoutUtils.setButton(SELECT_BUTTON_STRING, this);
         JButton cancelButton = LayoutUtils.setButton(CANCEL_BUTTON_STRING, this);

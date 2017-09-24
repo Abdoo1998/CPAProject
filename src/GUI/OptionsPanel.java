@@ -153,9 +153,6 @@ public class OptionsPanel extends JPanel implements ActionListener {
         this.deleteOverallTaskButton = setButton(DELETE_OVERALL_TASK_BUTTON, this);
         this.optimiseScheduleButton = setButton(OPTIMISE_SCHEDULE_BUTTON, this);
 
-        //TODO: Delete dependency - subtask
-        //TODO: Edit dependency - subtask
-        //TODO: Delete itself - overall task
         //TODO: Optimise dependencies (once Naman and Erik finish) - compute CPA and show in Gantt chart
 
         setCustomLayoutManageDependenciesPanel(manageDependenciesPanel);
