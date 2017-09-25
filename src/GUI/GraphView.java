@@ -4,11 +4,15 @@ package GUI;
 import application.*;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.swing.util.mxSwingConstants;
+import com.mxgraph.util.mxConstants;
+import com.mxgraph.view.mxStylesheet;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class GraphView extends JFrame {
@@ -42,6 +46,40 @@ public class GraphView extends JFrame {
         graph.setAllowDanglingEdges(false);
         //sets only selection of one cell
         graph.getSelectionModel().setSingleSelection(true);
+
+        //default selection color
+        mxSwingConstants.VERTEX_SELECTION_COLOR = new Color(255, 97, 29);
+        //non dashed stroke for selection
+        mxSwingConstants.VERTEX_SELECTION_STROKE = new BasicStroke();
+
+        //sets custom style for the graph
+        mxStylesheet stylesheet = graph.getStylesheet();
+        Hashtable<String, Object> style = new Hashtable<>();
+        style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_HEXAGON);
+        style.put(mxConstants.STYLE_FILLCOLOR, "#FF611D");
+        style.put(mxConstants.STYLE_FONTCOLOR, "white");
+        style.put(mxConstants.STYLE_STROKECOLOR, "#FF611D");
+        stylesheet.putCellStyle("CUSTOM_STYLE_OVERALL", style);
+
+        Hashtable<String, Object> style2 = new Hashtable<>();
+        style2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+        style2.put(mxConstants.STYLE_FILLCOLOR, "#3ACFEF");
+        style2.put(mxConstants.STYLE_FONTCOLOR, "white");
+        style2.put(mxConstants.STYLE_STROKECOLOR, "#3ACFEF");
+        stylesheet.putCellStyle("CUSTOM_STYLE_SUB", style2);
+
+        Hashtable<String, Object> style3 = new Hashtable<>();
+        style3.put(mxConstants.STYLE_EDGE, mxConstants.EDGESTYLE_LOOP);
+        style3.put(mxConstants.STYLE_ROUNDED, true);
+        style3.put(mxConstants.STYLE_ORTHOGONAL, false);
+        style3.put(mxConstants.STYLE_EDGE, "elbowEdgeStyle");
+        style3.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_CONNECTOR);
+        style3.put(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_CLASSIC);
+        style3.put(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_MIDDLE);
+        style3.put(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_CENTER);
+        style3.put(mxConstants.STYLE_STROKECOLOR, "#FF611D");
+        stylesheet.setDefaultEdgeStyle(style3);
+
 
         //sets up the graph component and draws the graph
         this.graphComponent = insertAndDrawAllTasks(parent, task);
@@ -157,17 +195,18 @@ public class GraphView extends JFrame {
     }
 
     private Object createAndInsertVertex(Object parent, OverallTask task) {
+
         //precondition is that id == 0
         idToTask.put(task.getTaskName(), task);
         //increments id after putting the overall task into the map
         return graph.insertVertex(parent, task.getTaskName(), task.getTaskName(), 0, 0,
-                DEFAULT_WIDTH, DEFAULT_HEIGHT);
+                DEFAULT_WIDTH, DEFAULT_HEIGHT, "CUSTOM_STYLE_OVERALL;");
     }
 
     private Object createAndInsertVertex(Object parent, SubTask subTask) {
         idToTask.put(subTask.getTaskName(), subTask);
         Object vertex = graph.insertVertex(parent, subTask.getTaskName(), subTask.getTaskName(), 0, 0,
-                DEFAULT_WIDTH, DEFAULT_HEIGHT);
+                DEFAULT_WIDTH, DEFAULT_HEIGHT, "CUSTOM_STYLE_SUB;");
         return vertex;
     }
 

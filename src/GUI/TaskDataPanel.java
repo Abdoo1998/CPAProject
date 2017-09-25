@@ -5,6 +5,9 @@ import application.SubTask;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.GradientBarPainter;
 import org.jfree.data.category.IntervalCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
@@ -106,11 +109,15 @@ public class TaskDataPanel extends JPanel {
                 false
         );
 
-
         this.ganttChartPanel = new ChartPanel(ganttChart);
         ganttChartPanel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         //disables the menu
         ganttChartPanel.setPopupMenu(null);
+        CategoryPlot plot = (CategoryPlot) ganttChart.getPlot();
+        plot.getRenderer().setSeriesPaint(0, new Color(255, 97, 29));
+        //plot.getRenderer().setSeriesPaint(0, new Color(58,207,239));
+        //changes the style of the gradient, looks nicer
+        ((BarRenderer)plot.getRenderer()).setBarPainter(new GradientBarPainter(0, 0, 0));
 
         //these four lines fix problem with scaling the gantt chart and labels being scaled too, which meant that the
         // axis labels and the legend would be totally distorted.

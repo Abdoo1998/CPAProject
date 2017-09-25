@@ -4,17 +4,25 @@ import application.OverallTask;
 import application.SubTask;
 import application.Time;
 
+import javax.swing.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         CPAProjectApplicationGUI application = new CPAProjectApplicationGUI();
         javax.swing.SwingUtilities.invokeLater(application::createAndShowGUI);
 
         //OverallTaskGUI overallTask = new OverallTaskGUI();
         //javax.swing.SwingUtilities.invokeLater(overallTask::showGUI);
+
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("com.sun.java.swing.plaf.gtk.GTKLookAndFeel".equals(info.getClassName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
+            }
+        }
 
         OverallTask t1 = new OverallTask("Morning routine", new Duration(0, 15), new Time(10, 40), "This is my morning routine");
         OverallTask t2 = new OverallTask("Afternoon routine", new Duration(0, 10), new Time(15, 30));
