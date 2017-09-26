@@ -50,4 +50,9 @@ public class TaskGraphArc {
   public void setChild(TaskGraphNode child) {
     this.child = child;
   }
+
+  @Override
+  public String toString() {
+    return parent.toString() + " -> " + child.toString();
+  }
 }

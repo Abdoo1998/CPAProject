@@ -161,6 +161,7 @@ public class TaskGraph {
     }
   }
 
+  /*
   public static void main(String[] args) {
     //graph for test
     TaskGraph graph = new TaskGraph();
@@ -273,9 +274,12 @@ public class TaskGraph {
     graph.start = e1;
     graph.end = e10;
   }
-
+*/
+  public static void main(String[] args) {
+    completionTimeTests();
+  }
   //Test Cases for computing earliest and latest times
-  private void completionTimeTests() {
+  private static void completionTimeTests() {
     TaskGraphNode start = new TaskGraphNode();
     TaskGraphNode A  = new TaskGraphNode();
     TaskGraphNode B  = new TaskGraphNode();
@@ -315,7 +319,7 @@ public class TaskGraph {
     start.setIncoming(makeTaskArcSet());
     start.setOutgoing(makeTaskArcSet(StartToA, StartToB, StartToC));
 
-    A.setIncoming(makeTaskArcSet(AToE));
+    A.setIncoming(makeTaskArcSet(StartToA));
     A.setOutgoing(makeTaskArcSet(AToE));
 
     B.setIncoming(makeTaskArcSet(StartToB));
@@ -345,10 +349,34 @@ public class TaskGraph {
     J.setIncoming(makeTaskArcSet(IToJ));
     J.setOutgoing(makeTaskArcSet(JToEnd));
 
+    end.setIncoming(makeTaskArcSet(JToEnd, HToEnd));
+    end.setOutgoing(makeTaskArcSet());
+
+    //create task graph
+    TaskGraph taskGraph = new TaskGraph();
+    taskGraph.start = start;
+    taskGraph.end = end;
+
+    TopologicalSorts topologicalSorts = taskGraph.topologicalSort();
+    taskGraph.computeEarliestCompletionTime(topologicalSorts.getGraphTopologicalOrder());
+    taskGraph.computeLatestCompletionTime(topologicalSorts.getTransposeGraphTopologicalOrder());
+
+    System.out.println("Start: " + start.getEarliestCompletionTime() + "  " + start.getLatestCompletionTime());
+    System.out.println("A" + A.getEarliestCompletionTime() + " " + A.getLatestCompletionTime());
+    System.out.println("B" + B.getEarliestCompletionTime() + " " + B.getLatestCompletionTime());
+    System.out.println("C" + C.getEarliestCompletionTime() + " " + C.getLatestCompletionTime());
+    System.out.println("D" + D.getEarliestCompletionTime() + " " + D.getLatestCompletionTime());
+    System.out.println("E" + E.getEarliestCompletionTime() + " " + E.getLatestCompletionTime());
+    System.out.println("F" + F.getEarliestCompletionTime() + " " + F.getLatestCompletionTime());
+    System.out.println("G" + G.getEarliestCompletionTime() + " " + G.getLatestCompletionTime());
+    System.out.println("H" + H.getEarliestCompletionTime() + " " + H.getLatestCompletionTime());
+    System.out.println("I" + I.getEarliestCompletionTime() + " " + I.getLatestCompletionTime());
+    System.out.println("J" + J.getEarliestCompletionTime() + " " + J.getLatestCompletionTime());
+    System.out.println("end" + end.getEarliestCompletionTime() + " " + end.getLatestCompletionTime());
   }
 
   //creates a set given the arcs in the argument
-  private Set<TaskGraphArc> makeTaskArcSet(TaskGraphArc... arcs) {
+  private static Set<TaskGraphArc> makeTaskArcSet(TaskGraphArc... arcs) {
     return Arrays.stream(arcs).collect(Collectors.toSet());
   }
 }

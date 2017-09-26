@@ -74,4 +74,10 @@ public class TaskGraphNode {
   public void setOutgoing(Set<TaskGraphArc> outgoing) {
     this.outgoing = outgoing;
   }
+
+  //ONLY USE FOR TESTING
+  @Override
+  public String toString() {
+    return "NODE: " + Integer.toString(nodeID);
+  }
 }
