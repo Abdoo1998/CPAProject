@@ -204,6 +204,12 @@ public class TaskDataPanel extends JPanel {
         ganttChartPanel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         //disables the menu
         ganttChartPanel.setPopupMenu(null);
+        
+        CategoryPlot plot = (CategoryPlot) ganttChart.getPlot();
+        plot.getRenderer().setSeriesPaint(0, new Color(255, 97, 29));
+        //plot.getRenderer().setSeriesPaint(0, new Color(58,207,239));
+        //changes the style of the gradient, looks nicer
+        ((BarRenderer)plot.getRenderer()).setBarPainter(new GradientBarPainter(0, 0, 0));
 
         //these four lines fix problem with scaling the gantt chart and labels being scaled too, which meant that the
         // axis labels and the legend would be totally distorted.
