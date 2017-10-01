@@ -21,7 +21,6 @@ public abstract class AbstractSelectDependencyGraphView extends GraphView implem
     /** A reference to the selected node in the tree, representing a subtask to remove */
     private JLabel selectedNode;
 
-
     //CONSTANTS
     /** Path to the application icon*/
     private static final String ICON_PATH = "GUI/images/mainIcon.png";
@@ -69,7 +68,7 @@ public abstract class AbstractSelectDependencyGraphView extends GraphView implem
     }
 
     /**
-     * Sets the custom layout for the remove dependency GUI.
+     * Sets the custom layout for the GUI.
      */
     private void setCustomLayout() {
 

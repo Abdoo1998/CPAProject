@@ -272,118 +272,43 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
         switch (actionEvent.getActionCommand()) {
             case UPDATE_NAME_BUTTON: {
-                JTabbedPane tabbedPane = applicationReference.getTabbedPane();
-                String newName = nameField.getText();
-                if (newName.equals("")) {
-                    return;
-                }
-                //update name of task
-                task.setName(newName);
-                //update task data panel
-                taskDataPanel.getTaskNameLabel().setText(newName);
-                //update name of tab
-                int index = tabbedPane.getSelectedIndex();
-                tabbedPane.setTabComponentAt(index, new RemovableTabComponent(newName, tabbedPane, taskDataPanel));
-                //update name of legend in gantt chart, not necessarily efficient but can be changed if necessary
-                taskDataPanel.updateGanttChart();
-                //update name in task view
-                applicationReference.updateTaskPanel();
+                updateName();
                 break;
             }
             case UPDATE_DURATION_BUTTON: {
-                Duration newDuration = durationField.getDuration();
-                if (newDuration.getHours() == 0 && newDuration.getTotalMinutes() == 0) {
-                    return;
-                }
-                //update duration of task
-                task.setDuration(newDuration);
-                //update task data panel
-                taskDataPanel.getTaskDurationLabel().setText(newDuration.toString() + " hrs");
-                //update duration in task view
-                applicationReference.updateTaskPanel();
+                updateDuration();
                 break;
             }
             case UPDATE_START_TIME_BUTTON: {
-                Time newStartTime = startTimeField.getTime();
-                if (newStartTime.getHours() == 0 && newStartTime.getMinutes() == 0) {
-                    return;
-                }
-                //update start time of task
-                task.setStartTime(newStartTime);
-                //update task panel
-                taskDataPanel.getTaskStartTimeLabel().setText(newStartTime.toString());
-                //update start time in task view
-                applicationReference.updateTaskPanel();
+                updateStartTime();
                 break;
             }
             case UPDATE_DESCRIPTION_BUTTON: {
-                String newDescription = description.getText();
-                if (newDescription.equals("")) {
-                    newDescription = DEFAULT_NO_DESCRIPTION;
-                }
-                //update description of task
-                task.setDescription(newDescription);
-                //update task data panel
-                taskDataPanel.getTaskDescriptionTextArea().setEditable(true);
-                taskDataPanel.getTaskDescriptionTextArea().setText(newDescription);
-                taskDataPanel.getTaskDescriptionTextArea().setEditable(false);
+                updateDescription();
                 break;
             }
             case ADD_SUBTASK_BUTTON: {
-                //add dependency GUI calls add dependency graph view, which handles the updating of the Gantt chart
-                //add dependency gui is a special case of a subtask gui, with a blocked task dropdown and a reference to
-                //the task data panel we want to update after the addition
-                AddSubTaskGUI addSubTaskGUI = new AddSubTaskGUI(applicationReference.getTasks(), task, taskDataPanel);
-                javax.swing.SwingUtilities.invokeLater(addSubTaskGUI::showGUI);
+                addSubTask();
                 break;
             }
             case REMOVE_SUBTASK_BUTTON: {
-                //GUI handles the removal of the dependency
-                RemoveSubTaskGraphView removeSubTaskGraphView = new RemoveSubTaskGraphView(taskDataPanel, task);
-                javax.swing.SwingUtilities.invokeLater(removeSubTaskGraphView::createAndShowGUI);
+                removeSubTask();
                 break;
             }
             case EDIT_SUBTASK_BUTTON: {
-                SelectEditDependencyGraphView graphView = new SelectEditDependencyGraphView("Select task", task, taskDataPanel);
-                javax.swing.SwingUtilities.invokeLater(graphView::createAndShowGUI);
+                editSubTask();
                 break;
             }
             case DELETE_OVERALL_TASK_BUTTON: {
 
-                WarningGUI warningGUI = new WarningGUI("Warning", "Warning: you are about to delete the " +
-                        "task you are currently viewing. This will also delete all the dependencies. Do you wish to " +
-                        "proceed?", null, null);
-
-                Action proceedWithDeletion = new AbstractAction() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        //remove task
-                        applicationReference.getTasks().remove(task);
-                        //go back to application task view
-                        JTabbedPane pane = applicationReference.getTabbedPane();
-                        //close tab
-                        int index = pane.indexOfComponent(taskDataPanel);
-                        pane.remove(index);
-                        //set selected index to be the task view, the first tab
-                        pane.setSelectedIndex(0);
-                        //close warning
-                        warningGUI.close();
-                        applicationReference.updateTaskPanel();
-                    }
-                };
-
-                warningGUI.setContinueButtonAction(proceedWithDeletion);
-
-                javax.swing.SwingUtilities.invokeLater(warningGUI::createAndShowGUI);
+                deleteOverallTask();
                 break;
             }
             case OPTIMISE_SCHEDULE_BUTTON: {
-
                 break;
             }
             case SHOW_GRAPH_BUTTON: {
-                GraphView graphView = new GraphView("Graph View of " + task.getTaskName(), task);
-                javax.swing.SwingUtilities.invokeLater(graphView::showGUI);
+                showGraph();
                 break;
             }
             case NEW_DEPENDENCY_BUTTON: {
@@ -391,4 +316,123 @@ public class OptionsPanel extends JPanel implements ActionListener {
             }
         }
     }
+
+
+    private void updateName() {
+        JTabbedPane tabbedPane = applicationReference.getTabbedPane();
+        String newName = nameField.getText();
+        if (newName.equals("")) {
+            return;
+        }
+        //update name of task
+        task.setName(newName);
+        //update task data panel
+        taskDataPanel.getTaskNameLabel().setText(newName);
+        //update name of tab
+        int index = tabbedPane.getSelectedIndex();
+        tabbedPane.setTabComponentAt(index, new RemovableTabComponent(newName, tabbedPane, taskDataPanel));
+        //update name of legend in gantt chart, not necessarily efficient but can be changed if necessary
+        taskDataPanel.updateGanttChart();
+        //update name in task view
+        applicationReference.updateTaskPanel();
+    }
+
+    private void updateDuration() {
+        Duration newDuration = durationField.getDuration();
+        if (newDuration.getHours() == 0 && newDuration.getTotalMinutes() == 0) {
+            return;
+        }
+        //update duration of task
+        task.setDuration(newDuration);
+        //update task data panel
+        taskDataPanel.getTaskDurationLabel().setText(newDuration.toString() + " hrs");
+        //update duration in task view
+        applicationReference.updateTaskPanel();
+    }
+
+    private void updateStartTime() {
+        Time newStartTime = startTimeField.getTime();
+        if (newStartTime.getHours() == 0 && newStartTime.getMinutes() == 0) {
+            return;
+        }
+        //update start time of task
+        task.setStartTime(newStartTime);
+        //update task panel
+        taskDataPanel.getTaskStartTimeLabel().setText(newStartTime.toString());
+        //update start time in task view
+        applicationReference.updateTaskPanel();
+    }
+
+
+    private void updateDescription() {
+        String newDescription = description.getText();
+        if (newDescription.equals("")) {
+            newDescription = DEFAULT_NO_DESCRIPTION;
+        }
+        //update description of task
+        task.setDescription(newDescription);
+        //update task data panel
+        taskDataPanel.getTaskDescriptionTextArea().setEditable(true);
+        taskDataPanel.getTaskDescriptionTextArea().setText(newDescription);
+        taskDataPanel.getTaskDescriptionTextArea().setEditable(false);
+    }
+
+
+    private void addSubTask() {
+        //add dependency GUI calls add dependency graph view, which handles the updating of the Gantt chart
+        //add dependency gui is a special case of a subtask gui, with a blocked task dropdown and a reference to
+        //the task data panel we want to update after the addition
+        AddSubTaskGUI addSubTaskGUI = new AddSubTaskGUI(applicationReference.getTasks(), task, taskDataPanel);
+        javax.swing.SwingUtilities.invokeLater(addSubTaskGUI::showGUI);
+    }
+
+    private void removeSubTask() {
+        //GUI handles the removal of the dependency
+        RemoveSubTaskGraphView removeSubTaskGraphView = new RemoveSubTaskGraphView(taskDataPanel, task);
+        javax.swing.SwingUtilities.invokeLater(removeSubTaskGraphView::createAndShowGUI);
+    }
+
+
+    private void editSubTask() {
+        SelectEditDependencyGraphView graphView = new SelectEditDependencyGraphView("Select task", task, taskDataPanel);
+        javax.swing.SwingUtilities.invokeLater(graphView::createAndShowGUI);
+    }
+
+
+    private void deleteOverallTask() {
+
+        WarningGUI warningGUI = new WarningGUI("Warning", "Warning: you are about to delete the " +
+                "task you are currently viewing. This will also delete all the dependencies. Do you wish to " +
+                "proceed?", null, null);
+
+        Action proceedWithDeletion = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //remove task
+                applicationReference.getTasks().remove(task);
+                //go back to application task view
+                JTabbedPane pane = applicationReference.getTabbedPane();
+                //close tab
+                int index = pane.indexOfComponent(taskDataPanel);
+                pane.remove(index);
+                //set selected index to be the task view, the first tab
+                pane.setSelectedIndex(0);
+                //close warning
+                warningGUI.close();
+                applicationReference.updateTaskPanel();
+            }
+        };
+
+        warningGUI.setContinueButtonAction(proceedWithDeletion);
+
+        javax.swing.SwingUtilities.invokeLater(warningGUI::createAndShowGUI);
+    }
+
+
+    private void showGraph() {
+        GraphView graphView = new GraphView("Graph View of " + task.getTaskName(), task);
+        javax.swing.SwingUtilities.invokeLater(graphView::showGUI);
+    }
+
+
 }

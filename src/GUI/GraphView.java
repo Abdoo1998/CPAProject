@@ -165,10 +165,10 @@ public class GraphView extends JFrame {
         for (SubTask child : t.getDependencies()) {
 
             if (subTaskToNode.keySet().contains(child)) {
-                //child has alread been added, no need to draw another object, just the edge from the parent task to
+                //child has already been added, no need to draw another object, just the edge from the parent task to
                 // the child
 
-                //in the case when there is alread an edge between parentNode and the childNode, then dont draw the edge
+                //in the case when there is already an edge between parentNode and the childNode, then dont draw the edge
                 //this solves the case when a child node is hit multiple times by an edge from a parent node due to the
                 //parent node being hit by different edges from differen upper nodes
                 if (graph.getEdgesBetween(parentNode, subTaskToNode.get(child)).length == 0) {

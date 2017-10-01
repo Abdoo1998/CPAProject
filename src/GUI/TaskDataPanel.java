@@ -204,7 +204,7 @@ public class TaskDataPanel extends JPanel {
         ganttChartPanel.setFont(FontCollection.DEFAULT_FONT_PLAIN);
         //disables the menu
         ganttChartPanel.setPopupMenu(null);
-        
+
         CategoryPlot plot = (CategoryPlot) ganttChart.getPlot();
         plot.getRenderer().setSeriesPaint(0, new Color(255, 97, 29));
         //plot.getRenderer().setSeriesPaint(0, new Color(58,207,239));
@@ -305,11 +305,6 @@ public class TaskDataPanel extends JPanel {
     }
 
     private void setCustomLayout() {
-
-        //constraints for tree view of dependencies
-        //TODO: create tree view of dependencies for addition
-        //constraints for options for dependencies
-        //TODO: create options for dependencies and overall task, then update task view and task in task data panel
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.add(generalTaskPanel);
