@@ -20,19 +20,35 @@ public abstract class AbstractSelectDependencyGraphView extends GraphView implem
     private JLabel selectedLabel;
     /** A reference to the selected node in the tree, representing a subtask to remove */
     private JLabel selectedNode;
+    /** A reference to a panel holding the label and the node(s)*/
+    private JPanel labelAndNode;
+
+    private MouseAdapter adapter;
 
     //CONSTANTS
     /** Path to the application icon*/
     private static final String ICON_PATH = "GUI/images/mainIcon.png";
 
-    public AbstractSelectDependencyGraphView(String title, OverallTask task, TaskDataPanel taskDataPanel) {
+    public AbstractSelectDependencyGraphView(String title, OverallTask task, TaskDataPanel taskDataPanel, boolean addMListener) {
         super(title, task);
         this.taskDataPanel = taskDataPanel;
         this.selectedLabel = new JLabel();
         this.selectedNode = new JLabel();
 
+        if (addMListener) {
+            addCustomMouseListener();
+        }
+
+        setCustomLayout();
+    }
+
+    public AbstractSelectDependencyGraphView(String title, OverallTask task, TaskDataPanel taskDataPanel) {
+        this(title, task, taskDataPanel, true);
+    }
+
+    public void addCustomMouseListener() {
         //adds selection indicator
-        MouseAdapter adapter = new MouseAdapter() {
+        this.adapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
 
@@ -47,8 +63,6 @@ public abstract class AbstractSelectDependencyGraphView extends GraphView implem
         };
 
         getGraphComponent().getGraphControl().addMouseListener(adapter);
-
-        setCustomLayout();
     }
 
     public TaskDataPanel getTaskDataPanel() {
@@ -67,12 +81,16 @@ public abstract class AbstractSelectDependencyGraphView extends GraphView implem
         return selectedNode;
     }
 
+    public JPanel getLabelAndNode() {
+        return labelAndNode;
+    }
+
     /**
      * Sets the custom layout for the GUI.
      */
     private void setCustomLayout() {
 
-        JPanel labelAndNode = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        this.labelAndNode = new JPanel(new FlowLayout(FlowLayout.LEFT));
         labelAndNode.add(getSelectedLabel());
         labelAndNode.add(getSelectedNode());
 

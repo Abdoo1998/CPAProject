@@ -170,7 +170,7 @@ public class GraphView extends JFrame {
 
                 //in the case when there is already an edge between parentNode and the childNode, then dont draw the edge
                 //this solves the case when a child node is hit multiple times by an edge from a parent node due to the
-                //parent node being hit by different edges from differen upper nodes
+                //parent node being hit by different edges from different upper nodes
                 if (graph.getEdgesBetween(parentNode, subTaskToNode.get(child)).length == 0) {
                     //no edges then insert edge
                     insertEdge(parent, parentNode, subTaskToNode.get(child));

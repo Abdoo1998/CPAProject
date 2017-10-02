@@ -300,7 +300,6 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 break;
             }
             case DELETE_OVERALL_TASK_BUTTON: {
-
                 deleteOverallTask();
                 break;
             }
@@ -312,11 +311,11 @@ public class OptionsPanel extends JPanel implements ActionListener {
                 break;
             }
             case NEW_DEPENDENCY_BUTTON: {
+                newDependency();
                 break;
             }
         }
     }
-
 
     private void updateName() {
         JTabbedPane tabbedPane = applicationReference.getTabbedPane();
@@ -433,6 +432,12 @@ public class OptionsPanel extends JPanel implements ActionListener {
         GraphView graphView = new GraphView("Graph View of " + task.getTaskName(), task);
         javax.swing.SwingUtilities.invokeLater(graphView::showGUI);
     }
+
+    private void newDependency() {
+        NewDependencyGraphView newDependencyGraphView = new NewDependencyGraphView("New dependency", task, taskDataPanel);
+        SwingUtilities.invokeLater(newDependencyGraphView::showGUI);
+    }
+
 
 
 }
