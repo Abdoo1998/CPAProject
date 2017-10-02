@@ -76,7 +76,7 @@ public class SubTask extends Task {
    * @param taskName the string representing the task name of the subTask to return
    * @return the subTask associated to the taskToBeAdded parameter under parent.
    */
-  private static SubTask findRecursivelySubTask(SubTask parent, String taskName, Set<SubTask> visitedSubTasks) {
+  public static SubTask findRecursivelySubTask(SubTask parent, String taskName, Set<SubTask> visitedSubTasks) {
 
     //if the subtask is the one we are looking for, return it
     if (parent.getTaskName().equals(taskName)) {

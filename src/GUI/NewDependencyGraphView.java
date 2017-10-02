@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
 
 import static GUI.TaskGUI.DEFAULT_INSETS;
 
@@ -23,7 +24,7 @@ public class NewDependencyGraphView extends AbstractSelectDependencyGraphView {
     private static final String NONE_SELECTED = "No task selected";
     private static final String NONE = "None";
     private static final String NONE2 = "none";
-    private static final String DEPENDENCY_INDICATOR = " and ";
+    private static final String DEPENDENCY_INDICATOR = " --> ";
     /** String representing the string on the select button*/
     private static final String SELECT_BUTTON_STRING = "Add new dependency";
     /** String representing the string on the cancel button*/
@@ -143,11 +144,16 @@ public class NewDependencyGraphView extends AbstractSelectDependencyGraphView {
                     //both subtasks
                     SubTask subTask1 = SubTask.findSubTaskInDependencies(getTask(), getSelectedNode().getText());
                     SubTask subTask2 = SubTask.findSubTaskInDependencies(getTask(), secondTask.getText());
-                    if (subTask2.getDependencies().contains(subTask1)) {
-                        MessageGUI m = new MessageGUI("Invalid selection", "Second task \""
-                                + getSelectedNode().getText() + "\" already has the first task \""
-                                + secondTask.getText() + "\" as a dependency. Two tasks cannot depend on each other. " +
-                                "Please select two valid tasks.");
+
+                    boolean isSubTask1InSubTask2 = SubTask.findRecursivelySubTask(subTask2,
+                            subTask1.getTaskName(), new HashSet<>()) != null;
+                    if (isSubTask1InSubTask2) {
+                        MessageGUI m = new MessageGUI("Invalid selection", "First task \""
+                                + getSelectedNode().getText() + "\" is already a dependency of the second task \""
+                                + secondTask.getText() + "\" (" + secondTask.getText()
+                                + DEPENDENCY_INDICATOR +  getSelectedNode().getText() +  "). Two tasks cannot depend " +
+                                "on each other (" + getSelectedNode().getText() + DEPENDENCY_INDICATOR +
+                                secondTask.getText() + " is invalid). Please select two valid tasks.");
                         SwingUtilities.invokeLater(m::createAndShowGUI);
                         return;
                     }
